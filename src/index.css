@@ -1,0 +1,53 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+
+/* Custom utilities for text clamping */
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-4 {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Additional responsive utilities */
+@layer utilities {
+  .container-constrained {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .flex-no-overflow {
+    min-width: 0;
+    flex-shrink: 1;
+  }
+}
+
+/* Desktop-specific media queries */
+@media (min-width: 1024px) {
+  .carousel-desktop {
+    max-width: calc(100vw - 16rem - 3rem); /* Account for sidebar width + padding */
+  }
+  
+  .main-content-desktop {
+    width: calc(100% - 16rem); /* Subtract sidebar width */
+    margin-left: 16rem; /* Sidebar width */
+  }
+}
+
+@media (min-width: 1280px) {
+  .carousel-desktop {
+    max-width: calc(100vw - 16rem - 6rem); /* Account for sidebar width + larger padding */
+  }
+}
