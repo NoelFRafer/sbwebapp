@@ -238,7 +238,7 @@ function App() {
 
       {/* Footer */}
       <footer className="bg-blue-700 text-white text-center py-4 mt-auto">
-        <p className="text-sm">© 2022. All rights reserved. www.sbcapalonga.com</p>
+        <p className="text-sm">www.sbcapalonga.com© 2022. All rights reserved</p>
       </footer>
     </div>
   );
