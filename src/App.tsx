@@ -1,64 +1,26 @@
 import React, { useState } from 'react';
-import { Menu, Home, FileText, ChevronLeft, ChevronRight, User, LogOut } from 'lucide-react';
+import { Menu, Home, FileText, ChevronLeft, ChevronRight, User, LogOut, Loader2, AlertCircle } from 'lucide-react';
+import { useSlides } from './hooks/useSlides';
+import { useNews } from './hooks/useNews';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
+  
+  // Fetch data from Supabase
+  const { slides, loading: slidesLoading, error: slidesError } = useSlides();
+  const { newsItems, loading: newsLoading, error: newsError } = useNews();
 
-  const slides = [
-    {
-      id: 1,
-      image: "https://images.pexels.com/photos/1116302/pexels-photo-1116302.jpeg?auto=compress&cs=tinysrgb&w=800",
-      thrust: "our thrust:",
-      quote: "to formulate a robust legislative framework for disaster preparedness, response, mitigation, and rehabilitation, ensuring the safety and resilience of the community in the face of natural calamities and emergencies",
-      author: "Hon. Juan P. Enero",
-      position: "Chairman, Committee on Disaster Risk Reduction Management"
-    },
-    {
-      id: 2,
-      image: "https://images.pexels.com/photos/1116302/pexels-photo-1116302.jpeg?auto=compress&cs=tinysrgb&w=800",
-      thrust: "our mission:",
-      quote: "to serve the people of Capalonga with integrity, transparency, and dedication through effective governance and community-focused legislation",
-      author: "Hon. Maria Santos",
-      position: "Committee on Good Governance"
-    },
-    {
-      id: 3,
-      image: "https://images.pexels.com/photos/1116302/pexels-photo-1116302.jpeg?auto=compress&cs=tinysrgb&w=800",
-      thrust: "our vision:",
-      quote: "a progressive and resilient Capalonga where every citizen enjoys sustainable development, quality services, and enhanced quality of life",
-      author: "Hon. Roberto Cruz",
-      position: "Committee on Development Planning"
-    }
-  ];
-
-  const newsItems = [
-    {
-      id: 1,
-      title: "MOA to Boost Livelihoods of 8 Farmers' Associations",
-      date: "2025-August-18",
-      content: "Good news for our local farmers! The Sangguniang Bayan has given the green light for Mayor Luz E. Ricasio to sign a Memorandum of Agreement (MOA) with eight (8) farmers' associations, paving the way for the implementation of their approved livelihood projects for 2025."
-    },
-    {
-      id: 2,
-      title: "Landmark Insurance Deal for Farmers and Fisherfolk",
-      date: "2025-August-16",
-      content: "A Memorandum of Agreement (MOA) will provide subsidized insurance to 1,000 of Capalonga's farmers, fisherfolk, and other agricultural stakeholders."
-    },
-    {
-      id: 3,
-      title: "Outstanding Capalonqueños Recognition",
-      date: "2025-August-12",
-      content: "A resolution to formally honor and recognize the 'Illustrious Natives of Capalonga' who have achieved remarkable distinctions in sports, science, and culture, both locally and around the world."
-    },
-    {
-      id: 4,
-      title: "New Infrastructure Development Program",
-      date: "2025-August-10",
-      content: "The Sangguniang Bayan approves a comprehensive infrastructure development program aimed at improving road networks and public facilities across all barangays."
-    }
-  ];
+  // Format date for display
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  };
 
   const nextSlide = () => {
     setCurrentSlide((prev) => (prev + 1) % slides.length);
@@ -81,6 +43,22 @@ function App() {
   };
 
   const visibleNews = newsItems.slice(currentNewsIndex, currentNewsIndex + 3);
+
+  // Loading component
+  const LoadingSpinner = () => (
+    <div className="flex items-center justify-center p-8">
+      <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+      <span className="ml-2 text-gray-600">Loading...</span>
+    </div>
+  );
+
+  // Error component
+  const ErrorMessage = ({ message }: { message: string }) => (
+    <div className="flex items-center justify-center p-8 text-red-600">
+      <AlertCircle className="w-6 h-6 mr-2" />
+      <span>{message}</span>
+    </div>
+  );
 
   return (
     <div className="min-h-screen bg-gray-50 flex flex-col">
@@ -139,6 +117,13 @@ function App() {
           <section className="mb-8 w-full">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Vision, Mission and Trusts ...</h2>
             
+            {slidesLoading ? (
+              <LoadingSpinner />
+            ) : slidesError ? (
+              <ErrorMessage message={slidesError} />
+            ) : slides.length === 0 ? (
+              <div className="text-center p-8 text-gray-500">No slides available</div>
+            ) : (
             {/* Carousel */}
             <div className="relative bg-gray-900 rounded-xl overflow-hidden shadow-2xl w-full max-w-none">
               <div className="flex transition-transform duration-500 ease-in-out"
@@ -158,7 +143,7 @@ function App() {
                       </div>
                       <div className="flex-shrink-0 w-full lg:w-96 lg:max-w-md">
                         <img 
-                          src={slide.image} 
+                          src={slide.image_url} 
                           alt={slide.author}
                           className="w-full h-64 lg:h-96 object-cover max-w-full"
                         />
@@ -195,10 +180,19 @@ function App() {
                 ))}
               </div>
             </div>
+            )}
           </section>
 
           {/* News Section */}
           <section className="relative w-full">
+            {newsLoading ? (
+              <LoadingSpinner />
+            ) : newsError ? (
+              <ErrorMessage message={newsError} />
+            ) : newsItems.length === 0 ? (
+              <div className="text-center p-8 text-gray-500">No news available</div>
+            ) : (
+            <>
             <div className="flex items-center justify-between mb-4">
               <button
                 onClick={prevNews}
@@ -228,11 +222,13 @@ function App() {
               {visibleNews.map((news) => (
                 <div key={news.id} className="bg-slate-800 text-white rounded-xl p-4 lg:p-6 hover:bg-slate-700 transition-colors overflow-hidden max-w-full">
                   <h3 className="text-base lg:text-lg font-semibold mb-3 leading-tight line-clamp-2">{news.title}</h3>
-                  <p className="text-blue-300 text-sm mb-4">{news.date}</p>
+                  <p className="text-blue-300 text-sm mb-4">{formatDate(news.date)}</p>
                   <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">{news.content}</p>
                 </div>
               ))}
             </div>
+            </>
+            )}
           </section>
           </div>
         </main>
