@@ -124,6 +124,7 @@ function App() {
             ) : slides.length === 0 ? (
               <div className="text-center p-8 text-gray-500">No slides available</div>
             ) : (
+            <>
             {/* Carousel */}
             <div className="relative bg-gray-900 rounded-xl overflow-hidden shadow-2xl w-full max-w-none">
               <div className="flex transition-transform duration-500 ease-in-out"
@@ -180,6 +181,7 @@ function App() {
                 ))}
               </div>
             </div>
+            </>
             )}
           </section>
 
