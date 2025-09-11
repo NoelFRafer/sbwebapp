@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Menu, Home, FileText, ChevronLeft, ChevronRight, User, LogOut, Loader2, AlertCircle } from 'lucide-react';
 import { useSlides } from './hooks/useSlides';
 import { useNews } from './hooks/useNews';
+import { ImageWithFallback } from './components/ImageWithFallback';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -143,8 +144,8 @@ function App() {
                         </div>
                       </div>
                       <div className="flex-shrink-0 w-full lg:w-96 lg:max-w-md">
-                        <img 
-                          src={slide.image_url} 
+                        <ImageWithFallback 
+                          src={slide.image_url}
                           alt={slide.author}
                           className="w-full h-64 lg:h-96 object-cover max-w-full"
                         />
