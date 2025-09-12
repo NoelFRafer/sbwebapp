@@ -143,11 +143,11 @@ function App() {
                           <p className="text-gray-300 text-sm">{slide.position}</p>
                         </div>
                       </div>
-                      <div className="flex-shrink-0 w-full lg:w-96 lg:max-w-md flex items-center justify-center bg-gray-800">
+                      <div className="flex-shrink-0 w-full mb-2 lg:w-96 lg:max-w-md flex items-center justify-center bg-gray-800">
                         <ImageWithFallback 
                           src={slide.image_url}
                           alt={slide.author}
-                          className="max-w-full max-h-64 lg:max-h-96 object-contain"
+                          className="max-w-full pt-3 max-h-64 lg:max-h-96 object-contain"
                         />
                       </div>
                     </div>
