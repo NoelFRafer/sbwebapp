@@ -115,7 +115,7 @@ function App() {
         <main className="flex-1 p-4 lg:p-6 w-full">
           <div className="max-w-7xl mx-auto w-full">
           {/* Vision, Mission and Trusts Section */}
-          <section className="mb-2 w-full">
+          <section className="mb-0 w-full">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Vision, Mission and Trusts ...</h2>
             
             {slidesLoading ? (
