@@ -188,6 +188,7 @@ function App() {
 
           {/* News Section */}
           <section className="relative w-full">
+            <h2 className="text-2xl font-bold text-gray-800 mb-6">News</h2>
             {newsLoading ? (
               <LoadingSpinner />
             ) : newsError ? (
