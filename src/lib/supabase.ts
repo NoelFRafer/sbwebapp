@@ -31,6 +31,7 @@ export interface NewsItem {
   date: string;
   content: string;
   is_featured: boolean;
+  order_index: number;
   created_at: string;
   updated_at: string;
 }
