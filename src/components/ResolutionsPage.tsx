@@ -194,7 +194,7 @@ export function ResolutionsPage() {
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 <div className="flex-1">
 
-                  <h2 className="text-lg font-semibold text-gray-900 mb-2 bg-gray-100">
+                  <h2 className="text-lg font-semibold text-gray-900 mb-1 bg-gray-100">
                     <span 
                       dangerouslySetInnerHTML={{ 
                         __html: highlightText(resolution.resolution_number, debouncedSearchTerm) 
