@@ -215,9 +215,7 @@ export function ResolutionsPage() {
                   </div>
 
                   <h2 className="text-lg font-semibold text-gray-900 mb-2">
-                    <span 
                       {resolution.resolution_number}
-                    />
                   </h2>
                   
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
