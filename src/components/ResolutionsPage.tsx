@@ -202,7 +202,7 @@ export function ResolutionsPage() {
                     />
                   </h2>  
                   
-                  <div className="flex items-center gap-3 mb-3">
+                  <div className="flex items-center gap-3 mb-1">
                     {debouncedSearchTerm && totalMatches > 0 && (
                       <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
                         {totalMatches} match{totalMatches !== 1 ? 'es' : ''}
@@ -219,8 +219,6 @@ export function ResolutionsPage() {
                       </span>
                     )}
                   </div>
-
-
                   
                   <h3 className="text-lg font-semibold text-gray-900 mb-2">
                     <span 
