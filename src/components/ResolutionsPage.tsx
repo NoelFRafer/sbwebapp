@@ -19,6 +19,58 @@ const highlightText = (text: string, searchTerm: string) => {
   return text.replace(pattern, '<mark>$1</mark>');
 };
 
+// Helper function to count matches in text
+const countMatches = (text: string, searchTerm: string) => {
+  if (!searchTerm.trim() || !text) return 0;
+  
+  const terms = searchTerm
+    .trim()
+    .split(/\s+/)
+    .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .filter(term => term.length > 0);
+  
+  if (terms.length === 0) return 0;
+  
+  let totalMatches = 0;
+  const lowerText = text.toLowerCase();
+  
+  terms.forEach(term => {
+    const regex = new RegExp(`\\b${term.toLowerCase()}\\b`, 'g');
+    const matches = lowerText.match(regex);
+    if (matches) {
+      totalMatches += matches.length;
+    }
+  });
+  
+  return totalMatches;
+};
+
+// Helper function to calculate total matches for a resolution
+const calculateTotalMatches = (resolution: Resolution, searchTerm: string) => {
+  const titleMatches = countMatches(resolution.title, searchTerm);
+  const descriptionMatches = countMatches(resolution.description, searchTerm);
+  const numberMatches = countMatches(resolution.resolution_number, searchTerm);
+  
+  return titleMatches + descriptionMatches + numberMatches;
+};
+
+// Helper function to sort resolutions by match count
+const sortByMatches = (resolutions: Resolution[], searchTerm: string) => {
+  if (!searchTerm.trim()) return resolutions;
+  
+  return [...resolutions].sort((a, b) => {
+    const matchesA = calculateTotalMatches(a, searchTerm);
+    const matchesB = calculateTotalMatches(b, searchTerm);
+    
+    // Primary sort: by match count (descending)
+    if (matchesA !== matchesB) {
+      return matchesB - matchesA;
+    }
+    
+    // Secondary sort: by date (descending) for ties
+    return new Date(b.date_approved).getTime() - new Date(a.date_approved).getTime();
+  });
+};
 export function ResolutionsPage() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState('');
@@ -33,6 +85,11 @@ export function ResolutionsPage() {
   }, [searchTerm]);
 
   const { resolutions, loading, error } = useResolutions(debouncedSearchTerm);
+
+  // Sort resolutions by match count when there's a search term
+  const sortedResolutions = React.useMemo(() => {
+    return sortByMatches(resolutions, debouncedSearchTerm);
+  }, [resolutions, debouncedSearchTerm]);
 
   const clearSearch = () => {
     setSearchTerm('');
@@ -104,7 +161,7 @@ export function ResolutionsPage() {
         )}
         {!loading && debouncedSearchTerm && (
           <p className="mt-2 text-sm text-gray-600">
-            {`Found ${resolutions.length} result${resolutions.length !== 1 ? 's' : ''} for "${debouncedSearchTerm}"`}
+            {`Found ${sortedResolutions.length} result${sortedResolutions.length !== 1 ? 's' : ''} for "${debouncedSearchTerm}"`}
           </p>
         )}
       </div>
@@ -114,7 +171,7 @@ export function ResolutionsPage() {
         <LoadingSpinner />
       ) : error ? (
         <ErrorMessage message={error} />
-      ) : resolutions.length === 0 ? (
+      ) : sortedResolutions.length === 0 ? (
         <div className="text-center p-12 bg-gray-50 rounded-lg">
           <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
@@ -126,7 +183,10 @@ export function ResolutionsPage() {
         </div>
       ) : (
         <div className="space-y-6">
-          {resolutions.map((resolution) => (
+          {sortedResolutions.map((resolution) => {
+            const totalMatches = debouncedSearchTerm ? calculateTotalMatches(resolution, debouncedSearchTerm) : 0;
+            
+            return (
             <div
               key={resolution.id}
               className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow"
@@ -137,6 +197,11 @@ export function ResolutionsPage() {
                     <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
                       {resolution.resolution_number}
                     </span>
+                    {debouncedSearchTerm && totalMatches > 0 && (
+                      <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+                        {totalMatches} match{totalMatches !== 1 ? 'es' : ''}
+                      </span>
+                    )}
                     {resolution.with_ordinance && (
                       <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
                         With Ordinance
@@ -186,7 +251,8 @@ export function ResolutionsPage() {
                 )}
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       )}
     </div>
