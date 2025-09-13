@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 /* Highlight class for search results */
-.highlight {
+mark {
   background-color: rgb(254 240 138); /* bg-yellow-200 */
   padding-left: 0.25rem; /* px-1 */
   padding-right: 0.25rem; /* px-1 */
