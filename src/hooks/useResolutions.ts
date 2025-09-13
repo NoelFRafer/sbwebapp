@@ -43,8 +43,8 @@ export function useResolutions(searchTerm?: string) {
                 created_at,
                 updated_at,
                 fts_document,
-                ts_headline(title, to_tsquery('english', '${tsquery}'), 'StartSel=<mark class="bg-yellow-200 px-1 rounded">,StopSel=</mark>') as highlighted_title,
-                ts_headline(description, to_tsquery('english', '${tsquery}'), 'StartSel=<mark class="bg-yellow-200 px-1 rounded">,StopSel=</mark>') as highlighted_description
+                ts_headline(title, to_tsquery('english', '${tsquery}'), 'StartSel=<mark class="highlight">,StopSel=</mark>') as highlighted_title,
+                ts_headline(description, to_tsquery('english', '${tsquery}'), 'StartSel=<mark class="highlight">,StopSel=</mark>') as highlighted_description
               `)
               .textSearch('fts_document', tsquery, {
                 type: 'plain',

@@ -2,6 +2,13 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Highlight class for search results */
+.highlight {
+  background-color: rgb(254 240 138); /* bg-yellow-200 */
+  padding-left: 0.25rem; /* px-1 */
+  padding-right: 0.25rem; /* px-1 */
+  border-radius: 0.25rem; /* rounded */
+}
 
 /* Custom utilities for text clamping */
 @layer utilities {
