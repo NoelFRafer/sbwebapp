@@ -169,7 +169,7 @@ function App() {
                         <ImageWithFallback 
                           src={slide.image_url}
                           alt={slide.author}
-                          className="rounded-lg max-w-full pt-3 max-h-64 lg:max-h-96 object-contain"
+                          className="max-w-full pt-3 max-h-64 rounded-lg lg:max-h-96 object-contain"
                         />
                       </div>
                     </div>
