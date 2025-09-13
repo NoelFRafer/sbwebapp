@@ -5,7 +5,6 @@ import { useResolutions } from '../hooks/useResolutions';
 export function ResolutionsPage() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState('');
-  const { resolutions, loading, error } = useResolutions(debouncedSearchTerm);
 
   // Debounce search term to avoid too many API calls
   React.useEffect(() => {
@@ -16,9 +15,10 @@ export function ResolutionsPage() {
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
+  const { resolutions, loading, error } = useResolutions(debouncedSearchTerm);
+
   const clearSearch = () => {
     setSearchTerm('');
-    setDebouncedSearchTerm('');
   };
 
   // Format date for display

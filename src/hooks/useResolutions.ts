@@ -28,7 +28,10 @@ export function useResolutions(searchTerm?: string) {
             .join(' & ');
           
           if (tsquery) {
-            query = query.textSearch('fts_document', tsquery);
+            query = query.textSearch('fts_document', tsquery, {
+              type: 'websearch',
+              config: 'english'
+            });
           }
         }
 
