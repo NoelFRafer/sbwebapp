@@ -47,86 +47,9 @@ export function ResolutionsPage() {
     </div>
   );
 
-  if (loading) {
-    return (
-      <div className="max-w-7xl mx-auto w-full">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">Resolutions</h1>
-        
-        {/* Search Bar */}
-        <div className="mb-6">
-          <div className="relative max-w-md">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search resolutions..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-            />
-            {searchTerm && (
-              <button
-                onClick={clearSearch}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-              >
-                <X className="h-4 w-4 text-gray-400 hover:text-gray-600" />
-              </button>
-            )}
-          </div>
-          {debouncedSearchTerm && (
-            <p className="mt-2 text-sm text-gray-600">
-              Searching...
-            </p>
-          )}
-        </div>
-        
-        <LoadingSpinner />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="max-w-7xl mx-auto w-full">
-        <h1 className="text-3xl font-bold text-gray-800 mb-6">Resolutions</h1>
-        
-        {/* Search Bar */}
-        <div className="mb-6">
-          <div className="relative max-w-md">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-              <Search className="h-5 w-5 text-gray-400" />
-            </div>
-            <input
-              type="text"
-              placeholder="Search resolutions..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-            />
-            {searchTerm && (
-              <button
-                onClick={clearSearch}
-                className="absolute inset-y-0 right-0 pr-3 flex items-center"
-              >
-                <X className="h-4 w-4 text-gray-400 hover:text-gray-600" />
-              </button>
-            )}
-          </div>
-          {debouncedSearchTerm && (
-            <p className="mt-2 text-sm text-gray-600">
-              {`Found ${resolutions.length} result${resolutions.length !== 1 ? 's' : ''} for "${debouncedSearchTerm}"`}
-            </p>
-          )}
-        </div>
-        
-        <ErrorMessage message={error} />
-      </div>
-    );
-  }
-
   return (
     <div className="max-w-7xl mx-auto w-full">
+      {/* Header - Always visible */}
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-800 mb-2">Resolutions</h1>
         <p className="text-gray-600">
@@ -134,18 +57,56 @@ export function ResolutionsPage() {
         </p>
       </div>
 
-      {resolutions.length === 0 ? (
-        !loading && (
-          <div className="text-center p-12 bg-gray-50 rounded-lg">
-            <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
-              {debouncedSearchTerm ? 'No matching resolutions found' : 'No resolutions available'}
-            </h3>
-            <p className="text-gray-500">
-              {debouncedSearchTerm ? 'Try adjusting your search terms.' : 'Check back later for new resolutions.'}
-            </p>
+      {/* Search Bar - Always visible */}
+      <div className="mb-6">
+        <div className="relative max-w-md">
+          <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <Search className="h-5 w-5 text-gray-400" />
           </div>
-        )
+          <input
+            type="text"
+            placeholder="Search resolutions..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+          />
+          {searchTerm && (
+            <button
+              onClick={clearSearch}
+              className="absolute inset-y-0 right-0 pr-3 flex items-center"
+            >
+              <X className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+            </button>
+          )}
+        </div>
+        {/* Search status message */}
+        {loading && debouncedSearchTerm && (
+          <p className="mt-2 text-sm text-gray-600">
+            Searching...
+          </p>
+        )}
+        {!loading && debouncedSearchTerm && (
+          <p className="mt-2 text-sm text-gray-600">
+            {`Found ${resolutions.length} result${resolutions.length !== 1 ? 's' : ''} for "${debouncedSearchTerm}"`}
+          </p>
+        )}
+      </div>
+
+      {/* Results Area - Conditional based on state */}
+      {loading ? (
+        <LoadingSpinner />
+      ) : error ? (
+        <ErrorMessage message={error} />
+      ) : resolutions.length === 0 ? (
+        <div className="text-center p-12 bg-gray-50 rounded-lg">
+          <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-gray-900 mb-2">
+            {debouncedSearchTerm ? 'No matching resolutions found' : 'No resolutions available'}
+          </h3>
+          <p className="text-gray-500">
+            {debouncedSearchTerm ? 'Try adjusting your search terms.' : 'Check back later for new resolutions.'}
+          </p>
+        </div>
       ) : (
         <div className="space-y-6">
           {resolutions.map((resolution) => (
