@@ -15,7 +15,7 @@ export function useNews() {
         const { data, error } = await supabase
           .from('news_items')
           .select('*')
-          .eq('is_prioriy', true)
+          .eq('is_featured', true)
           .order('date', { ascending: false });
 
         if (error) {
