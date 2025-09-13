@@ -49,4 +49,6 @@ export interface Resolution {
   created_at: string;
   updated_at: string;
   fts_document?: string; // Optional since it's generated automatically
+  highlighted_title?: string; // Highlighted title from ts_headline
+  highlighted_description?: string; // Highlighted description from ts_headline
 }

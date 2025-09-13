@@ -25,13 +25,31 @@ export function useResolutions(searchTerm?: string) {
             .split(/\s+/)
             .map(term => term.replace(/[^\w]/g, ''))
             .filter(term => term.length > 0)
-            .join(' & ');
+            .join(' | '); // Use OR logic instead of AND
           
           if (tsquery) {
-            query = query.textSearch('fts_document', tsquery, {
-              type: 'websearch',
-              config: 'english'
-            });
+            // Use explicit select with ts_headline for highlighting
+            query = query
+              .select(`
+                id,
+                resolution_number,
+                title,
+                date_approved,
+                description,
+                file_url,
+                is_active,
+                with_ordinance,
+                is_featured,
+                created_at,
+                updated_at,
+                fts_document,
+                ts_headline(title, to_tsquery('english', '${tsquery}'), 'StartSel=<mark class="bg-yellow-200 px-1 rounded">,StopSel=</mark>') as highlighted_title,
+                ts_headline(description, to_tsquery('english', '${tsquery}'), 'StartSel=<mark class="bg-yellow-200 px-1 rounded">,StopSel=</mark>') as highlighted_description
+              `)
+              .textSearch('fts_document', tsquery, {
+                type: 'plain',
+                config: 'english'
+              });
           }
         }
 
