@@ -43,6 +43,8 @@ export interface Resolution {
   description: string;
   file_url: string | null;
   is_active: boolean;
+  with_ordinance: boolean;
+  is_featured: boolean;
   created_at: string;
   updated_at: string;
 }
