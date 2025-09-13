@@ -115,7 +115,7 @@ function App() {
         <main className="flex-1 p-4 lg:p-6 w-full">
           <div className="max-w-7xl mx-auto w-full">
           {/* Vision, Mission and Trusts Section */}
-          <section className="mb-6 lg:mb-12 w-full">
+          <section className="mb-6 pb-5 lg:mb-12 w-full">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Vision, Mission and Trusts ...</h2>
             
             {slidesLoading ? (
@@ -143,7 +143,7 @@ function App() {
                           <p className="text-gray-300 text-sm">{slide.position}</p>
                         </div>
                       </div>
-                      <div className="flex-shrink-0 w-full mb-4 lg:w-96 lg:max-w-md flex items-center justify-center bg-gray-800">
+                      <div className="flex-shrink-0 w-full lg:w-96 lg:max-w-md flex items-center justify-center bg-gray-800">
                         <ImageWithFallback 
                           src={slide.image_url}
                           alt={slide.author}
