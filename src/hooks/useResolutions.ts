@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase, type Resolution } from '../lib/supabase';
 
-export function useResolutions() {
+export function useResolutions(searchTerm?: string) {
   const [resolutions, setResolutions] = useState<Resolution[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,11 +12,27 @@ export function useResolutions() {
         setLoading(true);
         setError(null);
 
-        const { data, error } = await supabase
+        let query = supabase
           .from('resolutions')
           .select('*')
-          .eq('is_active', true)
-          .order('date_approved', { ascending: false });
+          .eq('is_active', true);
+
+        // Add full-text search if searchTerm is provided
+        if (searchTerm && searchTerm.trim()) {
+          // Convert search term to tsquery format
+          const tsquery = searchTerm
+            .trim()
+            .split(/\s+/)
+            .map(term => term.replace(/[^\w]/g, ''))
+            .filter(term => term.length > 0)
+            .join(' & ');
+          
+          if (tsquery) {
+            query = query.textSearch('fts_document', tsquery);
+          }
+        }
+
+        const { data, error } = await query.order('date_approved', { ascending: false });
 
         if (error) {
           throw error;
@@ -32,7 +48,7 @@ export function useResolutions() {
     }
 
     fetchResolutions();
-  }, []);
+  }, [searchTerm]);
 
   return { resolutions, loading, error };
 }

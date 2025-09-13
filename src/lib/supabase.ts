@@ -48,4 +48,5 @@ export interface Resolution {
   is_featured: boolean;
   created_at: string;
   updated_at: string;
+  fts_document?: string; // Optional since it's generated automatically
 }
