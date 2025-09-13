@@ -210,13 +210,7 @@ export function ResolutionsPage() {
                       </span>
                     )}
                   </div>
-                  <div className="flex items-center gap-3 mb-3">
-                    <span 
-                      dangerouslySetInnerHTML={{ 
-                        __html: highlightText(resolution.resolution_number, debouncedSearchTerm) 
-                      }}
-                    />
-                  </div>
+
                   <h2 className="text-lg font-semibold text-gray-900 mb-2">
                     <span 
                       dangerouslySetInnerHTML={{ 
