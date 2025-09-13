@@ -213,7 +213,11 @@ export function ResolutionsPage() {
                       </span>
                     )}
                   </div>
-
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
+                      {resolution.resolution_number}
+                    </span>
+                  </div>
                   <h2 className="text-lg font-semibold text-gray-900 mb-2">
                     <span 
                       dangerouslySetInnerHTML={{ 
