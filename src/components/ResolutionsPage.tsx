@@ -211,7 +211,7 @@ export function ResolutionsPage() {
                     )}
                   </div>
 
-                  <h2 className="text-lg font-semibold text-gray-900 mb-2 pl-10 pr-10 bg-blue-100">
+                  <h2 className="text-lg font-semibold text-gray-900 mb-2 bg-blue-100">
                     <span 
                       dangerouslySetInnerHTML={{ 
                         __html: highlightText(resolution.resolution_number, debouncedSearchTerm) 
