@@ -115,7 +115,7 @@ function App() {
         <main className="flex-1 p-4 lg:p-6 w-full">
           <div className="max-w-7xl mx-auto w-full">
           {/* Vision, Mission and Trusts Section */}
-          <section className="mb-6 pb-5 lg:mb-12 w-full">
+          <section className="mb-6 lg:mb-12 w-full">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Vision, Mission and Trusts ...</h2>
             
             {slidesLoading ? (
@@ -132,7 +132,7 @@ function App() {
                    style={{ transform: `translateX(-${currentSlide * 100}%)` }}>
                 {slides.map((slide, index) => (
                   <div key={slide.id} className="w-full flex-shrink-0 relative">
-                    <div className="flex flex-col lg:flex-row items-center min-h-80 lg:min-h-96 max-w-full">
+                    <div className="flex flex-col pb-5 lg:pb-0 lg:flex-row items-center min-h-80 lg:min-h-96 max-w-full">
                       <div className="flex-1 p-6 lg:p-12 text-white">
                         <p className="text-yellow-400 text-lg mb-4 font-medium">{slide.thrust}</p>
                         <blockquote className="text-lg lg:text-xl leading-relaxed mb-6 font-light">
