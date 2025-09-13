@@ -194,9 +194,6 @@ export function ResolutionsPage() {
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-3">
-                    <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-800 rounded-full">
-                      {resolution.resolution_number}
-                    </span>
                     {debouncedSearchTerm && totalMatches > 0 && (
                       <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
                         {totalMatches} match{totalMatches !== 1 ? 'es' : ''}
