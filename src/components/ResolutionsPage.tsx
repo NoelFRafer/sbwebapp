@@ -214,7 +214,7 @@ export function ResolutionsPage() {
                     )}
                   </div>
 
-                  <span className="inline-flex items-center px-2 py-1 text-sm font-medium bg-blue-100 text-green-800 rounded-full">
+                  <span className="inline-flex items-center px-2 py-1 text-sm font-medium bg-blue-100 text-green-800 rounded-sm">
                       {resolution.resolution_number}
                   </span>
                   
