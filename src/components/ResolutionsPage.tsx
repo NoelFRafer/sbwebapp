@@ -213,7 +213,7 @@ export function ResolutionsPage() {
                   <div className="flex items-center gap-3 mb-3">
                     <span 
                       dangerouslySetInnerHTML={{ 
-                        __html: highlightText(resolution.resolution_number) 
+                        __html: highlightText(resolution.resolution_number, debouncedSearchTerm) 
                       }}
                     />
                   </div>
