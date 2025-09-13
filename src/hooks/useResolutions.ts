@@ -25,11 +25,11 @@ export function useResolutions(searchTerm?: string) {
             .split(/\s+/)
             .map(term => term.replace(/[^\w]/g, ''))
             .filter(term => term.length > 0)
-            .join(' | '); // Use OR logic instead of AND
+            .join(' | '); // Use OR logic for multiple terms
           
           if (tsquery) {
             query = query.textSearch('fts_document', tsquery, {
-                type: 'plain',
+                type: 'websearch',
                 config: 'english'
               });
           }
