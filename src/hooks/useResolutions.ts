@@ -28,10 +28,7 @@ export function useResolutions(searchTerm?: string) {
             .join(' | '); // Use OR logic for multiple terms
           
           if (tsquery) {
-            query = query.textSearch('fts_document', tsquery, {
-                type: 'websearch',
-                config: 'english'
-              });
+            query = query.filter('fts_document', '@@', `to_tsquery('english', '${tsquery}')`);
           }
         }
 
