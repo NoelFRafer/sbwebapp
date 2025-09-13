@@ -25,10 +25,13 @@ export function useResolutions(searchTerm?: string) {
             .split(/\s+/)
             .map(term => term.replace(/[^\w]/g, ''))
             .filter(term => term.length > 0)
-            .join(' | '); // Use OR logic for multiple terms
+            .join(' OR '); // Use OR logic for multiple terms
           
           if (tsquery) {
-            query = query.filter('fts_document', '@@', `to_tsquery('english', '${tsquery}')`);
+            query = query.textSearch('fts_document', tsquery, { 
+              config: 'english', 
+              type: 'websearch' 
+            });
           }
         }
 
