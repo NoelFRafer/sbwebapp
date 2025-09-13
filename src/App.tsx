@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Menu, Home, FileText, ChevronLeft, ChevronRight, User, LogOut, Loader2, AlertCircle } from 'lucide-react';
+import { Menu, Home, FileText, ChevronLeft, ChevronRight, User, LogOut, Loader2, AlertCircle, Scale } from 'lucide-react';
 import { useSlides } from './hooks/useSlides';
 import { useNews } from './hooks/useNews';
 import { ImageWithFallback } from './components/ImageWithFallback';
+import { ResolutionsPage } from './components/ResolutionsPage';
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'resolutions'>('home');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
   
@@ -92,14 +94,33 @@ function App() {
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:static lg:translate-x-0 lg:w-64`}>
           <nav className="p-4 space-y-2">
-            <a href="#" className="flex items-center gap-3 px-4 py-3 bg-blue-700 rounded-lg text-white">
+            <button 
+              onClick={() => setCurrentPage('home')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left ${
+                currentPage === 'home' ? 'bg-blue-700 text-white' : 'hover:bg-slate-700'
+              }`}
+            >
               <Home size={18} />
               <span>Home</span>
-            </a>
-            <a href="#" className="flex items-center gap-3 px-4 py-3 hover:bg-slate-700 rounded-lg transition-colors">
+            </button>
+            <button 
+              onClick={() => setCurrentPage('news')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left ${
+                currentPage === 'news' ? 'bg-blue-700 text-white' : 'hover:bg-slate-700'
+              }`}
+            >
               <FileText size={18} />
               <span>News</span>
-            </a>
+            </button>
+            <button 
+              onClick={() => setCurrentPage('resolutions')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left ${
+                currentPage === 'resolutions' ? 'bg-blue-700 text-white' : 'hover:bg-slate-700'
+              }`}
+            >
+              <Scale size={18} />
+              <span>Resolutions</span>
+            </button>
           </nav>
         </aside>
 
@@ -113,7 +134,8 @@ function App() {
 
         {/* Main Content */}
         <main className="flex-1 p-4 lg:p-6 w-full">
-          <div className="max-w-7xl mx-auto w-full">
+          {currentPage === 'home' && (
+            <div className="max-w-7xl mx-auto w-full">
           {/* Vision, Mission and Trusts Section */}
           <section className="mb-6 lg:mb-12 w-full">
             <h2 className="text-2xl font-bold text-gray-800 mb-6">Vision, Mission and Trusts ...</h2>
@@ -235,6 +257,36 @@ function App() {
             )}
           </section>
           </div>
+          )}
+          
+          {currentPage === 'news' && (
+            <div className="max-w-7xl mx-auto w-full">
+              <section className="relative w-full">
+                <h1 className="text-3xl font-bold text-gray-800 mb-6">News</h1>
+                {newsLoading ? (
+                  <LoadingSpinner />
+                ) : newsError ? (
+                  <ErrorMessage message={newsError} />
+                ) : newsItems.length === 0 ? (
+                  <div className="text-center p-8 text-gray-500">No news available</div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 w-full max-w-full overflow-hidden">
+                    {newsItems.map((news) => (
+                      <div key={news.id} className="bg-slate-800 text-white rounded-xl p-4 lg:p-6 hover:bg-slate-700 transition-colors overflow-hidden max-w-full">
+                        <h3 className="text-base lg:text-lg font-semibold mb-3 leading-tight line-clamp-2">{news.title}</h3>
+                        <p className="text-blue-300 text-sm mb-4">{formatDate(news.date)}</p>
+                        <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">{news.content}</p>
+                      </div>
+                    ))}
+                  </div>
+                )}
+              </section>
+            </div>
+          )}
+          
+          {currentPage === 'resolutions' && (
+            <ResolutionsPage />
+          )}
         </main>
       </div>
 

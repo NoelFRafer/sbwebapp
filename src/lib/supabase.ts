@@ -34,3 +34,15 @@ export interface NewsItem {
   created_at: string;
   updated_at: string;
 }
+
+export interface Resolution {
+  id: string;
+  resolution_number: string;
+  title: string;
+  date_approved: string;
+  description: string;
+  file_url: string | null;
+  is_active: boolean;
+  created_at: string;
+  updated_at: string;
+}
