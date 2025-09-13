@@ -214,7 +214,7 @@ export function ResolutionsPage() {
                     )}
                   </div>
 
-                  <h1 className="inline-flex items-center px-2 py-1 text-lg font-medium bg-blue-100 text-green-800 rounded-full">
+                  <h1 className="inline-flex items-center px-2 py-1 text-sm font-medium bg-blue-100 text-green-800 rounded-full">
                       {resolution.resolution_number}
                   </h1>
                   
