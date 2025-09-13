@@ -212,7 +212,9 @@ export function ResolutionsPage() {
                   </div>
                   <div className="flex items-center gap-3 mb-3">
                     <span className="inline-flex items-center px-2 py-1 text-base font-medium bg-blue-100 text-blue-800 rounded-sm">
-                      {resolution.resolution_number}
+                      dangerouslySetInnerHTML={{ 
+                        __html: highlightText(resolution.resolution_number) 
+                      }}
                     </span>
                   </div>
                   <h2 className="text-lg font-semibold text-gray-900 mb-2">
