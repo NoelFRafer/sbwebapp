@@ -16,7 +16,7 @@ export function useNews() {
           .from('news_items')
           .select('*')
           .eq('is_featured', true)
-          .order('date', { ascending: false });
+          .order('date', 'order_index', { ascending: false });
 
         if (error) {
           throw error;
