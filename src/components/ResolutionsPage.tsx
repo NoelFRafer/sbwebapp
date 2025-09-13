@@ -193,6 +193,15 @@ export function ResolutionsPage() {
             >
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 <div className="flex-1">
+
+                  <h2 className="text-lg font-semibold text-gray-900 mb-2 bg-gray-100">
+                    <span 
+                      dangerouslySetInnerHTML={{ 
+                        __html: highlightText(resolution.resolution_number, debouncedSearchTerm) 
+                      }} 
+                    />
+                  </h2>  
+                  
                   <div className="flex items-center gap-3 mb-3">
                     {debouncedSearchTerm && totalMatches > 0 && (
                       <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
