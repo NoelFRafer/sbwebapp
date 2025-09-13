@@ -28,25 +28,7 @@ export function useResolutions(searchTerm?: string) {
             .join(' | '); // Use OR logic instead of AND
           
           if (tsquery) {
-            // Use explicit select with ts_headline for highlighting
-            query = query
-              .select(`
-                id,
-                resolution_number,
-                title,
-                date_approved,
-                description,
-                file_url,
-                is_active,
-                with_ordinance,
-                is_featured,
-                created_at,
-                updated_at,
-                fts_document,
-                ts_headline(title, to_tsquery(''english'', ''${tsquery}''), ''StartSel=<mark>,StopSel=</mark>'')->highlighted_title,
-                ts_headline(description, to_tsquery(''english'', ''${tsquery}''), ''StartSel=<mark>,StopSel=</mark>'')->highlighted_description
-              `)
-              .textSearch('fts_document', tsquery, {
+            query = query.textSearch('fts_document', tsquery, {
                 type: 'plain',
                 config: 'english'
               });
