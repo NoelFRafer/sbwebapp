@@ -214,8 +214,7 @@ export function ResolutionsPage() {
                       </span>
                     )}
                     {resolution.with_ordinance && (
-                      <span className="inline-flex items-center px-4 py-0 text-xs font-medium bg-gray-3
-                        00 text-blue-100 rounded-full border border-blue-500">
+                      <span className="inline-flex items-center px-4 py-0 text-xs font-medium bg-gray-300 text-gray-100 rounded-full border border-blue-500">
                         With Ordinance
                       </span>
                     )}
