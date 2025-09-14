@@ -1,6 +1,7 @@
 import React from 'react';
 import { FileText, ExternalLink, Calendar, Loader2, AlertCircle, Search, X } from 'lucide-react';
 import { useResolutions } from '../hooks/useResolutions';
+import { PaginationControls } from './PaginationControls';
 
 // Helper function to highlight search terms
 const highlightText = (text: string, searchTerm: string) => {
@@ -84,12 +85,16 @@ export function ResolutionsPage() {
     return () => clearTimeout(timer);
   }, [searchTerm]);
 
-  const { resolutions, loading, error } = useResolutions(debouncedSearchTerm);
-
-  // Sort resolutions by match count when there's a search term
-  const sortedResolutions = React.useMemo(() => {
-    return sortByMatches(resolutions, debouncedSearchTerm);
-  }, [resolutions, debouncedSearchTerm]);
+  const { 
+    resolutions, 
+    loading, 
+    error,
+    currentPage,
+    totalPages,
+    totalResolutions,
+    itemsPerPage,
+    setCurrentPage
+  } = useResolutions(debouncedSearchTerm);
 
   const clearSearch = () => {
     setSearchTerm('');
@@ -161,7 +166,7 @@ export function ResolutionsPage() {
         )}
         {!loading && debouncedSearchTerm && (
           <p className="mt-2 text-sm text-gray-600">
-            {`Found ${sortedResolutions.length} result${sortedResolutions.length !== 1 ? 's' : ''} for "${debouncedSearchTerm}"`}
+            {`Found ${totalResolutions} result${totalResolutions !== 1 ? 's' : ''} for "${debouncedSearchTerm}"`}
           </p>
         )}
       </div>
@@ -171,7 +176,7 @@ export function ResolutionsPage() {
         <LoadingSpinner />
       ) : error ? (
         <ErrorMessage message={error} />
-      ) : sortedResolutions.length === 0 ? (
+      ) : resolutions.length === 0 ? (
         <div className="text-center p-12 bg-gray-50 rounded-lg">
           <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-gray-900 mb-2">
@@ -182,8 +187,9 @@ export function ResolutionsPage() {
           </p>
         </div>
       ) : (
+        <>
         <div className="space-y-6">
-          {sortedResolutions.map((resolution) => {
+          {resolutions.map((resolution) => {
             const totalMatches = debouncedSearchTerm ? calculateTotalMatches(resolution, debouncedSearchTerm) : 0;
             
             return (
@@ -259,6 +265,17 @@ export function ResolutionsPage() {
             );
           })}
         </div>
+        
+        {/* Pagination controls */}
+        <PaginationControls
+          currentPage={currentPage}
+          totalPages={totalPages}
+          totalItems={totalResolutions}
+          itemsPerPage={itemsPerPage}
+          onPageChange={setCurrentPage}
+          loading={loading}
+        />
+        </>
       )}
     </div>
   );

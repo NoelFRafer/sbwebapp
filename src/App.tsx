@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Menu, Home, FileText, ChevronLeft, ChevronRight, User, LogOut, Loader2, AlertCircle, Scale, Search, X } from 'lucide-react';
+import { Menu, Home, FileText, User, LogOut, Loader2, AlertCircle, Scale, Search, X } from 'lucide-react';
 import { useSlides } from './hooks/useSlides';
 import { useNews } from './hooks/useNews';
 import { ImageWithFallback } from './components/ImageWithFallback';
 import { ResolutionsPage } from './components/ResolutionsPage';
+import { PaginationControls } from './components/PaginationControls';
 
 // Helper function to highlight search terms
 const highlightText = (text: string, searchTerm: string) => {
@@ -78,7 +79,6 @@ function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'resolutions'>('home');
   const [currentSlide, setCurrentSlide] = useState(0);
-  const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
   const [newsSearchTerm, setNewsSearchTerm] = useState('');
   const [debouncedNewsSearchTerm, setDebouncedNewsSearchTerm] = useState('');
   
@@ -93,12 +93,16 @@ function App() {
 
   // Fetch data from Supabase
   const { slides, loading: slidesLoading, error: slidesError } = useSlides();
-  const { newsItems, loading: newsLoading, error: newsError } = useNews(debouncedNewsSearchTerm);
-
-  // Sort news items by match count when there's a search term
-  const sortedNewsItems = React.useMemo(() => {
-    return sortNewsByMatches(newsItems, debouncedNewsSearchTerm);
-  }, [newsItems, debouncedNewsSearchTerm]);
+  const { 
+    newsItems, 
+    loading: newsLoading, 
+    error: newsError,
+    currentPage: newsCurrentPage,
+    totalPages: newsTotalPages,
+    totalNewsItems,
+    itemsPerPage: newsItemsPerPage,
+    setCurrentPage: setNewsCurrentPage
+  } = useNews(debouncedNewsSearchTerm, currentPage === 'home' ? 6 : 12);
 
   const clearNewsSearch = () => {
     setNewsSearchTerm('');
@@ -121,21 +125,6 @@ function App() {
   const prevSlide = () => {
     setCurrentSlide((prev) => (prev - 1 + slides.length) % slides.length);
   };
-
-  const nextNews = () => {
-    if (currentNewsIndex < newsItems.length - 3) {
-      setCurrentNewsIndex(currentNewsIndex + 1);
-    }
-  };
-
-  const prevNews = () => {
-    if (currentNewsIndex > 0) {
-      setCurrentNewsIndex(currentNewsIndex - 1);
-    }
-  };
-
-  const visibleNews = newsItems.slice(currentNewsIndex, currentNewsIndex + 3);
-  const visibleSortedNews = sortedNewsItems.slice(currentNewsIndex, currentNewsIndex + 3);
 
   // Loading component
   const LoadingSpinner = () => (
@@ -332,7 +321,7 @@ function App() {
               )}
               {!newsLoading && debouncedNewsSearchTerm && (
                 <p className="mt-2 text-sm text-gray-600">
-                  {`Found ${sortedNewsItems.length} result${sortedNewsItems.length !== 1 ? 's' : ''} for "${debouncedNewsSearchTerm}"`}
+                  {`Found ${totalNewsItems} result${totalNewsItems !== 1 ? 's' : ''} for "${debouncedNewsSearchTerm}"`}
                 </p>
               )}
             </div>
@@ -341,37 +330,12 @@ function App() {
               <LoadingSpinner />
             ) : newsError ? (
               <ErrorMessage message={newsError} />
-            ) : sortedNewsItems.length === 0 ? (
+            ) : newsItems.length === 0 ? (
               <div className="text-center p-8 text-gray-500">No news available</div>
             ) : (
             <>
-            <div className="flex items-center justify-between mb-4">
-              <button
-                onClick={prevNews}
-                disabled={currentNewsIndex === 0}
-                className={`p-2 rounded-full transition-colors ${
-                  currentNewsIndex === 0 
-                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed' 
-                    : 'bg-gray-300 hover:bg-gray-400 text-gray-700'
-                }`}
-              >
-                <ChevronLeft size={20} />
-              </button>
-              <button
-                onClick={nextNews}
-                disabled={currentNewsIndex >= sortedNewsItems.length - 3}
-                className={`p-2 rounded-full transition-colors ${
-                  currentNewsIndex >= sortedNewsItems.length - 3
-                    ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                    : 'bg-gray-300 hover:bg-gray-400 text-gray-700'
-                }`}
-              >
-                <ChevronRight size={20} />
-              </button>
-            </div>
-            
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 w-full max-w-full overflow-hidden">
-              {visibleSortedNews.map((news) => {
+              {newsItems.map((news) => {
                 const totalMatches = debouncedNewsSearchTerm ? calculateNewsMatches(news, debouncedNewsSearchTerm) : 0;
                 
                 return (
@@ -402,6 +366,16 @@ function App() {
                 );
               })}
             </div>
+            
+            {/* Pagination for home page news */}
+            <PaginationControls
+              currentPage={newsCurrentPage}
+              totalPages={newsTotalPages}
+              totalItems={totalNewsItems}
+              itemsPerPage={newsItemsPerPage}
+              onPageChange={setNewsCurrentPage}
+              loading={newsLoading}
+            />
             </>
             )}
           </section>
@@ -443,7 +417,7 @@ function App() {
                   )}
                   {!newsLoading && debouncedNewsSearchTerm && (
                     <p className="mt-2 text-sm text-gray-600">
-                      {`Found ${sortedNewsItems.length} result${sortedNewsItems.length !== 1 ? 's' : ''} for "${debouncedNewsSearchTerm}"`}
+                      {`Found ${totalNewsItems} result${totalNewsItems !== 1 ? 's' : ''} for "${debouncedNewsSearchTerm}"`}
                     </p>
                   )}
                 </div>
@@ -452,7 +426,7 @@ function App() {
                   <LoadingSpinner />
                 ) : newsError ? (
                   <ErrorMessage message={newsError} />
-                ) : sortedNewsItems.length === 0 ? (
+                ) : newsItems.length === 0 ? (
                   <div className="text-center p-12 bg-gray-50 rounded-lg">
                     <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
                     <h3 className="text-lg font-medium text-gray-900 mb-2">
@@ -463,8 +437,9 @@ function App() {
                     </p>
                   </div>
                 ) : (
+                  <>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 w-full max-w-full overflow-hidden">
-                    {sortedNewsItems.map((news) => {
+                    {newsItems.map((news) => {
                       const totalMatches = debouncedNewsSearchTerm ? calculateNewsMatches(news, debouncedNewsSearchTerm) : 0;
                       
                       return (
@@ -495,6 +470,17 @@ function App() {
                       );
                     })}
                   </div>
+                  
+                  {/* Pagination for news page */}
+                  <PaginationControls
+                    currentPage={newsCurrentPage}
+                    totalPages={newsTotalPages}
+                    totalItems={totalNewsItems}
+                    itemsPerPage={newsItemsPerPage}
+                    onPageChange={setNewsCurrentPage}
+                    loading={newsLoading}
+                  />
+                  </>
                 )}
               </section>
             </div>
