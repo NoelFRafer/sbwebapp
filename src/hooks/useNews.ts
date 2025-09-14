@@ -14,8 +14,8 @@ export function useNews(searchTerm?: string) {
 
         let query = supabase
           .from('news_items')
-          .select('*')
-          .eq('is_featured', true);
+          .select('*');
+          // .eq('is_featured', true);
 
         // Add full-text search if searchTerm is provided
         if (searchTerm && searchTerm.trim()) {
