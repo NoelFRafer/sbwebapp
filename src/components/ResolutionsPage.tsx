@@ -214,12 +214,12 @@ export function ResolutionsPage() {
                       </span>
                     )}
                     {resolution.with_ordinance && (
-                      <span className="inline-flex items-center px-2 py-0 text-xs font-medium bg-blue-600 text-blue-100 rounded-full border border-blue-500">
+                      <span className="inline-flex items-center px-4 py-0 text-xs font-medium bg-cyan-600 text-blue-100 rounded-full border border-blue-500">
                         With Ordinance
                       </span>
                     )}
                     {resolution.is_featured && (
-                      <span className="inline-flex items-center px-2 py-0 text-xs font-medium bg-blue-500 text-amber-100 rounded-full border border-blue-400">
+                      <span className="inline-flex items-center px-4 py-0 text-xs font-medium bg-cyan-500 text-blue-100 rounded-full border border-blue-400">
                         Featured
                       </span>
                     )}
