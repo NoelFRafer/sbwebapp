@@ -195,11 +195,11 @@ export function ResolutionsPage() {
             return (
             <div
               key={resolution.id}
-              className="bg-white rounded-lg shadow-md border border-gray-200 p-6 hover:shadow-lg transition-shadow"
+              className="bg-white rounded-lg shadow-md border border-slate-200 p-6 hover:shadow-lg hover:border-slate-300 transition-all duration-200"
             >
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 <div className="flex-1">
-                  <h2 className="text-lg font-semibold text-gray-900 mb-0 bg-gray-100">
+                  <h2 className="text-lg font-semibold text-slate-800 mb-2 px-3 py-1 bg-slate-50 rounded-md border-l-4 border-blue-500">
                     <span 
                       dangerouslySetInnerHTML={{ 
                         __html: highlightText(resolution.resolution_number, debouncedSearchTerm) 
@@ -209,23 +209,23 @@ export function ResolutionsPage() {
                   
                   <div className="flex items-center gap-3 mb-0">
                     {debouncedSearchTerm && totalMatches > 0 && (
-                      <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+                      <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-emerald-100 text-emerald-700 rounded-full border border-emerald-200">
                         {totalMatches} match{totalMatches !== 1 ? 'es' : ''}
                       </span>
                     )}
                     {resolution.with_ordinance && (
-                      <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full">
+                      <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-blue-100 text-blue-700 rounded-full border border-blue-200">
                         With Ordinance
                       </span>
                     )}
                     {resolution.is_featured && (
-                      <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-yellow-100 text-yellow-800 rounded-full">
+                      <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-amber-100 text-amber-700 rounded-full border border-amber-200">
                         Featured
                       </span>
                     )}
                   </div>
                   
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                  <h3 className="text-xl font-semibold text-slate-900 mb-3 leading-tight">
                     <span 
                       dangerouslySetInnerHTML={{ 
                         __html: highlightText(resolution.title, debouncedSearchTerm) 
@@ -233,12 +233,12 @@ export function ResolutionsPage() {
                     />
                   </h3>
                   
-                  <div className="flex items-center text-sm text-gray-500 mb-3">
-                    <Calendar className="w-4 h-4 mr-1" />
+                  <div className="flex items-center text-sm text-slate-500 mb-4">
+                    <Calendar className="w-4 h-4 mr-2 text-slate-400" />
                     {formatDate(resolution.date_approved)}
                   </div>
                   
-                  <div className="text-gray-600 leading-relaxed">
+                  <div className="text-slate-600 leading-relaxed text-sm">
                     <span 
                       dangerouslySetInnerHTML={{ 
                         __html: highlightText(resolution.description, debouncedSearchTerm) 
@@ -253,7 +253,7 @@ export function ResolutionsPage() {
                       href={resolution.file_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                      className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:shadow-md transition-all duration-200 font-medium"
                     >
                       <ExternalLink className="w-4 h-4" />
                       View Document
