@@ -19,20 +19,11 @@ export function useResolutions(searchTerm?: string) {
 
         // Add full-text search if searchTerm is provided
         if (searchTerm && searchTerm.trim()) {
-          // Convert search term to tsquery format
-          const tsquery = searchTerm
-            .trim()
-            .split(/\s+/)
-            .map(term => term.replace(/[^\w]/g, ''))
-            .filter(term => term.length > 0)
-            .join(' OR '); // Use OR logic for multiple terms
-          
-          if (tsquery) {
-            query = query.textSearch('fts_document', tsquery, { 
-              config: 'english', 
-              type: 'websearch' 
-            });
-          }
+          // Use websearch_to_tsquery for better stemming and phrase support
+          query = query.textSearch('fts_document', searchTerm, { 
+            config: 'english', 
+            type: 'websearch' 
+          });
         }
 
         const { data, error } = await query.order('date_approved', { ascending: false });
