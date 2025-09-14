@@ -207,7 +207,7 @@ export function ResolutionsPage() {
                     />
                   </h2>  
                   
-                  <div className="flex items-center gap-3 mb-1">
+                  <div className="flex items-center gap-3 mb-2">
                     {debouncedSearchTerm && totalMatches > 0 && (
                       <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-emerald-700 text-emerald-100 rounded-full border border-emerald-600">
                         {totalMatches} match{totalMatches !== 1 ? 'es' : ''}
