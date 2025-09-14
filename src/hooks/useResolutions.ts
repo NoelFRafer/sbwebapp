@@ -19,11 +19,16 @@ export function useResolutions(searchTerm?: string) {
 
         // Add full-text search if searchTerm is provided
         if (searchTerm && searchTerm.trim()) {
-          // Use websearch_to_tsquery for better stemming and phrase support
-          query = query.textSearch('fts_document', searchTerm, { 
-            config: 'english', 
-            type: 'websearch' 
-          });
+          // Use the enhanced search function with ranking
+          const { data: searchData, error: searchError } = await supabase
+            .rpc('search_resolutions', { search_query: searchTerm.trim() });
+          
+          if (searchError) {
+            throw searchError;
+          }
+          
+          setResolutions(searchData || []);
+          return;
         }
 
         const { data, error } = await query.order('date_approved', { ascending: false });

@@ -19,11 +19,16 @@ export function useNews(searchTerm?: string) {
 
         // Add full-text search if searchTerm is provided
         if (searchTerm && searchTerm.trim()) {
-          // Use websearch_to_tsquery for better stemming and phrase support
-          query = query.textSearch('fts_document', searchTerm, { 
-            config: 'english', 
-            type: 'websearch' 
-          });
+          // Use the enhanced search function with ranking
+          const { data: searchData, error: searchError } = await supabase
+            .rpc('search_news', { search_query: searchTerm.trim() });
+          
+          if (searchError) {
+            throw searchError;
+          }
+          
+          setNewsItems(searchData || []);
+          return;
         }
 
         const { data, error } = await query
