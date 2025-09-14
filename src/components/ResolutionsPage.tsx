@@ -219,7 +219,7 @@ export function ResolutionsPage() {
                       </span>
                     )}
                     {resolution.is_featured && (
-                      <span className="inline-flex items-center px-4 py-0 text-xs font-medium bg-cyan-500 text-blue-100 rounded-full border border-blue-400">
+                      <span className="inline-flex items-center px-4 py-0 text-xs font-medium bg-gray-700 text-gray-300 rounded-full border border-gray-500">
                         Featured
                       </span>
                     )}
