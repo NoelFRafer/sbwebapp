@@ -34,6 +34,9 @@ export interface NewsItem {
   order_index: number;
   created_at: string;
   updated_at: string;
+  fts_document?: string; // Optional since it's generated automatically
+  highlighted_title?: string; // Highlighted title from search
+  highlighted_content?: string; // Highlighted content from search
 }
 
 export interface Resolution {

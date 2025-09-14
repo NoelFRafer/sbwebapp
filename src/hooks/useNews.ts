@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase, type NewsItem } from '../lib/supabase';
 
-export function useNews() {
+export function useNews(searchTerm?: string) {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -12,11 +12,32 @@ export function useNews() {
         setLoading(true);
         setError(null);
 
-        const { data, error } = await supabase
+        let query = supabase
           .from('news_items')
           .select('*')
-          .eq('is_featured', true)
-          .order('date', 'order_index', { ascending: false });
+          .eq('is_featured', true);
+
+        // Add full-text search if searchTerm is provided
+        if (searchTerm && searchTerm.trim()) {
+          // Convert search term to tsquery format
+          const tsquery = searchTerm
+            .trim()
+            .split(/\s+/)
+            .map(term => term.replace(/[^\w]/g, ''))
+            .filter(term => term.length > 0)
+            .join(' OR '); // Use OR logic for multiple terms
+          
+          if (tsquery) {
+            query = query.textSearch('fts_document', tsquery, { 
+              config: 'english', 
+              type: 'websearch' 
+            });
+          }
+        }
+
+        const { data, error } = await query
+          .order('date', { ascending: false })
+          .order('order_index', { ascending: false });
 
         if (error) {
           throw error;
@@ -32,7 +53,7 @@ export function useNews() {
     }
 
     fetchNews();
-  }, []);
+  }, [searchTerm]);
 
   return { newsItems, loading, error };
 }

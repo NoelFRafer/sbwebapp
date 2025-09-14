@@ -1,19 +1,108 @@
 import React, { useState } from 'react';
-import { Menu, Home, FileText, ChevronLeft, ChevronRight, User, LogOut, Loader2, AlertCircle, Scale } from 'lucide-react';
+import { Menu, Home, FileText, ChevronLeft, ChevronRight, User, LogOut, Loader2, AlertCircle, Scale, Search, X } from 'lucide-react';
 import { useSlides } from './hooks/useSlides';
 import { useNews } from './hooks/useNews';
 import { ImageWithFallback } from './components/ImageWithFallback';
 import { ResolutionsPage } from './components/ResolutionsPage';
+
+// Helper function to highlight search terms
+const highlightText = (text: string, searchTerm: string) => {
+  if (!searchTerm.trim()) return text;
+  
+  // Split search terms and create regex pattern for OR logic
+  const terms = searchTerm
+    .trim()
+    .split(/\s+/)
+    .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // Escape regex special characters
+    .filter(term => term.length > 0);
+  
+  if (terms.length === 0) return text;
+  
+  const pattern = new RegExp(`(${terms.join('|')})`, 'gi');
+  return text.replace(pattern, '<mark>$1</mark>');
+};
+
+// Helper function to count matches in text
+const countMatches = (text: string, searchTerm: string) => {
+  if (!searchTerm.trim() || !text) return 0;
+  
+  const terms = searchTerm
+    .trim()
+    .split(/\s+/)
+    .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+    .filter(term => term.length > 0);
+  
+  if (terms.length === 0) return 0;
+  
+  let totalMatches = 0;
+  const lowerText = text.toLowerCase();
+  
+  terms.forEach(term => {
+    const regex = new RegExp(`\\b${term.toLowerCase()}\\b`, 'g');
+    const matches = lowerText.match(regex);
+    if (matches) {
+      totalMatches += matches.length;
+    }
+  });
+  
+  return totalMatches;
+};
+
+// Helper function to calculate total matches for a news item
+const calculateNewsMatches = (newsItem: any, searchTerm: string) => {
+  const titleMatches = countMatches(newsItem.title, searchTerm);
+  const contentMatches = countMatches(newsItem.content, searchTerm);
+  
+  return titleMatches + contentMatches;
+};
+
+// Helper function to sort news by match count
+const sortNewsByMatches = (newsItems: any[], searchTerm: string) => {
+  if (!searchTerm.trim()) return newsItems;
+  
+  return [...newsItems].sort((a, b) => {
+    const matchesA = calculateNewsMatches(a, searchTerm);
+    const matchesB = calculateNewsMatches(b, searchTerm);
+    
+    // Primary sort: by match count (descending)
+    if (matchesA !== matchesB) {
+      return matchesB - matchesA;
+    }
+    
+    // Secondary sort: by date (descending) for ties
+    return new Date(b.date).getTime() - new Date(a.date).getTime();
+  });
+};
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'resolutions'>('home');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [currentNewsIndex, setCurrentNewsIndex] = useState(0);
+  const [newsSearchTerm, setNewsSearchTerm] = useState('');
+  const [debouncedNewsSearchTerm, setDebouncedNewsSearchTerm] = useState('');
   
+  // Debounce news search term
+  React.useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedNewsSearchTerm(newsSearchTerm);
+    }, 300);
+
+    return () => clearTimeout(timer);
+  }, [newsSearchTerm]);
+
   // Fetch data from Supabase
   const { slides, loading: slidesLoading, error: slidesError } = useSlides();
-  const { newsItems, loading: newsLoading, error: newsError } = useNews();
+  const { newsItems, loading: newsLoading, error: newsError } = useNews(debouncedNewsSearchTerm);
+
+  // Sort news items by match count when there's a search term
+  const sortedNewsItems = React.useMemo(() => {
+    return sortNewsByMatches(newsItems, debouncedNewsSearchTerm);
+  }, [newsItems, debouncedNewsSearchTerm]);
+
+  const clearNewsSearch = () => {
+    setNewsSearchTerm('');
+  };
 
   // Format date for display
   const formatDate = (dateString: string) => {
@@ -46,6 +135,7 @@ function App() {
   };
 
   const visibleNews = newsItems.slice(currentNewsIndex, currentNewsIndex + 3);
+  const visibleSortedNews = sortedNewsItems.slice(currentNewsIndex, currentNewsIndex + 3);
 
   // Loading component
   const LoadingSpinner = () => (
@@ -211,11 +301,47 @@ function App() {
           {/* News Section */}
           <section className="relative w-full">
             <h2 className="text-2xl font-bold text-gray-800 mb-2">News</h2>
+            
+            {/* Search Bar for Home Page News */}
+            <div className="mb-4">
+              <div className="relative max-w-md">
+                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                  <Search className="h-4 w-4 text-gray-400" />
+                </div>
+                <input
+                  type="text"
+                  placeholder="Search news..."
+                  value={newsSearchTerm}
+                  onChange={(e) => setNewsSearchTerm(e.target.value)}
+                  className="block w-full pl-9 pr-9 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                />
+                {newsSearchTerm && (
+                  <button
+                    onClick={clearNewsSearch}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  >
+                    <X className="h-3 w-3 text-gray-400 hover:text-gray-600" />
+                  </button>
+                )}
+              </div>
+              {/* Search status message */}
+              {newsLoading && debouncedNewsSearchTerm && (
+                <p className="mt-2 text-sm text-gray-600">
+                  Searching news...
+                </p>
+              )}
+              {!newsLoading && debouncedNewsSearchTerm && (
+                <p className="mt-2 text-sm text-gray-600">
+                  {`Found ${sortedNewsItems.length} result${sortedNewsItems.length !== 1 ? 's' : ''} for "${debouncedNewsSearchTerm}"`}
+                </p>
+              )}
+            </div>
+            
             {newsLoading ? (
               <LoadingSpinner />
             ) : newsError ? (
               <ErrorMessage message={newsError} />
-            ) : newsItems.length === 0 ? (
+            ) : sortedNewsItems.length === 0 ? (
               <div className="text-center p-8 text-gray-500">No news available</div>
             ) : (
             <>
@@ -233,9 +359,9 @@ function App() {
               </button>
               <button
                 onClick={nextNews}
-                disabled={currentNewsIndex >= newsItems.length - 3}
+                disabled={currentNewsIndex >= sortedNewsItems.length - 3}
                 className={`p-2 rounded-full transition-colors ${
-                  currentNewsIndex >= newsItems.length - 3
+                  currentNewsIndex >= sortedNewsItems.length - 3
                     ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
                     : 'bg-gray-300 hover:bg-gray-400 text-gray-700'
                 }`}
@@ -245,13 +371,36 @@ function App() {
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 w-full max-w-full overflow-hidden">
-              {visibleNews.map((news) => (
+              {visibleSortedNews.map((news) => {
+                const totalMatches = debouncedNewsSearchTerm ? calculateNewsMatches(news, debouncedNewsSearchTerm) : 0;
+                
+                return (
                 <div key={news.id} className="bg-slate-800 text-white rounded-xl p-4 lg:p-6 hover:bg-slate-700 transition-colors overflow-hidden max-w-full">
-                  <h3 className="text-base lg:text-lg font-semibold mb-3 leading-tight line-clamp-2">{news.title}</h3>
+                  <div className="flex items-start justify-between gap-2 mb-3">
+                    <h3 className="text-base lg:text-lg font-semibold leading-tight line-clamp-2 flex-1">
+                      <span 
+                        dangerouslySetInnerHTML={{ 
+                          __html: highlightText(news.title, debouncedNewsSearchTerm) 
+                        }} 
+                      />
+                    </h3>
+                    {debouncedNewsSearchTerm && totalMatches > 0 && (
+                      <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full flex-shrink-0">
+                        {totalMatches} match{totalMatches !== 1 ? 'es' : ''}
+                      </span>
+                    )}
+                  </div>
                   <p className="text-blue-300 text-sm mb-4">{formatDate(news.date)}</p>
-                  <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">{news.content}</p>
+                  <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">
+                    <span 
+                      dangerouslySetInnerHTML={{ 
+                        __html: highlightText(news.content, debouncedNewsSearchTerm) 
+                      }} 
+                    />
+                  </p>
                 </div>
-              ))}
+                );
+              })}
             </div>
             </>
             )}
@@ -263,21 +412,88 @@ function App() {
             <div className="max-w-7xl mx-auto w-full">
               <section className="relative w-full">
                 <h1 className="text-3xl font-bold text-gray-800 mb-6">News</h1>
+                
+                {/* Search Bar for News Page */}
+                <div className="mb-6">
+                  <div className="relative max-w-md">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <Search className="h-5 w-5 text-gray-400" />
+                    </div>
+                    <input
+                      type="text"
+                      placeholder="Search news..."
+                      value={newsSearchTerm}
+                      onChange={(e) => setNewsSearchTerm(e.target.value)}
+                      className="block w-full pl-10 pr-10 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                    />
+                    {newsSearchTerm && (
+                      <button
+                        onClick={clearNewsSearch}
+                        className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                      >
+                        <X className="h-4 w-4 text-gray-400 hover:text-gray-600" />
+                      </button>
+                    )}
+                  </div>
+                  {/* Search status message */}
+                  {newsLoading && debouncedNewsSearchTerm && (
+                    <p className="mt-2 text-sm text-gray-600">
+                      Searching news...
+                    </p>
+                  )}
+                  {!newsLoading && debouncedNewsSearchTerm && (
+                    <p className="mt-2 text-sm text-gray-600">
+                      {`Found ${sortedNewsItems.length} result${sortedNewsItems.length !== 1 ? 's' : ''} for "${debouncedNewsSearchTerm}"`}
+                    </p>
+                  )}
+                </div>
+                
                 {newsLoading ? (
                   <LoadingSpinner />
                 ) : newsError ? (
                   <ErrorMessage message={newsError} />
-                ) : newsItems.length === 0 ? (
-                  <div className="text-center p-8 text-gray-500">No news available</div>
+                ) : sortedNewsItems.length === 0 ? (
+                  <div className="text-center p-12 bg-gray-50 rounded-lg">
+                    <FileText className="w-16 h-16 text-gray-400 mx-auto mb-4" />
+                    <h3 className="text-lg font-medium text-gray-900 mb-2">
+                      {debouncedNewsSearchTerm ? 'No matching news found' : 'No news available'}
+                    </h3>
+                    <p className="text-gray-500">
+                      {debouncedNewsSearchTerm ? 'Try adjusting your search terms.' : 'Check back later for new articles.'}
+                    </p>
+                  </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 w-full max-w-full overflow-hidden">
-                    {newsItems.map((news) => (
+                    {sortedNewsItems.map((news) => {
+                      const totalMatches = debouncedNewsSearchTerm ? calculateNewsMatches(news, debouncedNewsSearchTerm) : 0;
+                      
+                      return (
                       <div key={news.id} className="bg-slate-800 text-white rounded-xl p-4 lg:p-6 hover:bg-slate-700 transition-colors overflow-hidden max-w-full">
-                        <h3 className="text-base lg:text-lg font-semibold mb-3 leading-tight line-clamp-2">{news.title}</h3>
+                        <div className="flex items-start justify-between gap-2 mb-3">
+                          <h3 className="text-base lg:text-lg font-semibold leading-tight line-clamp-2 flex-1">
+                            <span 
+                              dangerouslySetInnerHTML={{ 
+                                __html: highlightText(news.title, debouncedNewsSearchTerm) 
+                              }} 
+                            />
+                          </h3>
+                          {debouncedNewsSearchTerm && totalMatches > 0 && (
+                            <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full flex-shrink-0">
+                              {totalMatches} match{totalMatches !== 1 ? 'es' : ''}
+                            </span>
+                          )}
+                        </div>
                         <p className="text-blue-300 text-sm mb-4">{formatDate(news.date)}</p>
-                        <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">{news.content}</p>
+                        <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">
+                          <span 
+                            dangerouslySetInnerHTML={{ 
+                              __html: highlightText(news.content, debouncedNewsSearchTerm) 
+                            }} 
+                          />
+                        </p>
                       </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 )}
               </section>
