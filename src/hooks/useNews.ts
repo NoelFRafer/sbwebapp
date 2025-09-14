@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase, type NewsItem } from '../lib/supabase';
 
-export function useNews(searchTerm?: string, itemsPerPage: number = 12) {
+export function useNews(searchTerm?: string, itemsPerPage: number = 5) {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [totalNewsItems, setTotalNewsItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);

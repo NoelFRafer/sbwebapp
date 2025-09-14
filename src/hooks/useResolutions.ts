@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase, type Resolution } from '../lib/supabase';
 
-export function useResolutions(searchTerm?: string, itemsPerPage: number = 10) {
+export function useResolutions(searchTerm?: string, itemsPerPage: number = 5) {
   const [resolutions, setResolutions] = useState<Resolution[]>([]);
   const [totalResolutions, setTotalResolutions] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);

@@ -102,7 +102,7 @@ function App() {
     totalNewsItems,
     itemsPerPage: newsItemsPerPage,
     setCurrentPage: setNewsCurrentPage
-  } = useNews(debouncedNewsSearchTerm, currentPage === 'home' ? 6 : 12);
+  } = useNews(debouncedNewsSearchTerm, 5);
 
   const clearNewsSearch = () => {
     setNewsSearchTerm('');
