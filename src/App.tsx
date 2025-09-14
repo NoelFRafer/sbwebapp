@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Home, FileText, User, LogOut, Loader2, AlertCircle, Scale, Search, X } from 'lucide-react';
+import { Menu, Home, FileText, User, LogOut, Loader2, AlertCircle, Scale, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSlides } from './hooks/useSlides';
 import { useNews } from './hooks/useNews';
 import { ImageWithFallback } from './components/ImageWithFallback';
