@@ -14,6 +14,7 @@ export function useAuth() {
     if (!currentUser) {
       setIsAdmin(false);
       setUserRole('user');
+      setRoleLoading(false);
       return;
     }
 
@@ -48,6 +49,7 @@ export function useAuth() {
         setUser(null);
         setIsAdmin(false);
         setUserRole('user');
+        setRoleLoading(false);
       } finally {
         setLoading(false);
       }
@@ -58,10 +60,18 @@ export function useAuth() {
     // Listen for auth changes
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, session) => {
-        const currentUser = session?.user ?? null;
-        setUser(currentUser);
-        await checkUserRole(currentUser);
-        setLoading(false);
+        try {
+          const currentUser = session?.user ?? null;
+          setUser(currentUser);
+          await checkUserRole(currentUser);
+        } catch (error) {
+          console.error('Error in auth state change:', error);
+          setIsAdmin(false);
+          setUserRole('user');
+          setRoleLoading(false);
+        } finally {
+          setLoading(false);
+        }
       }
     );
 

@@ -66,9 +66,16 @@ export interface UserRole {
 // Helper function to check if user is admin
 export async function isUserAdmin(userId?: string): Promise<boolean> {
   try {
-    const { data, error } = await supabase.rpc('is_admin', {
+    // Add timeout to prevent hanging
+    const timeoutPromise = new Promise<boolean>((_, reject) => {
+      setTimeout(() => reject(new Error('Timeout checking admin status')), 5000);
+    });
+    
+    const adminCheckPromise = supabase.rpc('is_admin', {
       user_uuid: userId || undefined
     });
+    
+    const { data, error } = await Promise.race([adminCheckPromise, timeoutPromise]);
     
     if (error) {
       console.error('Error checking admin status:', error);
@@ -85,9 +92,16 @@ export async function isUserAdmin(userId?: string): Promise<boolean> {
 // Helper function to get user role
 export async function getUserRole(userId?: string): Promise<string> {
   try {
-    const { data, error } = await supabase.rpc('get_user_role', {
+    // Add timeout to prevent hanging
+    const timeoutPromise = new Promise<string>((_, reject) => {
+      setTimeout(() => reject(new Error('Timeout getting user role')), 5000);
+    });
+    
+    const roleCheckPromise = supabase.rpc('get_user_role', {
       user_uuid: userId || undefined
     });
+    
+    const { data, error } = await Promise.race([roleCheckPromise, timeoutPromise]);
     
     if (error) {
       console.error('Error getting user role:', error);
