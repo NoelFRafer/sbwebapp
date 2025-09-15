@@ -34,8 +34,8 @@ export function useResolutions(searchTerm?: string, itemsPerPage: number = 5) {
         }
 
         if (response) {
-          setResolutions(response.items || []);
-          setTotalResolutions(response.total_count || 0);
+          setResolutions(response[0]?.items || []);
+          setTotalResolutions(response[0]?.total_count || 0);
         } else {
           setResolutions([]);
           setTotalResolutions(0);

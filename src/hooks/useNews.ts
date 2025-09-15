@@ -34,8 +34,8 @@ export function useNews(searchTerm?: string, itemsPerPage: number = 5) {
         }
 
         if (response) {
-          setNewsItems(response.items || []);
-          setTotalNewsItems(response.total_count || 0);
+          setNewsItems(response[0]?.items || []);
+          setTotalNewsItems(response[0]?.total_count || 0);
         } else {
           setNewsItems([]);
           setTotalNewsItems(0);
