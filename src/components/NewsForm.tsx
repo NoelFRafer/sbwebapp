@@ -7,6 +7,34 @@ interface NewsFormProps {
 }
 
 export function NewsForm({ onBack }: NewsFormProps) {
+  const [user, setUser] = useState<any>(null);
+  const [authLoading, setAuthLoading] = useState(true);
+  
+  // Check authentication status on component mount
+  React.useEffect(() => {
+    const checkAuth = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      setUser(user);
+      setAuthLoading(false);
+    };
+    
+    checkAuth();
+    
+    // Listen for auth changes
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      setUser(session?.user ?? null);
+    });
+    
+    return () => subscription.unsubscribe();
+  }, []);
+
+  const [formData, setFormData] = useState({
+
+interface NewsFormProps {
+  onBack: () => void;
+}
+
+export function NewsForm({ onBack }: NewsFormProps) {
   const [formData, setFormData] = useState({
     title: '',
     date: new Date().toISOString().split('T')[0], // Default to today
@@ -58,6 +86,11 @@ export function NewsForm({ onBack }: NewsFormProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!user) {
+      setError('You must be logged in to add news items');
+      return;
+    }
     
     if (!validateForm()) {
       return;
@@ -118,6 +151,31 @@ export function NewsForm({ onBack }: NewsFormProps) {
 
   return (
     <div className="max-w-4xl mx-auto">
+      {/* Authentication Check */}
+      {authLoading ? (
+        <div className="flex items-center justify-center py-12">
+          <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+          <span className="ml-2 text-gray-600">Checking authentication...</span>
+        </div>
+      ) : !user ? (
+        <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-6">
+          <div className="flex items-center gap-3 mb-4">
+            <AlertCircle className="w-6 h-6 text-yellow-600" />
+            <h2 className="text-lg font-semibold text-yellow-800">Authentication Required</h2>
+          </div>
+          <p className="text-yellow-700 mb-4">
+            You must be logged in to add news items. Please sign in with your administrator account.
+          </p>
+          <button
+            onClick={onBack}
+            className="flex items-center gap-2 px-4 py-2 bg-yellow-600 text-white rounded-lg hover:bg-yellow-700 transition-colors"
+          >
+            <ArrowLeft className="w-4 h-4" />
+            Back to News
+          </button>
+        </div>
+      ) : (
+        <>
       {/* Header */}
       <div className="flex items-center gap-4 mb-8">
         <button
@@ -292,6 +350,8 @@ export function NewsForm({ onBack }: NewsFormProps) {
           <li>• Keep "Priority" checked for items that should appear in default listings</li>
         </ul>
       </div>
+        </>
+      )}
     </div>
   );
 }
