@@ -79,8 +79,18 @@ export function useAuth() {
   }, []);
 
   const signOut = async () => {
-    const { error } = await supabase.auth.signOut();
-    if (error) {
+    try {
+      const { error } = await supabase.auth.signOut();
+      if (error) {
+        // Handle the specific case where session is already missing
+        if (error.message === 'Auth session missing!') {
+          console.warn('Session already expired or missing during sign out');
+        } else {
+          console.error('Error signing out:', error);
+          throw error;
+        }
+      }
+    } catch (error) {
       console.error('Error signing out:', error);
       throw error;
     }
