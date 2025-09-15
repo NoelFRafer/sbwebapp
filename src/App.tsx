@@ -93,7 +93,7 @@ function App() {
           </button>
           <h1 className="text-xl font-semibold">The Sangguniang Bayan ng Capalonga</h1>
         </div>
-        <div className="flex items-center gap-4">
+        <div className="flex flex flex-col lg:flex-row  items-center gap-4">
           <div className="flex items-center gap-2 bg-blue-600 px-3 py-1 rounded-full">
             <User size={16} />
             <span className="text-sm">SB Capalonga</span>
