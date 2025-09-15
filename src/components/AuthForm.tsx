@@ -134,12 +134,16 @@ export function AuthForm({ onAuthSuccess }: AuthFormProps) {
       console.error('Auth error:', err);
       
       // Handle specific error messages
-      if (err.message?.includes('Invalid login credentials')) {
+      if (err.message?.includes('captcha verification process failed')) {
+        setError('Authentication temporarily unavailable. Please try again in a few moments, or contact support if the issue persists.');
+      } else if (err.message?.includes('Invalid login credentials')) {
         setError('Invalid email or password. Please check your credentials and try again.');
       } else if (err.message?.includes('User already registered')) {
         setError('An account with this email already exists. Please try logging in instead.');
       } else if (err.message?.includes('Email not confirmed')) {
         setError('Please check your email and click the confirmation link before logging in.');
+      } else if (err.message?.includes('refresh_token_not_found')) {
+        setError('Session expired. Please try logging in again.');
       } else {
         setError(err.message || 'An error occurred. Please try again.');
       }
