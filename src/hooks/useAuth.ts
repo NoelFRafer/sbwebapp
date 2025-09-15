@@ -38,11 +38,19 @@ export function useAuth() {
   useEffect(() => {
     // Get initial session
     const getInitialSession = async () => {
-      const { data: { session } } = await supabase.auth.getSession();
-      const currentUser = session?.user ?? null;
-      setUser(currentUser);
-      await checkUserRole(currentUser);
-      setLoading(false);
+      try {
+        const { data: { session } } = await supabase.auth.getSession();
+        const currentUser = session?.user ?? null;
+        setUser(currentUser);
+        await checkUserRole(currentUser);
+      } catch (error) {
+        console.error('Error getting initial session:', error);
+        setUser(null);
+        setIsAdmin(false);
+        setUserRole('user');
+      } finally {
+        setLoading(false);
+      }
     };
 
     getInitialSession();
