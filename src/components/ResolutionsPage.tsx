@@ -33,11 +33,10 @@ const countMatches = (text: string, searchTerm: string) => {
   if (terms.length === 0) return 0;
   
   let totalMatches = 0;
-  const lowerText = text.toLowerCase();
   
   terms.forEach(term => {
-    const regex = new RegExp(`\\b${term.toLowerCase()}\\b`, 'g');
-    const matches = lowerText.match(regex);
+    const regex = new RegExp(term, 'gi');
+    const matches = text.match(regex);
     if (matches) {
       totalMatches += matches.length;
     }
