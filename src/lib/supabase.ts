@@ -60,7 +60,7 @@ export interface Resolution {
 export interface UserRole {
   id: string;
   user_id: string;
-  role: 'admin' | 'user';
+  role: 'admin' | 'user' | 'moderator' | 'editor';
   created_at: string;
   updated_at: string;
 }
