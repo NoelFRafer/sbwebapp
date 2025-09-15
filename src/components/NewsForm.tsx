@@ -8,7 +8,7 @@ interface NewsFormProps {
 }
 
 export function NewsForm({ onBack }: NewsFormProps) {
-  const { user, isAuthenticated } = useAuth();
+  const { user, isAuthenticated, isAdmin, roleLoading } = useAuth();
 
   const [formData, setFormData] = useState({
     title: '',
@@ -62,8 +62,8 @@ export function NewsForm({ onBack }: NewsFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!isAuthenticated) {
-      setError('You must be logged in to add news items');
+    if (!isAuthenticated || !isAdmin) {
+      setError('You must be logged in as an administrator to add news items');
       return;
     }
     
@@ -123,6 +123,41 @@ export function NewsForm({ onBack }: NewsFormProps) {
     setError(null);
     setSuccess(false);
   };
+
+  // Show loading while checking role
+  if (roleLoading) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="flex items-center justify-center p-8">
+          <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+          <span className="ml-2 text-gray-600">Checking permissions...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Show access denied if not admin
+  if (!isAdmin) {
+    return (
+      <div className="max-w-4xl mx-auto">
+        <div className="text-center p-12 bg-red-50 rounded-lg border border-red-200">
+          <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
+          <h3 className="text-lg font-medium text-red-900 mb-2">
+            Administrative Access Required
+          </h3>
+          <p className="text-red-700 mb-4">
+            You need administrative privileges to add news items. Please contact your system administrator if you believe you should have access.
+          </p>
+          <button
+            onClick={onBack}
+            className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+          >
+            Back to News
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto">

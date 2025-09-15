@@ -17,7 +17,7 @@ const countHighlightTags = (text: string) => {
 };
 
 function App() {
-  const { user, loading: authLoading, signOut, isAuthenticated } = useAuth();
+  const { user, loading: authLoading, signOut, isAuthenticated, isAdmin, roleLoading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'resolutions' | 'add-news'>('home');
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -65,12 +65,14 @@ function App() {
   };
 
   // Show loading spinner while checking authentication
-  if (authLoading) {
+  if (authLoading || roleLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex items-center gap-3">
           <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-          <span className="text-gray-600">Loading...</span>
+          <span className="text-gray-600">
+            {authLoading ? 'Loading...' : 'Checking permissions...'}
+          </span>
         </div>
       </div>
     );
@@ -131,7 +133,10 @@ function App() {
         <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-2 bg-blue-600 px-3 py-1 rounded-full">
             <User size={16} />
-            <span className="text-sm">{user?.user_metadata?.full_name || user?.email || 'User'}</span>
+            <span className="text-sm">
+              {user?.user_metadata?.full_name || user?.email || 'User'}
+              {isAdmin && <span className="ml-1 text-yellow-300">(Admin)</span>}
+            </span>
           </div>
           <button 
             onClick={handleSignOut}
@@ -167,6 +172,7 @@ function App() {
               <FileText size={18} />
               <span>News</span>
             </button>
+            {isAdmin && (
             <button 
               onClick={() => setCurrentPage('add-news')}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left ${
@@ -176,6 +182,7 @@ function App() {
               <PlusCircle size={18} />
               <span>Add News</span>
             </button>
+            )}
             <button 
               onClick={() => setCurrentPage('resolutions')}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left ${
@@ -475,8 +482,28 @@ function App() {
             </div>
           )}
           
-          {currentPage === 'add-news' && (
+          {currentPage === 'add-news' && isAdmin && (
             <NewsForm onBack={() => setCurrentPage('news')} />
+          )}
+          
+          {currentPage === 'add-news' && !isAdmin && (
+            <div className="max-w-4xl mx-auto">
+              <div className="text-center p-12 bg-red-50 rounded-lg border border-red-200">
+                <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
+                <h3 className="text-lg font-medium text-red-900 mb-2">
+                  Access Denied
+                </h3>
+                <p className="text-red-700 mb-4">
+                  You need administrative privileges to access this feature.
+                </p>
+                <button
+                  onClick={() => setCurrentPage('home')}
+                  className="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition-colors"
+                >
+                  Go to Home
+                </button>
+              </div>
+            </div>
           )}
           
           {currentPage === 'resolutions' && (

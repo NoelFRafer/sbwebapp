@@ -56,3 +56,49 @@ export interface Resolution {
   highlighted_title?: string;
   highlighted_description?: string;
 }
+
+export interface UserRole {
+  id: string;
+  user_id: string;
+  role: 'admin' | 'user';
+  created_at: string;
+  updated_at: string;
+}
+
+// Helper function to check if user is admin
+export async function isUserAdmin(userId?: string): Promise<boolean> {
+  try {
+    const { data, error } = await supabase.rpc('is_admin', {
+      user_uuid: userId || undefined
+    });
+    
+    if (error) {
+      console.error('Error checking admin status:', error);
+      return false;
+    }
+    
+    return data || false;
+  } catch (error) {
+    console.error('Error checking admin status:', error);
+    return false;
+  }
+}
+
+// Helper function to get user role
+export async function getUserRole(userId?: string): Promise<string> {
+  try {
+    const { data, error } = await supabase.rpc('get_user_role', {
+      user_uuid: userId || undefined
+    });
+    
+    if (error) {
+      console.error('Error getting user role:', error);
+      return 'user';
+    }
+    
+    return data || 'user';
+  } catch (error) {
+    console.error('Error getting user role:', error);
+    return 'user';
+  }
+}
