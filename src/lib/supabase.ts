@@ -68,7 +68,7 @@ export async function isUserAdmin(userId?: string): Promise<boolean> {
   try {
     // Add timeout to prevent hanging
     const timeoutPromise = new Promise<boolean>((_, reject) => {
-      setTimeout(() => reject(new Error('Timeout checking admin status')), 30000);
+      setTimeout(() => reject(new Error('Timeout checking admin status')), 60000);
     });
     
     const adminCheckPromise = supabase.rpc('is_admin', {
@@ -94,7 +94,7 @@ export async function getUserRole(userId?: string): Promise<string> {
   try {
     // Add timeout to prevent hanging
     const timeoutPromise = new Promise<string>((_, reject) => {
-      setTimeout(() => reject(new Error('Timeout getting user role')), 30000);
+      setTimeout(() => reject(new Error('Timeout getting user role')), 60000);
     });
     
     const roleCheckPromise = supabase.rpc('get_user_role', {
