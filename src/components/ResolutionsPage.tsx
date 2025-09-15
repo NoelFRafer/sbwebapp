@@ -3,74 +3,13 @@ import { FileText, ExternalLink, Calendar, Loader2, AlertCircle, Search, X } fro
 import { useResolutions } from '../hooks/useResolutions';
 import { PaginationControls } from './PaginationControls';
 
-// Helper function to highlight search terms
-const highlightText = (text: string, searchTerm: string) => {
-  if (!searchTerm.trim()) return text;
-  
-  // Split search terms and create regex pattern for OR logic
-  const terms = searchTerm
-    .trim()
-    .split(/\s+/)
-    .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // Escape regex special characters
-    .filter(term => term.length > 0);
-  
-  if (terms.length === 0) return text;
-  
-  const pattern = new RegExp(`(${terms.join('|')})`, 'gi');
-  return text.replace(pattern, '<mark>$1</mark>');
+// Helper function to count highlight tags
+const countHighlightTags = (text: string) => {
+  if (!text) return 0;
+  const matches = text.match(/<mark>/g);
+  return matches ? matches.length : 0;
 };
 
-// Helper function to count matches in text
-const countMatches = (text: string, searchTerm: string) => {
-  if (!searchTerm.trim() || !text) return 0;
-  
-  const terms = searchTerm
-    .trim()
-    .split(/\s+/)
-    .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-    .filter(term => term.length > 0);
-  
-  if (terms.length === 0) return 0;
-  
-  let totalMatches = 0;
-  
-  terms.forEach(term => {
-    const regex = new RegExp(term, 'gi');
-    const matches = text.match(regex);
-    if (matches) {
-      totalMatches += matches.length;
-    }
-  });
-  
-  return totalMatches;
-};
-
-// Helper function to calculate total matches for a resolution
-const calculateTotalMatches = (resolution: Resolution, searchTerm: string) => {
-  const titleMatches = countMatches(resolution.title, searchTerm);
-  const descriptionMatches = countMatches(resolution.description, searchTerm);
-  const numberMatches = countMatches(resolution.resolution_number, searchTerm);
-  
-  return titleMatches + descriptionMatches + numberMatches;
-};
-
-// Helper function to sort resolutions by match count
-const sortByMatches = (resolutions: Resolution[], searchTerm: string) => {
-  if (!searchTerm.trim()) return resolutions;
-  
-  return [...resolutions].sort((a, b) => {
-    const matchesA = calculateTotalMatches(a, searchTerm);
-    const matchesB = calculateTotalMatches(b, searchTerm);
-    
-    // Primary sort: by match count (descending)
-    if (matchesA !== matchesB) {
-      return matchesB - matchesA;
-    }
-    
-    // Secondary sort: by date (descending) for ties
-    return new Date(b.date_approved).getTime() - new Date(a.date_approved).getTime();
-  });
-};
 export function ResolutionsPage() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState('');
@@ -189,7 +128,10 @@ export function ResolutionsPage() {
         <>
         <div className="space-y-6">
           {resolutions.map((resolution) => {
-            const totalMatches = debouncedSearchTerm ? calculateTotalMatches(resolution, debouncedSearchTerm) : 0;
+            const numberMatches = countHighlightTags(resolution.highlighted_resolution_number || '');
+            const titleMatches = countHighlightTags(resolution.highlighted_title || '');
+            const descriptionMatches = countHighlightTags(resolution.highlighted_description || '');
+            const totalMatches = numberMatches + titleMatches + descriptionMatches;
             
             return (
             <div
@@ -199,11 +141,11 @@ export function ResolutionsPage() {
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 <div className="flex-1">
                   <h2 className="text-lg font-semibold text-white mb-2 px-3 py-1 bg-slate-700 rounded-md border-l-4 border-blue-400">
-                    <span 
-                      dangerouslySetInnerHTML={{ 
-                        __html: highlightText(resolution.resolution_number, debouncedSearchTerm) 
-                      }} 
-                    />
+                    {debouncedSearchTerm && resolution.highlighted_resolution_number ? (
+                      <span dangerouslySetInnerHTML={{ __html: resolution.highlighted_resolution_number }} />
+                    ) : (
+                      resolution.resolution_number
+                    )}
                   </h2>  
                   
                   <div className="flex items-center gap-3 mb-2">
@@ -225,11 +167,11 @@ export function ResolutionsPage() {
                   </div>
                   
                   <h3 className="text-xl font-semibold text-white mb-3 leading-tight">
-                    <span 
-                      dangerouslySetInnerHTML={{ 
-                        __html: highlightText(resolution.title, debouncedSearchTerm) 
-                      }} 
-                    />
+                    {debouncedSearchTerm && resolution.highlighted_title ? (
+                      <span dangerouslySetInnerHTML={{ __html: resolution.highlighted_title }} />
+                    ) : (
+                      resolution.title
+                    )}
                   </h3>
                   
                   <div className="flex items-center text-sm text-blue-300 mb-4">
@@ -238,11 +180,11 @@ export function ResolutionsPage() {
                   </div>
                   
                   <div className="text-gray-300 leading-relaxed text-sm">
-                    <span 
-                      dangerouslySetInnerHTML={{ 
-                        __html: highlightText(resolution.description, debouncedSearchTerm) 
-                      }} 
-                    />
+                    {debouncedSearchTerm && resolution.highlighted_description ? (
+                      <span dangerouslySetInnerHTML={{ __html: resolution.highlighted_description }} />
+                    ) : (
+                      resolution.description
+                    )}
                   </div>
                 </div>
                 

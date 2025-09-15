@@ -6,72 +6,11 @@ import { ImageWithFallback } from './components/ImageWithFallback';
 import { ResolutionsPage } from './components/ResolutionsPage';
 import { PaginationControls } from './components/PaginationControls';
 
-// Helper function to highlight search terms
-const highlightText = (text: string, searchTerm: string) => {
-  if (!searchTerm.trim()) return text;
-  
-  // Split search terms and create regex pattern for OR logic
-  const terms = searchTerm
-    .trim()
-    .split(/\s+/)
-    .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')) // Escape regex special characters
-    .filter(term => term.length > 0);
-  
-  if (terms.length === 0) return text;
-  
-  const pattern = new RegExp(`(${terms.join('|')})`, 'gi');
-  return text.replace(pattern, '<mark>$1</mark>');
-};
-
-// Helper function to count matches in text
-const countMatches = (text: string, searchTerm: string) => {
-  if (!searchTerm.trim() || !text) return 0;
-  
-  const terms = searchTerm
-    .trim()
-    .split(/\s+/)
-    .map(term => term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
-    .filter(term => term.length > 0);
-  
-  if (terms.length === 0) return 0;
-  
-  let totalMatches = 0;
-  
-  terms.forEach(term => {
-    const regex = new RegExp(term, 'gi');
-    const matches = text.match(regex);
-    if (matches) {
-      totalMatches += matches.length;
-    }
-  });
-  
-  return totalMatches;
-};
-
-// Helper function to calculate total matches for a news item
-const calculateNewsMatches = (newsItem: any, searchTerm: string) => {
-  const titleMatches = countMatches(newsItem.title, searchTerm);
-  const contentMatches = countMatches(newsItem.content, searchTerm);
-  
-  return titleMatches + contentMatches;
-};
-
-// Helper function to sort news by match count
-const sortNewsByMatches = (newsItems: any[], searchTerm: string) => {
-  if (!searchTerm.trim()) return newsItems;
-  
-  return [...newsItems].sort((a, b) => {
-    const matchesA = calculateNewsMatches(a, searchTerm);
-    const matchesB = calculateNewsMatches(b, searchTerm);
-    
-    // Primary sort: by match count (descending)
-    if (matchesA !== matchesB) {
-      return matchesB - matchesA;
-    }
-    
-    // Secondary sort: by date (descending) for ties
-    return new Date(b.date).getTime() - new Date(a.date).getTime();
-  });
+// Helper function to count highlight tags
+const countHighlightTags = (text: string) => {
+  if (!text) return 0;
+  const matches = text.match(/<mark>/g);
+  return matches ? matches.length : 0;
 };
 
 function App() {
@@ -335,17 +274,19 @@ function App() {
             <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 w-full max-w-full overflow-hidden">
               {newsItems.map((news) => {
-                const totalMatches = debouncedNewsSearchTerm ? calculateNewsMatches(news, debouncedNewsSearchTerm) : 0;
+                const titleMatches = countHighlightTags(news.highlighted_title || '');
+                const contentMatches = countHighlightTags(news.highlighted_content || '');
+                const totalMatches = titleMatches + contentMatches;
                 
                 return (
                 <div key={news.id} className="bg-slate-800 text-white rounded-xl p-4 lg:p-6 hover:bg-slate-700 transition-colors overflow-hidden max-w-full">
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <h3 className="text-base lg:text-lg font-semibold leading-tight line-clamp-2 flex-1">
-                      <span 
-                        dangerouslySetInnerHTML={{ 
-                          __html: highlightText(news.title, debouncedNewsSearchTerm) 
-                        }} 
-                      />
+                      {debouncedNewsSearchTerm && news.highlighted_title ? (
+                        <span dangerouslySetInnerHTML={{ __html: news.highlighted_title }} />
+                      ) : (
+                        news.title
+                      )}
                     </h3>
                     {debouncedNewsSearchTerm && totalMatches > 0 && (
                       <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full flex-shrink-0">
@@ -355,11 +296,11 @@ function App() {
                   </div>
                   <p className="text-blue-300 text-sm mb-4">{formatDate(news.date)}</p>
                   <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">
-                    <span 
-                      dangerouslySetInnerHTML={{ 
-                        __html: highlightText(news.content, debouncedNewsSearchTerm) 
-                      }} 
-                    />
+                    {debouncedNewsSearchTerm && news.highlighted_content ? (
+                      <span dangerouslySetInnerHTML={{ __html: news.highlighted_content }} />
+                    ) : (
+                      news.content
+                    )}
                   </p>
                 </div>
                 );
@@ -439,17 +380,19 @@ function App() {
                   <>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 lg:gap-6 w-full max-w-full overflow-hidden">
                     {newsItems.map((news) => {
-                      const totalMatches = debouncedNewsSearchTerm ? calculateNewsMatches(news, debouncedNewsSearchTerm) : 0;
+                      const titleMatches = countHighlightTags(news.highlighted_title || '');
+                      const contentMatches = countHighlightTags(news.highlighted_content || '');
+                      const totalMatches = titleMatches + contentMatches;
                       
                       return (
                       <div key={news.id} className="bg-slate-800 text-white rounded-xl p-4 lg:p-6 hover:bg-slate-700 transition-colors overflow-hidden max-w-full">
                         <div className="flex items-start justify-between gap-2 mb-3">
                           <h3 className="text-base lg:text-lg font-semibold leading-tight line-clamp-2 flex-1">
-                            <span 
-                              dangerouslySetInnerHTML={{ 
-                                __html: highlightText(news.title, debouncedNewsSearchTerm) 
-                              }} 
-                            />
+                            {debouncedNewsSearchTerm && news.highlighted_title ? (
+                              <span dangerouslySetInnerHTML={{ __html: news.highlighted_title }} />
+                            ) : (
+                              news.title
+                            )}
                           </h3>
                           {debouncedNewsSearchTerm && totalMatches > 0 && (
                             <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-100 text-green-800 rounded-full flex-shrink-0">
@@ -459,11 +402,11 @@ function App() {
                         </div>
                         <p className="text-blue-300 text-sm mb-4">{formatDate(news.date)}</p>
                         <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">
-                          <span 
-                            dangerouslySetInnerHTML={{ 
-                              __html: highlightText(news.content, debouncedNewsSearchTerm) 
-                            }} 
-                          />
+                          {debouncedNewsSearchTerm && news.highlighted_content ? (
+                            <span dangerouslySetInnerHTML={{ __html: news.highlighted_content }} />
+                          ) : (
+                            news.content
+                          )}
                         </p>
                       </div>
                       );

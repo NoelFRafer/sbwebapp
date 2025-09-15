@@ -34,9 +34,9 @@ export interface NewsItem {
   order_index: number;
   created_at: string;
   updated_at: string;
-  fts_document?: string; // Optional since it's generated automatically
-  highlighted_title?: string; // Highlighted title from search
-  highlighted_content?: string; // Highlighted content from search
+  fts_document?: string;
+  highlighted_title?: string;
+  highlighted_content?: string;
 }
 
 export interface Resolution {
@@ -51,7 +51,8 @@ export interface Resolution {
   is_featured: boolean;
   created_at: string;
   updated_at: string;
-  fts_document?: string; // Optional since it's generated automatically
-  highlighted_title?: string; // Highlighted title from ts_headline
-  highlighted_description?: string; // Highlighted description from ts_headline
+  fts_document?: string;
+  highlighted_resolution_number?: string;
+  highlighted_title?: string;
+  highlighted_description?: string;
 }
