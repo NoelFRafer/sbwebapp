@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
-import { Menu, Home, FileText, User, LogOut, Loader2, AlertCircle, Scale, Search, X, ChevronLeft, ChevronRight, PlusCircle } from 'lucide-react';
+import { Menu, Home, FileText, User, LogOut, Loader2, AlertCircle, Scale, Search, X, ChevronLeft, ChevronRight, PlusCircle, Settings } from 'lucide-react';
 import { useSlides } from './hooks/useSlides';
 import { useNews } from './hooks/useNews';
+import { useAuth } from './hooks/useAuth';
 import { ImageWithFallback } from './components/ImageWithFallback';
 import { ResolutionsPage } from './components/ResolutionsPage';
 import { PaginationControls } from './components/PaginationControls';
 import { NewsForm } from './components/NewsForm';
+import { AuthForm } from './components/AuthForm';
 
 // Helper function to count highlight tags
 const countHighlightTags = (text: string) => {
@@ -15,6 +17,7 @@ const countHighlightTags = (text: string) => {
 };
 
 function App() {
+  const { user, loading: authLoading, signOut, isAuthenticated } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'resolutions' | 'add-news'>('home');
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -46,6 +49,37 @@ function App() {
   const clearNewsSearch = () => {
     setNewsSearchTerm('');
   };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut();
+      setCurrentPage('home');
+    } catch (error) {
+      console.error('Error signing out:', error);
+    }
+  };
+
+  const handleAuthSuccess = () => {
+    // Redirect to home page after successful authentication
+    setCurrentPage('home');
+  };
+
+  // Show loading spinner while checking authentication
+  if (authLoading) {
+    return (
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+        <div className="flex items-center gap-3">
+          <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
+          <span className="text-gray-600">Loading...</span>
+        </div>
+      </div>
+    );
+  }
+
+  // Show authentication form if user is not authenticated
+  if (!isAuthenticated) {
+    return <AuthForm onAuthSuccess={handleAuthSuccess} />;
+  }
 
   // Format date for display
   const formatDate = (dateString: string) => {
@@ -88,20 +122,23 @@ function App() {
         <div className="flex items-center gap-4">
           <button
             onClick={() => setSidebarOpen(!sidebarOpen)}
-            className="p-2 hover:bg-blue-600 rounded-lg transition-colors lg:hidden"
+            className="p-2 hover:bg-blue-600 rounded-lg transition-colors md:hidden"
           >
             <Menu size={20} />
           </button>
           <h1 className="text-xl font-semibold">The Sangguniang Bayan ng Capalonga</h1>
         </div>
-        <div className="flex flex flex-col lg:flex-row  items-center gap-4">
+        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
           <div className="flex items-center gap-2 bg-blue-600 px-3 py-1 rounded-full">
             <User size={16} />
-            <span className="text-sm">SB Capalonga</span>
+            <span className="text-sm">{user?.user_metadata?.full_name || user?.email || 'User'}</span>
           </div>
-          <button className="flex items-center gap-2 px-3 py-1 hover:bg-blue-600 rounded-lg transition-colors">
+          <button 
+            onClick={handleSignOut}
+            className="flex items-center gap-2 px-3 py-1 hover:bg-blue-600 rounded-lg transition-colors"
+          >
             <LogOut size={16} />
-            <span className="text-sm">Log out</span>
+            <span className="text-sm hidden sm:inline">Log out</span>
           </button>
         </div>
       </header>
@@ -110,7 +147,7 @@ function App() {
         {/* Sidebar */}
         <aside className={`fixed inset-y-0 left-0 z-40 w-64 bg-slate-800 text-white transition-all duration-300 ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        } lg:static lg:translate-x-0 lg:w-64`}>
+        } md:static md:translate-x-0 md:w-64`}>
           <nav className="p-4 space-y-2">
             <button 
               onClick={() => setCurrentPage('home')}
@@ -160,7 +197,7 @@ function App() {
         )}
 
         {/* Main Content */}
-        <main className="flex-1 p-4 lg:p-6 w-full">
+        <main className="flex-1 p-4 md:p-6 w-full">
           {currentPage === 'home' && (
             <div className="max-w-7xl mx-auto w-full">
           {/* Vision, Mission and Trusts Section */}
