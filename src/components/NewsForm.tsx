@@ -80,6 +80,11 @@ export function NewsForm({ onBack }: NewsFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
+    if (!user) {
+      setError('You must be logged in to add news items');
+      return;
+    }
+    
     if (!validateForm()) {
       return;
     }
