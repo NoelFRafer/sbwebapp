@@ -7,6 +7,8 @@ if (!supabaseUrl || !supabaseAnonKey) {
   throw new Error('Missing Supabase environment variables. Please connect to Supabase first.');
 }
 
+export const supabase = createClient(supabaseUrl, supabaseAnonKey);
+
 // Types for our database tables
 export interface Slide {
   id: string;
