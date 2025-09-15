@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { Menu, Home, FileText, User, LogOut, Loader2, AlertCircle, Scale, Search, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Menu, Home, FileText, User, LogOut, Loader2, AlertCircle, Scale, Search, X, ChevronLeft, ChevronRight, PlusCircle } from 'lucide-react';
 import { useSlides } from './hooks/useSlides';
 import { useNews } from './hooks/useNews';
 import { ImageWithFallback } from './components/ImageWithFallback';
 import { ResolutionsPage } from './components/ResolutionsPage';
 import { PaginationControls } from './components/PaginationControls';
+import { NewsForm } from './components/NewsForm';
 
 // Helper function to count highlight tags
 const countHighlightTags = (text: string) => {
@@ -15,7 +16,7 @@ const countHighlightTags = (text: string) => {
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'resolutions'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'resolutions' | 'add-news'>('home');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [newsSearchTerm, setNewsSearchTerm] = useState('');
   const [debouncedNewsSearchTerm, setDebouncedNewsSearchTerm] = useState('');
@@ -128,6 +129,15 @@ function App() {
             >
               <FileText size={18} />
               <span>News</span>
+            </button>
+            <button 
+              onClick={() => setCurrentPage('add-news')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left ${
+                currentPage === 'add-news' ? 'bg-blue-700 text-white' : 'hover:bg-slate-700'
+              }`}
+            >
+              <PlusCircle size={18} />
+              <span>Add News</span>
             </button>
             <button 
               onClick={() => setCurrentPage('resolutions')}
@@ -426,6 +436,10 @@ function App() {
                 )}
               </section>
             </div>
+          )}
+          
+          {currentPage === 'add-news' && (
+            <NewsForm onBack={() => setCurrentPage('news')} />
           )}
           
           {currentPage === 'resolutions' && (
