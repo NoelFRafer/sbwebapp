@@ -72,7 +72,7 @@ export async function isUserAdmin(userId?: string): Promise<boolean> {
     });
     
     const adminCheckPromise = supabase.rpc('is_admin', {
-      user_uuid: userId || undefined
+      user_uuid: userId || null
     });
     
     const { data, error } = await Promise.race([adminCheckPromise, timeoutPromise]);
@@ -98,7 +98,7 @@ export async function getUserRole(userId?: string): Promise<string> {
     });
     
     const roleCheckPromise = supabase.rpc('get_user_role', {
-      user_uuid: userId || undefined
+      user_uuid: userId || null
     });
     
     const { data, error } = await Promise.race([roleCheckPromise, timeoutPromise]);

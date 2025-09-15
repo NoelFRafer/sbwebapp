@@ -83,7 +83,7 @@ export function useAuth() {
       const { error } = await supabase.auth.signOut();
       if (error) {
         // Handle the specific case where session is already missing
-        if (error.message === 'Auth session missing!') {
+        if (error.message === 'Auth session missing!' || error.message === 'Session from session_id claim in JWT does not exist') {
           console.warn('Session already expired or missing during sign out');
         } else {
           console.error('Error signing out:', error);
