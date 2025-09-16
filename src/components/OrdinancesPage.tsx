@@ -282,7 +282,7 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
             >
               {/* Header */}
               <div className="bg-slate-800 text-white p-4">
-                <div className="flex items-start justify-between gap-2 mb-2">
+                <div className="flex items-start justify-between gap-2 mb-0">
                   <h3 className="text-lg font-bold text-yellow-300">
                     Ordinance: {' '}
                     {debouncedSearchTerm && ordinance.highlighted_resolution_number ? (
@@ -298,7 +298,7 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
                     </span>
                   )}
                 </div>
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-gray-500  mb-2">
                   {ordinance.resolution_number}
                 </p>                
                 <div className="flex flex-wrap items-center gap-2">
