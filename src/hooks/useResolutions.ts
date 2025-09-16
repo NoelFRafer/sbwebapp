@@ -21,20 +21,10 @@ export function useResolutions(searchTerm?: string, itemsPerPage: number = 5, wi
 
         const offset = (currentPage - 1) * itemsPerPage;
         
-        // Build dynamic select string based on search term
-        const selectString = searchTerm?.trim() 
-          ? `
-            *,
-            ts_headline('english', resolution_number, websearch_to_tsquery('english', $1)) as highlighted_resolution_number,
-            ts_headline('english', title, websearch_to_tsquery('english', $1)) as highlighted_title,
-            ts_headline('english', description, websearch_to_tsquery('english', $1)) as highlighted_description
-          `
-          : '*';
-        
         // Build query with filters
         let query = supabase
           .from('resolutions')
-          .select(selectString, { count: 'exact' })
+          .select('*', { count: 'exact' })
           .eq('is_active', true);
 
         // Apply filters
@@ -47,8 +37,7 @@ export function useResolutions(searchTerm?: string, itemsPerPage: number = 5, wi
 
         // Apply search if provided
         if (searchTerm?.trim()) {
-          const cleanSearchTerm = searchTerm.trim();
-          query = query.textSearch('fts_document', cleanSearchTerm);
+          query = query.textSearch('fts_document', searchTerm.trim());
         }
 
         // Apply pagination and ordering
