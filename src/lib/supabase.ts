@@ -66,23 +66,22 @@ export interface UserRole {
 // Helper function to check if user is admin
 export async function isUserAdmin(userId?: string): Promise<boolean> {
   try {
-    // Add timeout to prevent hanging
-    const timeoutPromise = new Promise<boolean>((_, reject) => {
-      setTimeout(() => reject(new Error('Timeout checking admin status')), 60000);
-    });
+    // Check if user_roles table exists and user has admin role
+    if (!userId) return false;
     
-    const adminCheckPromise = supabase.rpc('is_admin', {
-      user_uuid: userId || null
-    });
+    const { data, error } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', userId)
+      .eq('role', 'admin')
+      .single();
     
-    const { data, error } = await Promise.race([adminCheckPromise, timeoutPromise]);
-    
-    if (error) {
+    if (error && error.code !== 'PGRST116') {
       console.error('Error checking admin status:', error);
       return false;
     }
     
-    return data || false;
+    return !!data;
   } catch (error) {
     console.error('Error checking admin status:', error);
     return false;
@@ -92,23 +91,21 @@ export async function isUserAdmin(userId?: string): Promise<boolean> {
 // Helper function to get user role
 export async function getUserRole(userId?: string): Promise<string> {
   try {
-    // Add timeout to prevent hanging
-    const timeoutPromise = new Promise<string>((_, reject) => {
-      setTimeout(() => reject(new Error('Timeout getting user role')), 60000);
-    });
+    // Get user role from user_roles table
+    if (!userId) return 'user';
     
-    const roleCheckPromise = supabase.rpc('get_user_role', {
-      user_uuid: userId || null
-    });
+    const { data, error } = await supabase
+      .from('user_roles')
+      .select('role')
+      .eq('user_id', userId)
+      .single();
     
-    const { data, error } = await Promise.race([roleCheckPromise, timeoutPromise]);
-    
-    if (error) {
+    if (error && error.code !== 'PGRST116') {
       console.error('Error getting user role:', error);
       return 'user';
     }
     
-    return data || 'user';
+    return data?.role || 'user';
   } catch (error) {
     console.error('Error getting user role:', error);
     return 'user';

@@ -22,11 +22,12 @@ export function useNews(searchTerm?: string, itemsPerPage: number = 5, isFeature
         const offset = (currentPage - 1) * itemsPerPage;
         
         // Build dynamic select string based on search term
+        const escapedSearchTerm = searchTerm?.trim().replace(/'/g, "''");
         const selectString = searchTerm?.trim() 
           ? `
             *,
-            ts_headline('english', title, websearch_to_tsquery('english', '${searchTerm.trim()}')) as highlighted_title,
-            ts_headline('english', content, websearch_to_tsquery('english', '${searchTerm.trim()}')) as highlighted_content
+            ts_headline('english', title, websearch_to_tsquery('english', '${escapedSearchTerm}')) as highlighted_title,
+            ts_headline('english', content, websearch_to_tsquery('english', '${escapedSearchTerm}')) as highlighted_content
           `
           : '*';
         

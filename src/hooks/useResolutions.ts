@@ -22,12 +22,13 @@ export function useResolutions(searchTerm?: string, itemsPerPage: number = 5, wi
         const offset = (currentPage - 1) * itemsPerPage;
         
         // Build dynamic select string based on search term
+        const escapedSearchTerm = searchTerm?.trim().replace(/'/g, "''");
         const selectString = searchTerm?.trim() 
           ? `
             *,
-            ts_headline('english', resolution_number, websearch_to_tsquery('english', '${searchTerm.trim()}')) as highlighted_resolution_number,
-            ts_headline('english', title, websearch_to_tsquery('english', '${searchTerm.trim()}')) as highlighted_title,
-            ts_headline('english', description, websearch_to_tsquery('english', '${searchTerm.trim()}')) as highlighted_description
+            ts_headline('english', resolution_number, websearch_to_tsquery('english', '${escapedSearchTerm}')) as highlighted_resolution_number,
+            ts_headline('english', title, websearch_to_tsquery('english', '${escapedSearchTerm}')) as highlighted_title,
+            ts_headline('english', description, websearch_to_tsquery('english', '${escapedSearchTerm}')) as highlighted_description
           `
           : '*';
         
