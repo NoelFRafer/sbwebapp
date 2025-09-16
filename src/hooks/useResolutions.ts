@@ -37,8 +37,11 @@ export function useResolutions(searchTerm?: string, itemsPerPage: number = 5, wi
 
         // Apply search if provided
         if (searchTerm?.trim()) {
-          // Transform search term for tsquery: replace spaces with & for AND search
-          const formattedSearchTerm = searchTerm.trim().replace(/\s+/g, ' & ');
+          // Transform search term for tsquery: split words and use OR logic with prefix matching
+          const formattedSearchTerm = searchTerm.trim()
+            .split(/\s+/)
+            .map(word => `${word}:*`)
+            .join(' | ');
           query = query.textSearch('fts_document', formattedSearchTerm);
         }
 
