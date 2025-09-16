@@ -291,7 +291,7 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
                       ordinance.ordinance_number || ordinance.resolution_number
                     )}
                   </h3>
-                  <p className="text-sm text-gray-500">
+                  <p className="text-sm text-gray-200">
                     {ordinance.resolution_number}
                   </p>
                   {debouncedSearchTerm && totalMatches > 0 && (
