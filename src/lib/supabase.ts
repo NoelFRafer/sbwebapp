@@ -40,6 +40,7 @@ export interface NewsItem {
 export interface Resolution {
   id: string;
   resolution_number: string;
+  ordinance_number: string | null;
   title: string;
   date_approved: string;
   description: string;

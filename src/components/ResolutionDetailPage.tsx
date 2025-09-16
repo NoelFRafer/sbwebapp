@@ -235,6 +235,14 @@ export function ResolutionDetailPage({ resolutionId, onBack }: ResolutionDetailP
             <p className="text-2xl font-bold">{resolution.resolution_number}</p>
           </div>
 
+          {/* Ordinance Number (if applicable) */}
+          {resolution.with_ordinance && resolution.ordinance_number && (
+            <div className="mb-4">
+              <h2 className="text-lg font-semibold text-blue-300 mb-1">Ordinance Number</h2>
+              <p className="text-2xl font-bold">{resolution.ordinance_number}</p>
+            </div>
+          )}
+
           {/* Title */}
           <h1 className="text-2xl lg:text-3xl font-bold text-white mb-6 leading-tight">
             {resolution.title}
