@@ -8,7 +8,7 @@ interface NewsFormProps {
 }
 
 export function NewsForm({ onBack }: NewsFormProps) {
-  const { user, isAuthenticated, isAdmin, roleLoading } = useAuth();
+  const { user, isAuthenticated, isAdmin, roleLoading, isAuthEnabled } = useAuth();
 
   const [formData, setFormData] = useState({
     title: '',
@@ -137,7 +137,7 @@ export function NewsForm({ onBack }: NewsFormProps) {
   }
 
   // Show access denied if not admin
-  if (import.meta.env.VITE_ENABLE_AUTH !== 'false' && !isAdmin) {
+  if (isAuthEnabled && !isAdmin) {
     return (
       <div className="max-w-4xl mx-auto">
         <div className="text-center p-12 bg-red-50 rounded-lg border border-red-200">

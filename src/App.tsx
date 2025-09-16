@@ -19,7 +19,7 @@ const countHighlightTags = (text: string) => {
 };
 
 function App() {
-  const { user, loading: authLoading, signOut, isAuthenticated, isAdmin, roleLoading } = useAuth();
+  const { user, loading: authLoading, signOut, isAuthenticated, isAdmin, roleLoading, isAuthEnabled } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'news-detail' | 'resolutions' | 'resolution-detail' | 'add-news'>('home');
   const [currentSlide, setCurrentSlide] = useState(0);

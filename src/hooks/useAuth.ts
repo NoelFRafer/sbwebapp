@@ -123,6 +123,7 @@ export function useAuth() {
     roleLoading,
     signOut,
     isAuthenticated: !!user,
-    refreshRole: () => checkUserRole(user)
+    refreshRole: () => checkUserRole(user),
+    isAuthEnabled
   };
 }
