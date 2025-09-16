@@ -62,7 +62,7 @@ export function NewsForm({ onBack }: NewsFormProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!isAuthenticated || !isAdmin) {
+    if (!isAuthenticated || (!isAdmin && import.meta.env.VITE_ENABLE_AUTH !== 'false')) {
       setError('You must be logged in as an administrator to add news items');
       return;
     }
@@ -137,7 +137,7 @@ export function NewsForm({ onBack }: NewsFormProps) {
   }
 
   // Show access denied if not admin
-  if (!isAdmin) {
+  if (import.meta.env.VITE_ENABLE_AUTH !== 'false' && !isAdmin) {
     return (
       <div className="max-w-4xl mx-auto">
         <div className="text-center p-12 bg-red-50 rounded-lg border border-red-200">

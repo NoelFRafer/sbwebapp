@@ -2,12 +2,29 @@ import { useState, useEffect } from 'react';
 import { User } from '@supabase/supabase-js';
 import { supabase, isUserAdmin, getUserRole } from '../lib/supabase';
 
+// Check if authentication is enabled via environment variable
+const isAuthEnabled = import.meta.env.VITE_ENABLE_AUTH !== 'false';
+
 export function useAuth() {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [isAdmin, setIsAdmin] = useState(false);
   const [userRole, setUserRole] = useState<string>('user');
   const [roleLoading, setRoleLoading] = useState(false);
+
+  // If authentication is disabled, return mock authenticated state
+  if (!isAuthEnabled) {
+    return {
+      user: null,
+      loading: false,
+      isAdmin: false,
+      userRole: 'user',
+      roleLoading: false,
+      signOut: async () => {},
+      isAuthenticated: true, // Mock as authenticated to bypass auth checks
+      refreshRole: () => Promise.resolve()
+    };
+  }
 
   // Function to check user role
   const checkUserRole = async (currentUser: User | null) => {

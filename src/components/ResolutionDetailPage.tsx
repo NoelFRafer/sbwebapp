@@ -20,6 +20,9 @@ import {
 import { useResolutionItem } from '../hooks/useResolutionItem';
 import { useAuth } from '../hooks/useAuth';
 
+// Check if authentication is enabled via environment variable
+const isAuthEnabled = import.meta.env.VITE_ENABLE_AUTH !== 'false';
+
 interface ResolutionDetailPageProps {
   resolutionId: string;
   onBack: () => void;
@@ -176,7 +179,7 @@ export function ResolutionDetailPage({ resolutionId, onBack }: ResolutionDetailP
             <span className="hidden sm:inline">Print</span>
           </button>
 
-          {isAdmin && (
+          {(!isAuthEnabled || isAdmin) && (
             <>
               <button
                 onClick={handleEdit}

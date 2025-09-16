@@ -113,7 +113,7 @@ function App() {
   }
 
   // Show authentication form if user is not authenticated
-  if (!isAuthenticated) {
+  if (isAuthEnabled && !isAuthenticated) {
     return <AuthForm onAuthSuccess={handleAuthSuccess} />;
   }
 
@@ -164,22 +164,24 @@ function App() {
           </button>
           <h1 className="text-xl font-semibold">The Sangguniang Bayan ng Capalonga</h1>
         </div>
-        <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
-          <div className="flex items-center gap-2 bg-blue-600 px-3 py-1 rounded-full">
-            <User size={16} />
-            <span className="text-sm">
-              {user?.user_metadata?.full_name || user?.email || 'User'}
-              {isAdmin && <span className="ml-1 text-yellow-300">(Admin)</span>}
-            </span>
+        {isAuthEnabled && (
+          <div className="flex flex-col sm:flex-row items-center gap-2 sm:gap-4">
+            <div className="flex items-center gap-2 bg-blue-600 px-3 py-1 rounded-full">
+              <User size={16} />
+              <span className="text-sm">
+                {user?.user_metadata?.full_name || user?.email || 'User'}
+                {isAdmin && <span className="ml-1 text-yellow-300">(Admin)</span>}
+              </span>
+            </div>
+            <button 
+              onClick={handleSignOut}
+              className="flex items-center gap-2 px-3 py-1 hover:bg-blue-600 rounded-lg transition-colors"
+            >
+              <LogOut size={16} />
+              <span className="text-sm hidden sm:inline">Log out</span>
+            </button>
           </div>
-          <button 
-            onClick={handleSignOut}
-            className="flex items-center gap-2 px-3 py-1 hover:bg-blue-600 rounded-lg transition-colors"
-          >
-            <LogOut size={16} />
-            <span className="text-sm hidden sm:inline">Log out</span>
-          </button>
-        </div>
+        )}
       </header>
 
       <div className="flex flex-1">
@@ -206,7 +208,7 @@ function App() {
               <FileText size={18} />
               <span>News</span>
             </button>
-            {isAdmin && (
+            {(!isAuthEnabled || isAdmin) && (
             <button 
               onClick={() => setCurrentPage('add-news')}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left ${
@@ -797,7 +799,7 @@ function App() {
             <NewsForm onBack={() => setCurrentPage('news')} />
           )}
           
-          {currentPage === 'add-news' && !isAdmin && (
+          {currentPage === 'add-news' && isAuthEnabled && !isAdmin && (
             <div className="max-w-4xl mx-auto">
               <div className="text-center p-12 bg-red-50 rounded-lg border border-red-200">
                 <AlertCircle className="w-16 h-16 text-red-400 mx-auto mb-4" />
