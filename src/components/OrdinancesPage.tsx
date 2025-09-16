@@ -258,7 +258,7 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
         </div>
       ) : (
         <>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 gap-6">
           {ordinances.map((ordinance) => {
             const numberMatches = countHighlightTags(ordinance.highlighted_resolution_number || '');
             const titleMatches = countHighlightTags(ordinance.highlighted_title || '');
@@ -284,6 +284,7 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
               <div className="bg-slate-800 text-white p-4">
                 <div className="flex items-start justify-between gap-2 mb-2">
                   <h3 className="text-lg font-bold text-yellow-300">
+                    Ordinance: {' '}
                     {debouncedSearchTerm && ordinance.highlighted_resolution_number ? (
                       <span dangerouslySetInnerHTML={{ __html: ordinance.highlighted_resolution_number }} />
                     ) : (
