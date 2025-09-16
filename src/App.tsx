@@ -5,8 +5,10 @@ import { useNews } from './hooks/useNews';
 import { useAuth } from './hooks/useAuth';
 import { ImageWithFallback } from './components/ImageWithFallback';
 import { ResolutionsPage } from './components/ResolutionsPage';
+import { OrdinancesPage } from './components/OrdinancesPage';
 import { NewsDetailPage } from './components/NewsDetailPage';
 import { ResolutionDetailPage } from './components/ResolutionDetailPage';
+import { OrdinanceDetailPage } from './components/OrdinanceDetailPage';
 import { PaginationControls } from './components/PaginationControls';
 import { NewsForm } from './components/NewsForm';
 import { AuthForm } from './components/AuthForm';
@@ -21,10 +23,11 @@ const countHighlightTags = (text: string) => {
 function App() {
   const { user, loading: authLoading, signOut, isAuthenticated, isAdmin, roleLoading, isAuthEnabled } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'news-detail' | 'resolutions' | 'resolution-detail' | 'add-news'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'news-detail' | 'resolutions' | 'resolution-detail' | 'ordinances' | 'ordinance-detail' | 'add-news'>('home');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedNewsItemId, setSelectedNewsItemId] = useState<string | null>(null);
   const [selectedResolutionItemId, setSelectedResolutionItemId] = useState<string | null>(null);
+  const [selectedOrdinanceItemId, setSelectedOrdinanceItemId] = useState<string | null>(null);
   const [newsSearchTerm, setNewsSearchTerm] = useState('');
   const [debouncedNewsSearchTerm, setDebouncedNewsSearchTerm] = useState('');
   const [newsFilterFeatured, setNewsFilterFeatured] = useState<boolean | undefined>(undefined);
@@ -80,6 +83,16 @@ function App() {
   const handleBackFromResolutionDetail = () => {
     setSelectedResolutionItemId(null);
     setCurrentPage('resolutions');
+  };
+
+  const handleOrdinanceItemClick = (ordinanceId: string) => {
+    setSelectedOrdinanceItemId(ordinanceId);
+    setCurrentPage('ordinance-detail');
+  };
+
+  const handleBackFromOrdinanceDetail = () => {
+    setSelectedOrdinanceItemId(null);
+    setCurrentPage('ordinances');
   };
 
   const hasActiveNewsFilters = newsFilterFeatured !== undefined || newsFilterPriority !== undefined;
@@ -227,6 +240,15 @@ function App() {
             >
               <Scale size={18} />
               <span>Resolutions</span>
+            </button>
+            <button 
+              onClick={() => setCurrentPage('ordinances')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left ${
+                currentPage === 'ordinances' ? 'bg-blue-700 text-white' : 'hover:bg-slate-700'
+              }`}
+            >
+              <Scale size={18} />
+              <span>Ordinances</span>
             </button>
           </nav>
         </aside>
@@ -827,6 +849,17 @@ function App() {
             <ResolutionDetailPage 
               resolutionId={selectedResolutionItemId} 
               onBack={handleBackFromResolutionDetail}
+            />
+          )}
+          
+          {currentPage === 'ordinances' && (
+            <OrdinancesPage onOrdinanceClick={handleOrdinanceItemClick} />
+          )}
+          
+          {currentPage === 'ordinance-detail' && selectedOrdinanceItemId && (
+            <OrdinanceDetailPage 
+              ordinanceId={selectedOrdinanceItemId} 
+              onBack={handleBackFromOrdinanceDetail}
             />
           )}
         </main>
