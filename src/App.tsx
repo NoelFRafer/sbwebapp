@@ -87,12 +87,14 @@ function App() {
   };
 
   // Show loading spinner while checking authentication
-  if (authLoading) {
+  if (authLoading || roleLoading) {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="flex items-center gap-3">
           <Loader2 className="w-8 h-8 animate-spin text-blue-600" />
-          <span className="text-gray-600">Loading...</span>
+          <span className="text-gray-600">
+            {authLoading ? 'Loading...' : 'Checking permissions...'}
+          </span>
         </div>
       </div>
     );
