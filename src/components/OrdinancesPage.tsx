@@ -291,9 +291,7 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
                       ordinance.ordinance_number || ordinance.resolution_number
                     )}
                   </h3>
-                  <p className="text-sm text-gray-500">
-                    {ordinance.resolution_number}
-                  </p>
+
                   {debouncedSearchTerm && totalMatches > 0 && (
                     <span className="inline-flex items-center px-2 py-1 text-xs font-medium bg-green-600 text-green-100 rounded-full flex-shrink-0">
                       {totalMatches} match{totalMatches !== 1 ? 'es' : ''}
