@@ -22,13 +22,12 @@ export function useResolutions(searchTerm?: string, itemsPerPage: number = 5, wi
         const offset = (currentPage - 1) * itemsPerPage;
         
         // Build dynamic select string based on search term
-        const escapedSearchTerm = searchTerm?.trim().replace(/'/g, "''");
         const selectString = searchTerm?.trim() 
           ? `
             *,
-            ts_headline('english', resolution_number, websearch_to_tsquery('english', '${escapedSearchTerm}')) as highlighted_resolution_number,
-            ts_headline('english', title, websearch_to_tsquery('english', '${escapedSearchTerm}')) as highlighted_title,
-            ts_headline('english', description, websearch_to_tsquery('english', '${escapedSearchTerm}')) as highlighted_description
+            ts_headline('english', resolution_number, websearch_to_tsquery('english', $1)) as highlighted_resolution_number,
+            ts_headline('english', title, websearch_to_tsquery('english', $1)) as highlighted_title,
+            ts_headline('english', description, websearch_to_tsquery('english', $1)) as highlighted_description
           `
           : '*';
         
@@ -48,7 +47,8 @@ export function useResolutions(searchTerm?: string, itemsPerPage: number = 5, wi
 
         // Apply search if provided
         if (searchTerm?.trim()) {
-          query = query.textSearch('fts_document', searchTerm.trim());
+          const cleanSearchTerm = searchTerm.trim();
+          query = query.textSearch('fts_document', cleanSearchTerm);
         }
 
         // Apply pagination and ordering

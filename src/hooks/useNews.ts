@@ -22,12 +22,11 @@ export function useNews(searchTerm?: string, itemsPerPage: number = 5, isFeature
         const offset = (currentPage - 1) * itemsPerPage;
         
         // Build dynamic select string based on search term
-        const escapedSearchTerm = searchTerm?.trim().replace(/'/g, "''");
         const selectString = searchTerm?.trim() 
           ? `
             *,
-            ts_headline('english', title, websearch_to_tsquery('english', '${escapedSearchTerm}')) as highlighted_title,
-            ts_headline('english', content, websearch_to_tsquery('english', '${escapedSearchTerm}')) as highlighted_content
+            ts_headline('english', title, websearch_to_tsquery('english', $1)) as highlighted_title,
+            ts_headline('english', content, websearch_to_tsquery('english', $1)) as highlighted_content
           `
           : '*';
         
@@ -46,7 +45,8 @@ export function useNews(searchTerm?: string, itemsPerPage: number = 5, isFeature
 
         // Apply search if provided
         if (searchTerm?.trim()) {
-          query = query.textSearch('fts_document', searchTerm.trim());
+          const cleanSearchTerm = searchTerm.trim();
+          query = query.textSearch('fts_document', cleanSearchTerm);
         }
 
         // Apply pagination and ordering
