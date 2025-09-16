@@ -239,7 +239,7 @@ export function ResolutionDetailPage({ resolutionId, onBack }: ResolutionDetailP
           {resolution.with_ordinance && resolution.ordinance_number && (
             <div className="mb-4">
               <h2 className="text-lg font-semibold text-blue-300 mb-1">Ordinance Number</h2>
-              <p className="text-sm font-bold">{resolution.ordinance_number}</p>
+              <p className="text-sm font-bold text-gray-300">{resolution.ordinance_number}</p>
             </div>
           )}
 
