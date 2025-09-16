@@ -21,10 +21,19 @@ export function useNews(searchTerm?: string, itemsPerPage: number = 5, isFeature
 
         const offset = (currentPage - 1) * itemsPerPage;
         
+        // Build dynamic select string based on search term
+        const selectString = searchTerm?.trim() 
+          ? `
+            *,
+            ts_headline('english', title, websearch_to_tsquery('english', '${searchTerm.trim()}')) as highlighted_title,
+            ts_headline('english', content, websearch_to_tsquery('english', '${searchTerm.trim()}')) as highlighted_content
+          `
+          : '*';
+        
         // Build query with filters
         let query = supabase
           .from('news_items')
-          .select('*', { count: 'exact' });
+          .select(selectString, { count: 'exact' });
 
         // Apply filters
         if (isFeaturedFilter !== undefined) {

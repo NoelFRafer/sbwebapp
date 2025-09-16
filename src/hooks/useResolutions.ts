@@ -21,10 +21,20 @@ export function useResolutions(searchTerm?: string, itemsPerPage: number = 5, wi
 
         const offset = (currentPage - 1) * itemsPerPage;
         
+        // Build dynamic select string based on search term
+        const selectString = searchTerm?.trim() 
+          ? `
+            *,
+            ts_headline('english', resolution_number, websearch_to_tsquery('english', '${searchTerm.trim()}')) as highlighted_resolution_number,
+            ts_headline('english', title, websearch_to_tsquery('english', '${searchTerm.trim()}')) as highlighted_title,
+            ts_headline('english', description, websearch_to_tsquery('english', '${searchTerm.trim()}')) as highlighted_description
+          `
+          : '*';
+        
         // Build query with filters
         let query = supabase
           .from('resolutions')
-          .select('*', { count: 'exact' })
+          .select(selectString, { count: 'exact' })
           .eq('is_active', true);
 
         // Apply filters
