@@ -39,7 +39,7 @@ export function ResolutionsPage({ onResolutionClick }: ResolutionsPageProps) {
     totalResolutions,
     itemsPerPage,
     setCurrentPage
-  } = useResolutions(debouncedSearchTerm, 5, withOrdinanceFilter, isFeaturedFilter);
+  } = useResolutions(debouncedSearchTerm, 3, withOrdinanceFilter, isFeaturedFilter);
 
   const clearSearch = () => {
     setSearchTerm('');
