@@ -298,7 +298,7 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
                     </span>
                   )}
                 </div>
-                <p className="text-xs text-gray-400  mb-2">
+                <p className="text-xs text-gray-500  mb-2">
                   {ordinance.resolution_number}
                 </p>                
                 <div className="flex flex-wrap items-center gap-2">
