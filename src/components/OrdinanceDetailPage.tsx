@@ -248,6 +248,9 @@ export function OrdinanceDetailPage({ ordinanceId, onBack }: OrdinanceDetailPage
             <p className="text-3xl font-bold text-yellow-300">
               {ordinance.ordinance_number || ordinance.resolution_number}
             </p>
+            <p className="text-3xl font-bold text-yellow-300">
+              {ordinance.resolution_number}
+            </p>
           </div>
 
           {/* Title */}
