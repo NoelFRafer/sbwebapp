@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase, type Resolution } from '../lib/supabase';
 
-export function useResolutions(searchTerm?: string, itemsPerPage: number = 5) {
+export function useResolutions(searchTerm?: string, itemsPerPage: number = 5, withOrdinanceFilter?: boolean, isFeaturedFilter?: boolean) {
   const [resolutions, setResolutions] = useState<Resolution[]>([]);
   const [totalResolutions, setTotalResolutions] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -11,7 +11,7 @@ export function useResolutions(searchTerm?: string, itemsPerPage: number = 5) {
   // Reset to page 1 when search term changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm]);
+  }, [searchTerm, withOrdinanceFilter, isFeaturedFilter]);
 
   useEffect(() => {
     async function fetchResolutions() {
@@ -21,25 +21,38 @@ export function useResolutions(searchTerm?: string, itemsPerPage: number = 5) {
 
         const offset = (currentPage - 1) * itemsPerPage;
         
-        // Use the enhanced search function with pagination
-        const { data: response, error: searchError } = await supabase
-          .rpc('search_resolutions', { 
-            _search_query: searchTerm?.trim() || null,
-            _offset: offset,
-            _limit: itemsPerPage
-          });
+        // Build query with filters
+        let query = supabase
+          .from('resolutions')
+          .select('*', { count: 'exact' })
+          .eq('is_active', true);
+
+        // Apply filters
+        if (withOrdinanceFilter !== undefined) {
+          query = query.eq('with_ordinance', withOrdinanceFilter);
+        }
+        if (isFeaturedFilter !== undefined) {
+          query = query.eq('is_featured', isFeaturedFilter);
+        }
+
+        // Apply search if provided
+        if (searchTerm?.trim()) {
+          query = query.textSearch('fts_document', searchTerm.trim());
+        }
+
+        // Apply pagination and ordering
+        query = query
+          .order('date_approved', { ascending: false })
+          .range(offset, offset + itemsPerPage - 1);
+
+        const { data, error: searchError, count } = await query;
 
         if (searchError) {
           throw searchError;
         }
 
-        if (response) {
-          setResolutions(response[0]?.items || []);
-          setTotalResolutions(response[0]?.total_count || 0);
-        } else {
-          setResolutions([]);
-          setTotalResolutions(0);
-        }
+        setResolutions(data || []);
+        setTotalResolutions(count || 0);
       } catch (err) {
         console.error('Error fetching resolutions:', err);
         setError(err instanceof Error ? err.message : 'Failed to fetch resolutions');
@@ -51,7 +64,7 @@ export function useResolutions(searchTerm?: string, itemsPerPage: number = 5) {
     }
 
     fetchResolutions();
-  }, [searchTerm, currentPage, itemsPerPage]);
+  }, [searchTerm, currentPage, itemsPerPage, withOrdinanceFilter, isFeaturedFilter]);
 
   const totalPages = Math.ceil(totalResolutions / itemsPerPage);
 

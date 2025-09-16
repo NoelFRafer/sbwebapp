@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { supabase, type NewsItem } from '../lib/supabase';
 
-export function useNews(searchTerm?: string, itemsPerPage: number = 5) {
+export function useNews(searchTerm?: string, itemsPerPage: number = 5, isFeaturedFilter?: boolean, isPriorityFilter?: boolean) {
   const [newsItems, setNewsItems] = useState<NewsItem[]>([]);
   const [totalNewsItems, setTotalNewsItems] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
@@ -11,7 +11,7 @@ export function useNews(searchTerm?: string, itemsPerPage: number = 5) {
   // Reset to page 1 when search term changes
   useEffect(() => {
     setCurrentPage(1);
-  }, [searchTerm]);
+  }, [searchTerm, isFeaturedFilter, isPriorityFilter]);
 
   useEffect(() => {
     async function fetchNews() {
@@ -21,25 +21,37 @@ export function useNews(searchTerm?: string, itemsPerPage: number = 5) {
 
         const offset = (currentPage - 1) * itemsPerPage;
         
-        // Use the enhanced search function with pagination
-        const { data: response, error: searchError } = await supabase
-          .rpc('search_news', { 
-            _search_query: searchTerm?.trim() || null,
-            _offset: offset,
-            _limit: itemsPerPage
-          });
+        // Build query with filters
+        let query = supabase
+          .from('news_items')
+          .select('*', { count: 'exact' });
+
+        // Apply filters
+        if (isFeaturedFilter !== undefined) {
+          query = query.eq('is_featured', isFeaturedFilter);
+        }
+        if (isPriorityFilter !== undefined) {
+          query = query.eq('is_priority', isPriorityFilter);
+        }
+
+        // Apply search if provided
+        if (searchTerm?.trim()) {
+          query = query.textSearch('fts_document', searchTerm.trim());
+        }
+
+        // Apply pagination and ordering
+        query = query
+          .order('date', { ascending: false })
+          .range(offset, offset + itemsPerPage - 1);
+
+        const { data, error: searchError, count } = await query;
 
         if (searchError) {
           throw searchError;
         }
 
-        if (response) {
-          setNewsItems(response[0]?.items || []);
-          setTotalNewsItems(response[0]?.total_count || 0);
-        } else {
-          setNewsItems([]);
-          setTotalNewsItems(0);
-        }
+        setNewsItems(data || []);
+        setTotalNewsItems(count || 0);
       } catch (err) {
         console.error('Error fetching news:', err);
         setError(err instanceof Error ? err.message : 'Failed to fetch news');
@@ -51,7 +63,7 @@ export function useNews(searchTerm?: string, itemsPerPage: number = 5) {
     }
 
     fetchNews();
-  }, [searchTerm, currentPage, itemsPerPage]);
+  }, [searchTerm, currentPage, itemsPerPage, isFeaturedFilter, isPriorityFilter]);
 
   const totalPages = Math.ceil(totalNewsItems / itemsPerPage);
 

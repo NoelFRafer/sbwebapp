@@ -5,6 +5,7 @@ import { useNews } from './hooks/useNews';
 import { useAuth } from './hooks/useAuth';
 import { ImageWithFallback } from './components/ImageWithFallback';
 import { ResolutionsPage } from './components/ResolutionsPage';
+import { NewsDetailPage } from './components/NewsDetailPage';
 import { PaginationControls } from './components/PaginationControls';
 import { NewsForm } from './components/NewsForm';
 import { AuthForm } from './components/AuthForm';
@@ -19,10 +20,14 @@ const countHighlightTags = (text: string) => {
 function App() {
   const { user, loading: authLoading, signOut, isAuthenticated, isAdmin, roleLoading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'resolutions' | 'add-news'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'news-detail' | 'resolutions' | 'add-news'>('home');
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [selectedNewsItemId, setSelectedNewsItemId] = useState<string | null>(null);
   const [newsSearchTerm, setNewsSearchTerm] = useState('');
   const [debouncedNewsSearchTerm, setDebouncedNewsSearchTerm] = useState('');
+  const [newsFilterFeatured, setNewsFilterFeatured] = useState<boolean | undefined>(undefined);
+  const [newsFilterPriority, setNewsFilterPriority] = useState<boolean | undefined>(undefined);
+  const [showNewsFilters, setShowNewsFilters] = useState(false);
   
   // Debounce news search term
   React.useEffect(() => {
@@ -44,11 +49,28 @@ function App() {
     totalNewsItems,
     itemsPerPage: newsItemsPerPage,
     setCurrentPage: setNewsCurrentPage
-  } = useNews(debouncedNewsSearchTerm, 5);
+  } = useNews(debouncedNewsSearchTerm, 5, newsFilterFeatured, newsFilterPriority);
 
   const clearNewsSearch = () => {
     setNewsSearchTerm('');
   };
+
+  const clearNewsFilters = () => {
+    setNewsFilterFeatured(undefined);
+    setNewsFilterPriority(undefined);
+  };
+
+  const handleNewsItemClick = (newsId: string) => {
+    setSelectedNewsItemId(newsId);
+    setCurrentPage('news-detail');
+  };
+
+  const handleBackFromNewsDetail = () => {
+    setSelectedNewsItemId(null);
+    setCurrentPage('news');
+  };
+
+  const hasActiveNewsFilters = newsFilterFeatured !== undefined || newsFilterPriority !== undefined;
 
   const handleSignOut = async () => {
     try {
@@ -283,8 +305,9 @@ function App() {
           <section className="relative w-full">
             <h2 className="text-2xl font-bold text-gray-800 mb-2">News</h2>
             
-            {/* Search Bar for Home Page News */}
-            <div className="mb-4">
+            {/* Search and Filter Controls for Home Page News */}
+            <div className="mb-4 space-y-4">
+              {/* Search Bar */}
               <div className="relative max-w-md">
                 <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                   <Search className="h-4 w-4 text-gray-400" />
@@ -305,6 +328,121 @@ function App() {
                   </button>
                 )}
               </div>
+              
+              {/* Filter Toggle and Controls */}
+              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                <button
+                  onClick={() => setShowNewsFilters(!showNewsFilters)}
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
+                    showNewsFilters || hasActiveNewsFilters
+                      ? 'bg-blue-50 border-blue-300 text-blue-700'
+                      : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                  }`}
+                  aria-expanded={showNewsFilters}
+                  aria-controls="news-filter-controls"
+                >
+                  <Settings className="w-4 h-4" />
+                  Filters
+                  {hasActiveNewsFilters && (
+                    <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
+                      {[newsFilterFeatured, newsFilterPriority].filter(f => f !== undefined).length}
+                    </span>
+                  )}
+                </button>
+                
+                {hasActiveNewsFilters && (
+                  <button
+                    onClick={clearNewsFilters}
+                    className="text-sm text-gray-600 hover:text-gray-800 underline"
+                  >
+                    Clear filters
+                  </button>
+                )}
+              </div>
+              
+              {/* Filter Controls */}
+              {showNewsFilters && (
+                <div id="news-filter-controls" className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Featured Status
+                      </label>
+                      <div className="space-y-2">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="homeFeatured"
+                            checked={newsFilterFeatured === undefined}
+                            onChange={() => setNewsFilterFeatured(undefined)}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                          />
+                          <span className="ml-2 text-sm text-gray-700">All</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="homeFeatured"
+                            checked={newsFilterFeatured === true}
+                            onChange={() => setNewsFilterFeatured(true)}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                          />
+                          <span className="ml-2 text-sm text-gray-700">Featured Only</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="homeFeatured"
+                            checked={newsFilterFeatured === false}
+                            onChange={() => setNewsFilterFeatured(false)}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                          />
+                          <span className="ml-2 text-sm text-gray-700">Non-Featured Only</span>
+                        </label>
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-2">
+                        Priority Status
+                      </label>
+                      <div className="space-y-2">
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="homePriority"
+                            checked={newsFilterPriority === undefined}
+                            onChange={() => setNewsFilterPriority(undefined)}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                          />
+                          <span className="ml-2 text-sm text-gray-700">All</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="homePriority"
+                            checked={newsFilterPriority === true}
+                            onChange={() => setNewsFilterPriority(true)}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                          />
+                          <span className="ml-2 text-sm text-gray-700">Priority Only</span>
+                        </label>
+                        <label className="flex items-center">
+                          <input
+                            type="radio"
+                            name="homePriority"
+                            checked={newsFilterPriority === false}
+                            onChange={() => setNewsFilterPriority(false)}
+                            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                          />
+                          <span className="ml-2 text-sm text-gray-700">Non-Priority Only</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+              
               {/* Search status message */}
               {newsLoading && debouncedNewsSearchTerm && (
                 <p className="mt-2 text-sm text-gray-600">
@@ -314,6 +452,7 @@ function App() {
               {!newsLoading && debouncedNewsSearchTerm && (
                 <p className="mt-2 text-sm text-gray-600">
                   {`Found ${totalNewsItems} result${totalNewsItems !== 1 ? 's' : ''} for "${debouncedNewsSearchTerm}"`}
+                  {hasActiveNewsFilters && ' with current filters'}
                 </p>
               )}
             </div>
@@ -333,7 +472,20 @@ function App() {
                 const totalMatches = titleMatches + contentMatches;
                 
                 return (
-                <div key={news.id} className="bg-slate-800 text-white rounded-xl p-4 lg:p-6 hover:bg-slate-700 transition-colors overflow-hidden max-w-full">
+                <div 
+                  key={news.id} 
+                  className="bg-slate-800 text-white rounded-xl p-4 lg:p-6 hover:bg-slate-700 transition-colors overflow-hidden max-w-full cursor-pointer"
+                  onClick={() => handleNewsItemClick(news.id)}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      handleNewsItemClick(news.id);
+                    }
+                  }}
+                  aria-label={`Read full article: ${news.title}`}
+                >
                   <div className="flex items-start justify-between gap-2 mb-3">
                     <h3 className="text-base lg:text-lg font-semibold leading-tight line-clamp-2 flex-1">
                       {debouncedNewsSearchTerm && news.highlighted_title ? (
@@ -349,13 +501,18 @@ function App() {
                     )}
                   </div>
                   <p className="text-blue-300 text-sm mb-4">{formatDate(news.date)}</p>
-                  <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">
+                  <p className="text-gray-300 text-sm leading-relaxed line-clamp-3">
                     {debouncedNewsSearchTerm && news.highlighted_content ? (
                       <span dangerouslySetInnerHTML={{ __html: news.highlighted_content }} />
                     ) : (
                       news.content
                     )}
                   </p>
+                  <div className="mt-4 pt-3 border-t border-slate-600">
+                    <span className="text-blue-300 text-sm font-medium hover:text-blue-200 transition-colors">
+                      Read more →
+                    </span>
+                  </div>
                 </div>
                 );
               })}
@@ -381,8 +538,9 @@ function App() {
               <section className="relative w-full">
                 <h1 className="text-3xl font-bold text-gray-800 mb-6">News</h1>
                 
-                {/* Search Bar for News Page */}
-                <div className="mb-6">
+                {/* Search and Filter Controls for News Page */}
+                <div className="mb-6 space-y-4">
+                  {/* Search Bar */}
                   <div className="relative max-w-md">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                       <Search className="h-5 w-5 text-gray-400" />
@@ -403,6 +561,121 @@ function App() {
                       </button>
                     )}
                   </div>
+                  
+                  {/* Filter Toggle and Controls */}
+                  <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+                    <button
+                      onClick={() => setShowNewsFilters(!showNewsFilters)}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
+                        showNewsFilters || hasActiveNewsFilters
+                          ? 'bg-blue-50 border-blue-300 text-blue-700'
+                          : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+                      }`}
+                      aria-expanded={showNewsFilters}
+                      aria-controls="news-page-filter-controls"
+                    >
+                      <Settings className="w-4 h-4" />
+                      Filters
+                      {hasActiveNewsFilters && (
+                        <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
+                          {[newsFilterFeatured, newsFilterPriority].filter(f => f !== undefined).length}
+                        </span>
+                      )}
+                    </button>
+                    
+                    {hasActiveNewsFilters && (
+                      <button
+                        onClick={clearNewsFilters}
+                        className="text-sm text-gray-600 hover:text-gray-800 underline"
+                      >
+                        Clear filters
+                      </button>
+                    )}
+                  </div>
+                  
+                  {/* Filter Controls */}
+                  {showNewsFilters && (
+                    <div id="news-page-filter-controls" className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Featured Status
+                          </label>
+                          <div className="space-y-2">
+                            <label className="flex items-center">
+                              <input
+                                type="radio"
+                                name="newsFeatured"
+                                checked={newsFilterFeatured === undefined}
+                                onChange={() => setNewsFilterFeatured(undefined)}
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                              />
+                              <span className="ml-2 text-sm text-gray-700">All</span>
+                            </label>
+                            <label className="flex items-center">
+                              <input
+                                type="radio"
+                                name="newsFeatured"
+                                checked={newsFilterFeatured === true}
+                                onChange={() => setNewsFilterFeatured(true)}
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                              />
+                              <span className="ml-2 text-sm text-gray-700">Featured Only</span>
+                            </label>
+                            <label className="flex items-center">
+                              <input
+                                type="radio"
+                                name="newsFeatured"
+                                checked={newsFilterFeatured === false}
+                                onChange={() => setNewsFilterFeatured(false)}
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                              />
+                              <span className="ml-2 text-sm text-gray-700">Non-Featured Only</span>
+                            </label>
+                          </div>
+                        </div>
+                        
+                        <div>
+                          <label className="block text-sm font-medium text-gray-700 mb-2">
+                            Priority Status
+                          </label>
+                          <div className="space-y-2">
+                            <label className="flex items-center">
+                              <input
+                                type="radio"
+                                name="newsPriority"
+                                checked={newsFilterPriority === undefined}
+                                onChange={() => setNewsFilterPriority(undefined)}
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                              />
+                              <span className="ml-2 text-sm text-gray-700">All</span>
+                            </label>
+                            <label className="flex items-center">
+                              <input
+                                type="radio"
+                                name="newsPriority"
+                                checked={newsFilterPriority === true}
+                                onChange={() => setNewsFilterPriority(true)}
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                              />
+                              <span className="ml-2 text-sm text-gray-700">Priority Only</span>
+                            </label>
+                            <label className="flex items-center">
+                              <input
+                                type="radio"
+                                name="newsPriority"
+                                checked={newsFilterPriority === false}
+                                onChange={() => setNewsFilterPriority(false)}
+                                className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                              />
+                              <span className="ml-2 text-sm text-gray-700">Non-Priority Only</span>
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                  
                   {/* Search status message */}
                   {newsLoading && debouncedNewsSearchTerm && (
                     <p className="mt-2 text-sm text-gray-600">
@@ -412,6 +685,7 @@ function App() {
                   {!newsLoading && debouncedNewsSearchTerm && (
                     <p className="mt-2 text-sm text-gray-600">
                       {`Found ${totalNewsItems} result${totalNewsItems !== 1 ? 's' : ''} for "${debouncedNewsSearchTerm}"`}
+                      {hasActiveNewsFilters && ' with current filters'}
                     </p>
                   )}
                 </div>
@@ -439,7 +713,20 @@ function App() {
                       const totalMatches = titleMatches + contentMatches;
                       
                       return (
-                      <div key={news.id} className="bg-slate-800 text-white rounded-xl p-4 lg:p-6 hover:bg-slate-700 transition-colors overflow-hidden max-w-full">
+                      <div 
+                        key={news.id} 
+                        className="bg-slate-800 text-white rounded-xl p-4 lg:p-6 hover:bg-slate-700 transition-colors overflow-hidden max-w-full cursor-pointer"
+                        onClick={() => handleNewsItemClick(news.id)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleNewsItemClick(news.id);
+                          }
+                        }}
+                        aria-label={`Read full article: ${news.title}`}
+                      >
                         <div className="flex items-start justify-between gap-2 mb-3">
                           <h3 className="text-base lg:text-lg font-semibold leading-tight line-clamp-2 flex-1">
                             {debouncedNewsSearchTerm && news.highlighted_title ? (
@@ -455,13 +742,18 @@ function App() {
                           )}
                         </div>
                         <p className="text-blue-300 text-sm mb-4">{formatDate(news.date)}</p>
-                        <p className="text-gray-300 text-sm leading-relaxed line-clamp-4">
+                        <p className="text-gray-300 text-sm leading-relaxed line-clamp-3">
                           {debouncedNewsSearchTerm && news.highlighted_content ? (
                             <span dangerouslySetInnerHTML={{ __html: news.highlighted_content }} />
                           ) : (
                             news.content
                           )}
                         </p>
+                        <div className="mt-4 pt-3 border-t border-slate-600">
+                          <span className="text-blue-300 text-sm font-medium hover:text-blue-200 transition-colors">
+                            Read more →
+                          </span>
+                        </div>
                       </div>
                       );
                     })}
@@ -480,6 +772,13 @@ function App() {
                 )}
               </section>
             </div>
+          )}
+          
+          {currentPage === 'news-detail' && selectedNewsItemId && (
+            <NewsDetailPage 
+              newsId={selectedNewsItemId} 
+              onBack={handleBackFromNewsDetail}
+            />
           )}
           
           {currentPage === 'add-news' && isAdmin && (

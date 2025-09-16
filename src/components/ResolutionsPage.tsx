@@ -1,5 +1,5 @@
 import React from 'react';
-import { FileText, ExternalLink, Calendar, Loader2, AlertCircle, Search, X } from 'lucide-react';
+import { FileText, ExternalLink, Calendar, Loader2, AlertCircle, Search, X, Filter } from 'lucide-react';
 import { useResolutions } from '../hooks/useResolutions';
 import { PaginationControls } from './PaginationControls';
 
@@ -13,6 +13,9 @@ const countHighlightTags = (text: string) => {
 export function ResolutionsPage() {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState('');
+  const [showFilters, setShowFilters] = React.useState(false);
+  const [withOrdinanceFilter, setWithOrdinanceFilter] = React.useState<boolean | undefined>(undefined);
+  const [isFeaturedFilter, setIsFeaturedFilter] = React.useState<boolean | undefined>(undefined);
 
   // Debounce search term to avoid too many API calls
   React.useEffect(() => {
@@ -32,11 +35,18 @@ export function ResolutionsPage() {
     totalResolutions,
     itemsPerPage,
     setCurrentPage
-  } = useResolutions(debouncedSearchTerm);
+  } = useResolutions(debouncedSearchTerm, 5, withOrdinanceFilter, isFeaturedFilter);
 
   const clearSearch = () => {
     setSearchTerm('');
   };
+
+  const clearFilters = () => {
+    setWithOrdinanceFilter(undefined);
+    setIsFeaturedFilter(undefined);
+  };
+
+  const hasActiveFilters = withOrdinanceFilter !== undefined || isFeaturedFilter !== undefined;
 
   // Format date for display
   const formatDate = (dateString: string) => {
@@ -74,8 +84,9 @@ export function ResolutionsPage() {
         </p>
       </div>
 
-      {/* Search Bar - Always visible */}
-      <div className="mb-6">
+      {/* Search and Filter Controls */}
+      <div className="mb-6 space-y-4">
+        {/* Search Bar */}
         <div className="relative max-w-md">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
             <Search className="h-5 w-5 text-gray-400" />
@@ -96,6 +107,121 @@ export function ResolutionsPage() {
             </button>
           )}
         </div>
+        
+        {/* Filter Toggle and Controls */}
+        <div className="flex flex-col sm:flex-row sm:items-center gap-4">
+          <button
+            onClick={() => setShowFilters(!showFilters)}
+            className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-colors ${
+              showFilters || hasActiveFilters
+                ? 'bg-blue-50 border-blue-300 text-blue-700'
+                : 'bg-white border-gray-300 text-gray-700 hover:bg-gray-50'
+            }`}
+            aria-expanded={showFilters}
+            aria-controls="filter-controls"
+          >
+            <Filter className="w-4 h-4" />
+            Filters
+            {hasActiveFilters && (
+              <span className="bg-blue-600 text-white text-xs px-2 py-1 rounded-full">
+                {[withOrdinanceFilter, isFeaturedFilter].filter(f => f !== undefined).length}
+              </span>
+            )}
+          </button>
+          
+          {hasActiveFilters && (
+            <button
+              onClick={clearFilters}
+              className="text-sm text-gray-600 hover:text-gray-800 underline"
+            >
+              Clear filters
+            </button>
+          )}
+        </div>
+        
+        {/* Filter Controls */}
+        {showFilters && (
+          <div id="filter-controls" className="bg-gray-50 p-4 rounded-lg border border-gray-200">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  With Ordinance
+                </label>
+                <div className="space-y-2">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="withOrdinance"
+                      checked={withOrdinanceFilter === undefined}
+                      onChange={() => setWithOrdinanceFilter(undefined)}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">All</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="withOrdinance"
+                      checked={withOrdinanceFilter === true}
+                      onChange={() => setWithOrdinanceFilter(true)}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">With Ordinance</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="withOrdinance"
+                      checked={withOrdinanceFilter === false}
+                      onChange={() => setWithOrdinanceFilter(false)}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Without Ordinance</span>
+                  </label>
+                </div>
+              </div>
+              
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Featured Status
+                </label>
+                <div className="space-y-2">
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="featured"
+                      checked={isFeaturedFilter === undefined}
+                      onChange={() => setIsFeaturedFilter(undefined)}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">All</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="featured"
+                      checked={isFeaturedFilter === true}
+                      onChange={() => setIsFeaturedFilter(true)}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Featured Only</span>
+                  </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      name="featured"
+                      checked={isFeaturedFilter === false}
+                      onChange={() => setIsFeaturedFilter(false)}
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                    />
+                    <span className="ml-2 text-sm text-gray-700">Non-Featured Only</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+        
         {/* Search status message */}
         {loading && debouncedSearchTerm && (
           <p className="mt-2 text-sm text-gray-600">
@@ -105,6 +231,7 @@ export function ResolutionsPage() {
         {!loading && debouncedSearchTerm && (
           <p className="mt-2 text-sm text-gray-600">
             {`Found ${totalResolutions} result${totalResolutions !== 1 ? 's' : ''} for "${debouncedSearchTerm}"`}
+            {hasActiveFilters && ' with current filters'}
           </p>
         )}
       </div>
