@@ -328,7 +328,9 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
                     <span className="font-medium">Adopted:</span>
                     <span className="ml-1">{formatDate(ordinance.date_approved)}</span>
                   </div>
-                  
+                  <p className="text-sm text-gray-500">
+                    {ordinance.resolution_number}
+                  </p>
                   {ordinance.effective_date && (
                     <div className="flex items-center text-sm text-gray-600">
                       <Clock className="w-4 h-4 mr-2 text-green-500" />
