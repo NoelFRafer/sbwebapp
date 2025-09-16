@@ -48,6 +48,9 @@ export interface Resolution {
   is_active: boolean;
   with_ordinance: boolean;
   is_featured: boolean;
+  category: string | null;
+  effective_date: string | null;
+  amendment_history: string | null;
   created_at: string;
   updated_at: string;
   fts_document?: string;
