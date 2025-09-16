@@ -3,6 +3,10 @@ import { FileText, ExternalLink, Calendar, Loader2, AlertCircle, Search, X, Filt
 import { useResolutions } from '../hooks/useResolutions';
 import { PaginationControls } from './PaginationControls';
 
+interface ResolutionsPageProps {
+  onResolutionClick: (resolutionId: string) => void;
+}
+
 // Helper function to count highlight tags
 const countHighlightTags = (text: string) => {
   if (!text) return 0;
@@ -10,7 +14,7 @@ const countHighlightTags = (text: string) => {
   return matches ? matches.length : 0;
 };
 
-export function ResolutionsPage() {
+export function ResolutionsPage({ onResolutionClick }: ResolutionsPageProps) {
   const [searchTerm, setSearchTerm] = React.useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState('');
   const [showFilters, setShowFilters] = React.useState(false);
@@ -263,7 +267,17 @@ export function ResolutionsPage() {
             return (
             <div
               key={resolution.id}
-              className="bg-slate-800 text-white rounded-xl p-4 lg:p-6 hover:bg-slate-700 transition-colors overflow-hidden max-w-full"
+              className="bg-slate-800 text-white rounded-xl p-4 lg:p-6 hover:bg-slate-700 transition-colors overflow-hidden max-w-full cursor-pointer"
+              onClick={() => onResolutionClick(resolution.id)}
+              role="button"
+              tabIndex={0}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  onResolutionClick(resolution.id);
+                }
+              }}
+              aria-label={`View details for ${resolution.resolution_number}: ${resolution.title}`}
             >
               <div className="flex flex-col lg:flex-row lg:items-start lg:justify-between gap-4">
                 <div className="flex-1">

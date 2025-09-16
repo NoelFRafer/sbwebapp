@@ -6,6 +6,7 @@ import { useAuth } from './hooks/useAuth';
 import { ImageWithFallback } from './components/ImageWithFallback';
 import { ResolutionsPage } from './components/ResolutionsPage';
 import { NewsDetailPage } from './components/NewsDetailPage';
+import { ResolutionDetailPage } from './components/ResolutionDetailPage';
 import { PaginationControls } from './components/PaginationControls';
 import { NewsForm } from './components/NewsForm';
 import { AuthForm } from './components/AuthForm';
@@ -20,9 +21,10 @@ const countHighlightTags = (text: string) => {
 function App() {
   const { user, loading: authLoading, signOut, isAuthenticated, isAdmin, roleLoading } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'news-detail' | 'resolutions' | 'add-news'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'news-detail' | 'resolutions' | 'resolution-detail' | 'add-news'>('home');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedNewsItemId, setSelectedNewsItemId] = useState<string | null>(null);
+  const [selectedResolutionItemId, setSelectedResolutionItemId] = useState<string | null>(null);
   const [newsSearchTerm, setNewsSearchTerm] = useState('');
   const [debouncedNewsSearchTerm, setDebouncedNewsSearchTerm] = useState('');
   const [newsFilterFeatured, setNewsFilterFeatured] = useState<boolean | undefined>(undefined);
@@ -68,6 +70,16 @@ function App() {
   const handleBackFromNewsDetail = () => {
     setSelectedNewsItemId(null);
     setCurrentPage('news');
+  };
+
+  const handleResolutionItemClick = (resolutionId: string) => {
+    setSelectedResolutionItemId(resolutionId);
+    setCurrentPage('resolution-detail');
+  };
+
+  const handleBackFromResolutionDetail = () => {
+    setSelectedResolutionItemId(null);
+    setCurrentPage('resolutions');
   };
 
   const hasActiveNewsFilters = newsFilterFeatured !== undefined || newsFilterPriority !== undefined;
@@ -806,7 +818,14 @@ function App() {
           )}
           
           {currentPage === 'resolutions' && (
-            <ResolutionsPage />
+            <ResolutionsPage onResolutionClick={handleResolutionItemClick} />
+          )}
+          
+          {currentPage === 'resolution-detail' && selectedResolutionItemId && (
+            <ResolutionDetailPage 
+              resolutionId={selectedResolutionItemId} 
+              onBack={handleBackFromResolutionDetail}
+            />
           )}
         </main>
       </div>
