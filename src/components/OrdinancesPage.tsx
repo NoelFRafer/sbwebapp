@@ -298,7 +298,9 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
                     </span>
                   )}
                 </div>
-                
+                <p className="text-sm text-gray-500">
+                  {ordinance.resolution_number}
+                </p>                
                 <div className="flex flex-wrap items-center gap-2">
                   <span className={`inline-flex items-center px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(ordinance.is_active)}`}>
                     {getStatusDisplay(ordinance.is_active)}
@@ -314,9 +316,7 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
 
               {/* Content */}
               <div className="p-4">
-                <p className="text-sm text-gray-500">
-                  {ordinance.resolution_number}
-                </p>
+
                 <h4 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">
                   {debouncedSearchTerm && ordinance.highlighted_title ? (
                     <span dangerouslySetInnerHTML={{ __html: ordinance.highlighted_title }} />
