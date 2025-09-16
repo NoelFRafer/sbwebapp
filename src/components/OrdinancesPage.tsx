@@ -314,6 +314,9 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
 
               {/* Content */}
               <div className="p-4">
+                <p className="text-sm text-gray-500">
+                  {ordinance.resolution_number}
+                </p>
                 <h4 className="text-lg font-semibold text-gray-800 mb-3 line-clamp-2">
                   {debouncedSearchTerm && ordinance.highlighted_title ? (
                     <span dangerouslySetInnerHTML={{ __html: ordinance.highlighted_title }} />
@@ -328,9 +331,7 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
                     <span className="font-medium">Adopted:</span>
                     <span className="ml-1">{formatDate(ordinance.date_approved)}</span>
                   </div>
-                  <p className="text-sm text-gray-500">
-                    {ordinance.resolution_number}
-                  </p>
+
                   {ordinance.effective_date && (
                     <div className="flex items-center text-sm text-gray-600">
                       <Clock className="w-4 h-4 mr-2 text-green-500" />
