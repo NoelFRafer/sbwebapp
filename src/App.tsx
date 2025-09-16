@@ -208,7 +208,7 @@ function App() {
               <FileText size={18} />
               <span>News</span>
             </button>
-            {(!isAuthEnabled || isAdmin) && (
+            {(isAuthEnabled || isAdmin) && (
             <button 
               onClick={() => setCurrentPage('add-news')}
               className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left ${
