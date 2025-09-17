@@ -15,6 +15,7 @@ import {
 
 interface MembersPageProps {
   onBack: () => void;
+  onMemberClick?: (memberId: string) => void;
 }
 
 interface Member {
@@ -215,7 +216,7 @@ const members: Member[] = [
   }
 ];
 
-export function MembersPage({ onBack }: MembersPageProps) {
+export function MembersPage({ onBack, onMemberClick }: MembersPageProps) {
   // Format date for display
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -268,7 +269,11 @@ export function MembersPage({ onBack }: MembersPageProps) {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {leadershipMembers.map((member) => (
-            <div key={member.id} className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow">
+            <div 
+              key={member.id} 
+              className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+              onClick={() => onMemberClick?.(member.id)}
+            >
               {/* Member Photo */}
               <div className="relative h-64 bg-gray-200">
                 <img
@@ -351,6 +356,11 @@ export function MembersPage({ onBack }: MembersPageProps) {
                     <Calendar className="w-3 h-3" />
                     <span>Term: {formatDate(member.termStart)} - {formatDate(member.termEnd)}</span>
                   </div>
+                  <div className="mt-2">
+                    <span className="text-blue-600 text-sm font-medium hover:text-blue-700 transition-colors">
+                      View Details →
+                    </span>
+                  </div>
                 </div>
               </div>
             </div>
@@ -367,7 +377,11 @@ export function MembersPage({ onBack }: MembersPageProps) {
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {regularMembers.map((member) => (
-            <div key={member.id} className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow">
+            <div 
+              key={member.id} 
+              className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+              onClick={() => onMemberClick?.(member.id)}
+            >
               {/* Member Photo */}
               <div className="relative h-64 bg-gray-200">
                 <img
@@ -429,6 +443,11 @@ export function MembersPage({ onBack }: MembersPageProps) {
                   <div className="flex items-center gap-2 text-xs text-gray-500">
                     <Calendar className="w-3 h-3" />
                     <span>Term: {formatDate(member.termStart)} - {formatDate(member.termEnd)}</span>
+                  </div>
+                  <div className="mt-2">
+                    <span className="text-blue-600 text-sm font-medium hover:text-blue-700 transition-colors">
+                      View Details →
+                    </span>
                   </div>
                 </div>
               </div>

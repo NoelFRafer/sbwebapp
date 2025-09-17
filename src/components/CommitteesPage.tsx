@@ -12,6 +12,7 @@ import {
 
 interface CommitteesPageProps {
   onBack: () => void;
+  onCommitteeClick?: (committeeId: string) => void;
 }
 
 interface CommitteeMember {
@@ -257,7 +258,7 @@ const committees: Committee[] = [
   }
 ];
 
-export function CommitteesPage({ onBack }: CommitteesPageProps) {
+export function CommitteesPage({ onBack, onCommitteeClick }: CommitteesPageProps) {
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'Chairman':
@@ -316,7 +317,11 @@ export function CommitteesPage({ onBack }: CommitteesPageProps) {
       {/* Committees Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {committees.map((committee) => (
-          <div key={committee.id} className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow">
+          <div 
+            key={committee.id} 
+            className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden hover:shadow-xl transition-shadow cursor-pointer"
+            onClick={() => onCommitteeClick?.(committee.id)}
+          >
             {/* Committee Header */}
             <div className="bg-slate-800 text-white p-6">
               <div className="flex items-start gap-3 mb-3">
@@ -359,6 +364,13 @@ export function CommitteesPage({ onBack }: CommitteesPageProps) {
                     </div>
                   </div>
                 ))}
+              </div>
+              
+              {/* View Details Link */}
+              <div className="mt-4 pt-4 border-t border-gray-200">
+                <span className="text-blue-600 text-sm font-medium hover:text-blue-700 transition-colors">
+                  View Committee Details →
+                </span>
               </div>
             </div>
           </div>

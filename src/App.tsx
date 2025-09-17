@@ -13,7 +13,9 @@ import { PaginationControls } from './components/PaginationControls';
 import { NewsForm } from './components/NewsForm';
 import { AuthForm } from './components/AuthForm';
 import { MembersPage } from './components/MembersPage';
+import { MemberDetailPage } from './components/MemberDetailPage';
 import { CommitteesPage } from './components/CommitteesPage';
+import { CommitteeDetailPage } from './components/CommitteeDetailPage';
 
 // Helper function to count highlight tags
 const countHighlightTags = (text: string) => {
@@ -25,11 +27,13 @@ const countHighlightTags = (text: string) => {
 function App() {
   const { user, loading: authLoading, signOut, isAuthenticated, isAdmin, roleLoading, isAuthEnabled } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'news-detail' | 'resolutions' | 'resolution-detail' | 'ordinances' | 'ordinance-detail' | 'add-news' | 'members' | 'committees'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'news-detail' | 'resolutions' | 'resolution-detail' | 'ordinances' | 'ordinance-detail' | 'add-news' | 'members' | 'member-detail' | 'committees' | 'committee-detail'>('home');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedNewsItemId, setSelectedNewsItemId] = useState<string | null>(null);
   const [selectedResolutionItemId, setSelectedResolutionItemId] = useState<string | null>(null);
   const [selectedOrdinanceItemId, setSelectedOrdinanceItemId] = useState<string | null>(null);
+  const [selectedMemberId, setSelectedMemberId] = useState<string | null>(null);
+  const [selectedCommitteeId, setSelectedCommitteeId] = useState<string | null>(null);
   const [newsSearchTerm, setNewsSearchTerm] = useState('');
   const [debouncedNewsSearchTerm, setDebouncedNewsSearchTerm] = useState('');
   const [newsFilterFeatured, setNewsFilterFeatured] = useState<boolean | undefined>(undefined);
@@ -95,6 +99,26 @@ function App() {
   const handleBackFromOrdinanceDetail = () => {
     setSelectedOrdinanceItemId(null);
     setCurrentPage('ordinances');
+  };
+
+  const handleMemberItemClick = (memberId: string) => {
+    setSelectedMemberId(memberId);
+    setCurrentPage('member-detail');
+  };
+
+  const handleBackFromMemberDetail = () => {
+    setSelectedMemberId(null);
+    setCurrentPage('members');
+  };
+
+  const handleCommitteeItemClick = (committeeId: string) => {
+    setSelectedCommitteeId(committeeId);
+    setCurrentPage('committee-detail');
+  };
+
+  const handleBackFromCommitteeDetail = () => {
+    setSelectedCommitteeId(null);
+    setCurrentPage('committees');
   };
 
   const hasActiveNewsFilters = newsFilterFeatured !== undefined || newsFilterPriority !== undefined;
@@ -884,11 +908,31 @@ function App() {
           )}
           
           {currentPage === 'members' && (
-            <MembersPage onBack={() => setCurrentPage('home')} />
+            <MembersPage 
+              onBack={() => setCurrentPage('home')} 
+              onMemberClick={handleMemberItemClick}
+            />
+          )}
+          
+          {currentPage === 'member-detail' && selectedMemberId && (
+            <MemberDetailPage 
+              memberId={selectedMemberId} 
+              onBack={handleBackFromMemberDetail}
+            />
           )}
           
           {currentPage === 'committees' && (
-            <CommitteesPage onBack={() => setCurrentPage('home')} />
+            <CommitteesPage 
+              onBack={() => setCurrentPage('home')} 
+              onCommitteeClick={handleCommitteeItemClick}
+            />
+          )}
+          
+          {currentPage === 'committee-detail' && selectedCommitteeId && (
+            <CommitteeDetailPage 
+              committeeId={selectedCommitteeId} 
+              onBack={handleBackFromCommitteeDetail}
+            />
           )}
         </main>
       </div>
