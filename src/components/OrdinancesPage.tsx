@@ -206,7 +206,7 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
                 />
               </div>
               
-              if (isAuthEnabled && !isAuthenticated) {<div>
+              if (isAuthEnabled && !isAuthenticated) {(<div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Status
                 </label>
@@ -222,7 +222,7 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
                   <option value="true">Active</option>
                   <option value="false">Inactive</option>
                 </select>
-              </div>}
+              </div>)}
             </div>
           </div>
         )}
