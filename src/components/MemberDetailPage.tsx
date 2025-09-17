@@ -280,11 +280,12 @@ export function MemberDetailPage({ memberId, onBack }: MemberDetailPageProps) {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center gap-4 text-sm text-gray-500">
               Term: {formatDate(member.term_start)} - {formatDate(member.term_end)}
-                <MapPin className="w-4 h-4" />
-                <span>Municipal Hall, Capalonga</span>
+              <div className="flex items-center gap-2 ml-4">
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4" />
+            </div>
+            <div className="flex items-center gap-2 text-sm text-gray-500">
                 <span>Office Hours: 8:00 AM - 5:00 PM</span>
               </div>
             </div>
@@ -295,9 +296,11 @@ export function MemberDetailPage({ memberId, onBack }: MemberDetailPageProps) {
               <ArrowLeft className="w-4 h-4" />
               Back to Members
             </button>
+            <button
+              onClick={onBack}
+              className="inline-flex items-center gap-2 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors text-sm font-medium"
+            >
+              <ArrowLeft className="w-4 h-4" />
+              Back to Members
+            </button>
           </div>
-        </div>
-      </div>
-    </div>
-  );
-}
