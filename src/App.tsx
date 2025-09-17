@@ -12,6 +12,8 @@ import { OrdinanceDetailPage } from './components/OrdinanceDetailPage';
 import { PaginationControls } from './components/PaginationControls';
 import { NewsForm } from './components/NewsForm';
 import { AuthForm } from './components/AuthForm';
+import { MembersPage } from './components/MembersPage';
+import { CommitteesPage } from './components/CommitteesPage';
 
 // Helper function to count highlight tags
 const countHighlightTags = (text: string) => {
@@ -23,7 +25,8 @@ const countHighlightTags = (text: string) => {
 function App() {
   const { user, loading: authLoading, signOut, isAuthenticated, isAdmin, roleLoading, isAuthEnabled } = useAuth();
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'news-detail' | 'resolutions' | 'resolution-detail' | 'ordinances' | 'ordinance-detail' | 'add-news'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'news-detail' | 'resolutions' | 'resolution-detail' | 'ordinances' | 'ordinance-detail' | 'add-news' | 'members'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'news' | 'news-detail' | 'resolutions' | 'resolution-detail' | 'ordinances' | 'ordinance-detail' | 'add-news' | 'members' | 'committees'>('home');
   const [currentSlide, setCurrentSlide] = useState(0);
   const [selectedNewsItemId, setSelectedNewsItemId] = useState<string | null>(null);
   const [selectedResolutionItemId, setSelectedResolutionItemId] = useState<string | null>(null);
@@ -249,6 +252,24 @@ function App() {
             >
               <Scale size={18} />
               <span>Ordinances</span>
+            </button>
+            <button 
+              onClick={() => setCurrentPage('members')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left ${
+                currentPage === 'members' ? 'bg-blue-700 text-white' : 'hover:bg-slate-700'
+              }`}
+            >
+              <User size={18} />
+              <span>Council Members</span>
+            </button>
+            <button 
+              onClick={() => setCurrentPage('committees')}
+              className={`flex items-center gap-3 px-4 py-3 rounded-lg transition-colors w-full text-left ${
+                currentPage === 'committees' ? 'bg-blue-700 text-white' : 'hover:bg-slate-700'
+              }`}
+            >
+              <Users size={18} />
+              <span>Committees</span>
             </button>
           </nav>
         </aside>
@@ -861,6 +882,14 @@ function App() {
               ordinanceId={selectedOrdinanceItemId} 
               onBack={handleBackFromOrdinanceDetail}
             />
+          )}
+          
+          {currentPage === 'members' && (
+            <MembersPage onBack={() => setCurrentPage('home')} />
+          )}
+          
+          {currentPage === 'committees' && (
+            <CommitteesPage onBack={() => setCurrentPage('home')} />
           )}
         </main>
       </div>
