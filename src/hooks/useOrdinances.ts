@@ -33,7 +33,6 @@ export function useOrdinances(
           .from('resolutions')
           .select('*', { count: 'exact' })
           .eq('with_ordinance', true);
-
         // Apply additional filters
         // Apply category filter with multi-word partial matching
         if (categoryFilter?.trim()) {
