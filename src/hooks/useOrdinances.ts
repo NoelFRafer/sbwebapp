@@ -36,10 +36,6 @@ export function useOrdinances(
           .eq('is_active', true);
 
         // Apply additional filters
-        if (categoryFilter) {
-          query = query.eq('category', categoryFilter);
-        }
-        
         // Apply category filter with multi-word partial matching
         if (categoryFilter?.trim()) {
           const categoryWords = categoryFilter.trim().split(/\s+/);
