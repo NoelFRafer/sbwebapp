@@ -311,7 +311,7 @@ export function ResolutionsPage({ onResolutionClick }: ResolutionsPageProps) {
 
                     {/* Ordinance Number (if applicable) */}
                     {resolution.with_ordinance && resolution.ordinance_number && (
-                      <span className="inline-flex items-center px-4 py-0 text-xs font-medium bg-gray-700 text-gray-300 rounded-full border border-yellow-100">
+                      <span className="inline-flex items-center px-4 py-0 text-xs font-medium bg-gray-700 text-gray-300 rounded-full border border-blue-100">
                         Ordinance: {resolution.ordinance_number}
                       </span>
                     )}
