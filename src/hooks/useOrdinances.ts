@@ -32,8 +32,7 @@ export function useOrdinances(
         let query = supabase
           .from('resolutions')
           .select('*', { count: 'exact' })
-          .eq('with_ordinance', true)
-          .eq('is_active', true);
+          .eq('with_ordinance', true);
 
         // Apply additional filters
         // Apply category filter with multi-word partial matching
