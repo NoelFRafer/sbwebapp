@@ -290,11 +290,12 @@ export function ResolutionsPage({ onResolutionClick }: ResolutionsPageProps) {
                   </h2>  
                   
                   {/* Ordinance Number (if applicable) */}
-                  {resolution.with_ordinance && resolution.ordinance_number && (
+                  {/* {resolution.with_ordinance && resolution.ordinance_number && (
                     <h3 className="text-md font-medium text-yellow-300 mb-2 px-3 py-1 bg-slate-600 rounded-md border-l-4 border-yellow-400">
                       Ordinance: {resolution.ordinance_number}
                     </h3>
                   )}
+                  */}
                   
                   <div className="flex items-center gap-3 mb-2">
                     {debouncedSearchTerm && totalMatches > 0 && (
