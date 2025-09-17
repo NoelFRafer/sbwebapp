@@ -2,6 +2,7 @@ import React from 'react';
 import { Scale, ExternalLink, Calendar, Clock, Loader2, AlertCircle, Search, X, Filter, Tag } from 'lucide-react';
 import { useOrdinances } from '../hooks/useOrdinances';
 import { PaginationControls } from './PaginationControls';
+import { useAuth } from '../hooks/useAuth';
 
 interface OrdinancesPageProps {
   onOrdinanceClick: (ordinanceId: string) => void;
@@ -15,6 +16,7 @@ const countHighlightTags = (text: string) => {
 };
 
 export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
+  const { isAdmin, isAuthEnabled } = useAuth();
   const [searchTerm, setSearchTerm] = React.useState('');
   const [debouncedSearchTerm, setDebouncedSearchTerm] = React.useState('');
   const [showFilters, setShowFilters] = React.useState(false);
@@ -168,7 +170,7 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
         {/* Filter Controls */}
         {showFilters && (
           <div id="filter-controls" className="bg-gray-50 p-4 rounded-lg border border-gray-200">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <div className={`grid grid-cols-1 sm:grid-cols-2 ${isAuthEnabled && isAdmin ? 'lg:grid-cols-4' : 'lg:grid-cols-3'} gap-4`}>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Category
@@ -206,23 +208,25 @@ export function OrdinancesPage({ onOrdinanceClick }: OrdinancesPageProps) {
                 />
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Status
-                </label>
-                <select
-                  value={isActiveFilter === undefined ? '' : isActiveFilter.toString()}
-                  onChange={(e) => {
-                    const value = e.target.value;
-                    setIsActiveFilter(value === '' ? undefined : value === 'true');
-                  }}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
-                >
-                  <option value="">All</option>
-                  <option value="true">Active</option>
-                  <option value="false">Inactive</option>
-                </select>
-              </div>
+              {isAuthEnabled && isAdmin && (
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-2">
+                    Status
+                  </label>
+                  <select
+                    value={isActiveFilter === undefined ? '' : isActiveFilter.toString()}
+                    onChange={(e) => {
+                      const value = e.target.value;
+                      setIsActiveFilter(value === '' ? undefined : value === 'true');
+                    }}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 text-sm"
+                  >
+                    <option value="">All</option>
+                    <option value="true">Active</option>
+                    <option value="false">Inactive</option>
+                  </select>
+                </div>
+              )}
             </div>
           </div>
         )}
