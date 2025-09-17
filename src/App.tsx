@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Menu, Home, FileText, User, LogOut, Loader2, AlertCircle, Scale, Search, X, ChevronLeft, ChevronRight, PlusCircle, Settings } from 'lucide-react';
+import { Menu, Home, FileText, User, LogOut, Loader2, AlertCircle, Scale, Search, X, ChevronLeft, ChevronRight, PlusCircle, Settings, Users } from 'lucide-react';
 import { useSlides } from './hooks/useSlides';
 import { useNews } from './hooks/useNews';
 import { useAuth } from './hooks/useAuth';
