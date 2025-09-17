@@ -39,6 +39,16 @@ export function useOrdinances(
         if (categoryFilter) {
           query = query.eq('category', categoryFilter);
         }
+        
+        // Apply category filter with multi-word partial matching
+        if (categoryFilter?.trim()) {
+          const categoryWords = categoryFilter.trim().split(/\s+/);
+          const categoryConditions = categoryWords.map(word => 
+            `category.ilike.%${word}%`
+          ).join(',');
+          query = query.or(categoryConditions);
+        }
+        
         if (isActiveFilter !== undefined) {
           query = query.eq('is_active', isActiveFilter);
         }
