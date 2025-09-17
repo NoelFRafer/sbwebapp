@@ -307,6 +307,14 @@ export function ResolutionsPage({ onResolutionClick }: ResolutionsPageProps) {
                         With Ordinance
                       </span>
                     )}
+
+                    {/* Ordinance Number (if applicable) */}
+                    {resolution.with_ordinance && resolution.ordinance_number && (
+                      <span className="text-md font-medium text-yellow-300 mb-2 px-3 py-1 bg-slate-600 rounded-md border-l-4 border-yellow-400">
+                        Ordinance: {resolution.ordinance_number}
+                      </span>
+                    )}
+                    
                     {resolution.is_featured && (
                       <span className="inline-flex items-center px-4 py-0 text-xs font-medium bg-gray-700 text-gray-300 rounded-full border border-gray-500">
                         Featured
