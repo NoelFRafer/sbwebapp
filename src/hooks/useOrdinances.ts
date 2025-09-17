@@ -44,7 +44,7 @@ export function useOrdinances(
         if (categoryFilter?.trim()) {
           const categoryWords = categoryFilter.trim().split(/\s+/);
           const categoryConditions = categoryWords.map(word => 
-            `category.ilike.%${word}%`
+            `or category.ilike.%${word}%`
           ).join(',');
           query = query.or(categoryConditions);
         }
