@@ -17,6 +17,12 @@ import { MemberDetailPage } from './components/MemberDetailPage';
 import { CommitteesPage } from './components/CommitteesPage';
 import { CommitteeDetailPage } from './components/CommitteeDetailPage';
 
+// Import the new hooks
+import { useMembers } from './hooks/useMembers';
+import { useMember } from './hooks/useMember';
+import { useCommittees } from './hooks/useCommittees';
+import { useCommittee } from './hooks/useCommittee';
+
 // Helper function to count highlight tags
 const countHighlightTags = (text: string) => {
   if (!text) return 0;

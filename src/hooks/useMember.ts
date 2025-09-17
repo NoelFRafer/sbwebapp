@@ -1,4 +1,3 @@
-// src/hooks/useMember.ts
 import { useState, useEffect } from 'react';
 import { supabase, type Member } from '../lib/supabase';
 

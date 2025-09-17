@@ -67,6 +67,88 @@ export interface UserRole {
   updated_at: string;
 }
 
+export interface Member {
+  id: string;
+  name: string;
+  title: string;
+  position: string;
+  image_url: string;
+  biography: string;
+  term_start: string;
+  term_end: string;
+  is_leadership: boolean;
+  contact_phone: string | null;
+  contact_email: string | null;
+  achievements: string[] | null;
+  education: string[] | null;
+  experience: string[] | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CommitteeMemberRole {
+  id: string;
+  member_id: string;
+  committee_id: string;
+  role: string; // e.g., 'Chairman', 'Vice Chairman', 'First Member'
+  member: Member; // Joined member data
+}
+
+export interface Committee {
+  id: string;
+  name: string;
+  description: string;
+  responsibilities: string[] | null;
+  recent_activities: string[] | null;
+  upcoming_meetings: { date: string; time: string; agenda: string }[] | null; // JSONB type
+  achievements: string[] | null;
+  jurisdiction: string;
+  created_at: string;
+  updated_at: string;
+  committee_members: CommitteeMemberRole[]; // Joined committee members
+}
+
+export interface Member {
+  id: string;
+  name: string;
+  title: string;
+  position: string;
+  image_url: string;
+  biography: string;
+  term_start: string;
+  term_end: string;
+  is_leadership: boolean;
+  contact_phone: string | null;
+  contact_email: string | null;
+  achievements: string[] | null;
+  education: string[] | null;
+  experience: string[] | null;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface CommitteeMemberRole {
+  id: string;
+  member_id: string;
+  committee_id: string;
+  role: string; // e.g., 'Chairman', 'Vice Chairman', 'First Member'
+  member: Member; // Joined member data
+}
+
+export interface Committee {
+  id: string;
+  name: string;
+  description: string;
+  responsibilities: string[] | null;
+  recent_activities: string[] | null;
+  upcoming_meetings: { date: string; time: string; agenda: string }[] | null; // JSONB type
+  achievements: string[] | null;
+  jurisdiction: string;
+  created_at: string;
+  updated_at: string;
+  committee_members: CommitteeMemberRole[]; // Joined committee members
+}
+
 // Helper function to check if user is admin
 export async function isUserAdmin(userId?: string): Promise<boolean> {
   try {

@@ -1,4 +1,3 @@
-// src/hooks/useCommittee.ts
 import { useState, useEffect } from 'react';
 import { supabase, type Committee } from '../lib/supabase';
 
