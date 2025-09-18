@@ -344,7 +344,7 @@ export function MembersPage({ onBack, onMemberClick }: MembersPageProps) {
             </div>
             <h3 className="text-lg font-semibold mb-2">Office Location</h3>
             <p className="text-blue-200">
-              Municipal Hall<br />
+              SB Session Hall<br />
               Capalonga, Camarines Norte<br />
               Philippines
             </p>
@@ -372,7 +372,7 @@ export function MembersPage({ onBack, onMemberClick }: MembersPageProps) {
             <p className="text-blue-200">
               Every Tuesday<br />
               2:00 PM<br />
-              Session Hall, Municipal Hall
+              Session Hall, Municipal Building
             </p>
           </div>
         </div>
