@@ -276,7 +276,7 @@ export function CommitteeDetailPage({ committeeId, onBack }: CommitteeDetailPage
             <div className="flex items-center gap-4 text-sm text-gray-500">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4" />
-                <span>Committee Room, Municipal Hall</span>
+                <span>Committee Room, SB Session Hall</span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="w-4 h-4" />
