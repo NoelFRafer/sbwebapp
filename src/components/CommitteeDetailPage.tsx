@@ -163,9 +163,9 @@ export function CommitteeDetailPage({ committeeId, onBack }: CommitteeDetailPage
               <Users className="w-5 h-5" />
               Committee Composition
             </h2>
-            <div className="space-y-3">
+            <div className="space-y-2">
               {committee.committee_members.map((committeeMember, index) => (
-                <div key={index} className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border">
+                <div key={index} className="flex items-center justify-between p-1 bg-gray-50 rounded-lg border">
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center">
                       <Users className="w-5 h-5 text-gray-600" />
