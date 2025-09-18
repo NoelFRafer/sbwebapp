@@ -191,7 +191,7 @@ export function CommitteeDetailPage({ committeeId, onBack }: CommitteeDetailPage
                 <FileText className="w-5 h-5" />
                 Key Responsibilities
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {committee.responsibilities.map((responsibility, index) => (
                   <div key={index} className="flex items-start gap-3 p-3 bg-blue-50 rounded-lg border border-blue-200">
                     <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
@@ -209,7 +209,7 @@ export function CommitteeDetailPage({ committeeId, onBack }: CommitteeDetailPage
                 <Clock className="w-5 h-5" />
                 Recent Activities
               </h2>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {committee.recent_activities.map((activity, index) => (
                   <div key={index} className="flex items-start gap-3 p-3 bg-green-50 rounded-lg border border-green-200">
                     <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
@@ -227,7 +227,7 @@ export function CommitteeDetailPage({ committeeId, onBack }: CommitteeDetailPage
                 <CheckCircle className="w-5 h-5" />
                 Key Achievements
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {committee.achievements.map((achievement, index) => (
                   <div key={index} className="flex items-start gap-3 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
                     <CheckCircle className="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" />
