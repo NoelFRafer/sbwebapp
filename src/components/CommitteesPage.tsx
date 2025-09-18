@@ -248,7 +248,7 @@ export function CommitteesPage({ onBack, onCommitteeClick }: CommitteesPageProps
           <h3 className="text-lg font-semibold mb-3 text-center">Committee Meeting Information</h3>
           <div className="text-sm text-blue-100 space-y-2">
             <p>• <strong>Regular Committee Meetings:</strong> As scheduled by each committee chairperson</p>
-            <p>• <strong>Location:</strong> Committee Room, Municipal Hall</p>
+            <p>• <strong>Location:</strong> Committee Room, SB Session Hall</p>
             <p>• <strong>Public Participation:</strong> Citizens may attend committee meetings during public hearings</p>
             <p>• <strong>Committee Reports:</strong> Presented during regular Sangguniang Bayan sessions</p>
           </div>
