@@ -1,0 +1,174 @@
+-- Insert committees data
+INSERT INTO committees (id, name, description, responsibilities, recent_activities, upcoming_meetings, achievements, jurisdiction) VALUES
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0005', 'Committee on Agriculture, Food, Fisheries, and Aquatic Resources', 'Focuses on policies and programs to enhance agricultural productivity, ensure food security, and manage aquatic resources sustainably.', '["Develop agricultural policies", "Support local farmers and fisherfolk", "Promote sustainable fishing practices", "Monitor food supply and prices"]', '["Conducted farmers'' forum on modern techniques", "Inspected local fish ports", "Distributed seeds to local farmers"]', '[{"date":"2025-07-15","time":"10:00 AM","agenda":"Review of agricultural land use plan"},{"date":"2025-08-20","time":"02:00 PM","agenda":"Discussion on fisheries protection ordinances"}]', '["Increased crop yields", "Supported local farmers'' cooperatives", "Ensured stable food supply"]', 'Agricultural and aquatic sectors, food security.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0006', 'Committee on Barangay Affairs', 'Addresses concerns and strengthens governance at the barangay level, fostering cooperation between the municipal and barangay governments.', '["Oversee barangay development projects", "Facilitate communication with barangays", "Resolve inter-barangay disputes", "Strengthen barangay capabilities"]', '["Held consultation with barangay captains", "Reviewed barangay development plans", "Organized training for barangay officials"]', '[{"date":"2025-07-20","time":"09:00 AM","agenda":"Discussion on barangay development fund utilization"},{"date":"2025-08-25","time":"01:00 PM","agenda":"Planning for inter-barangay sports festival"}]', '["Improved barangay service delivery", "Enhanced barangay governance capabilities", "Fostered stronger municipal-barangay ties"]', 'Barangay governance and development.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0007', 'Committee on Cooperatives, CSOs, POs, Trade, Industry, Labor, and Employment', 'Promotes economic growth, supports local businesses, cooperatives, and civil society organizations, and addresses labor and employment concerns.', '["Support cooperative development", "Promote local trade and industry", "Address labor and employment issues", "Engage with CSOs and POs"]', '["Organized job fair for local residents", "Conducted seminar for small businesses", "Met with cooperative leaders"]', '[{"date":"2025-07-25","time":"02:00 PM","agenda":"Review of local investment incentives"},{"date":"2025-09-01","time":"10:00 AM","agenda":"Discussion on supporting local cooperatives"}]', '["Increased local employment opportunities", "Supported growth of small and medium enterprises", "Strengthened cooperative movement"]', 'Economic development, labor, and civil society engagement.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0008', 'Committee on Education', 'Develops policies and programs to improve the quality of education, support students, and enhance educational facilities in the municipality.', '["Oversee educational programs", "Support school initiatives", "Promote literacy and lifelong learning", "Allocate resources for education"]', '["Visited local schools for assessment", "Organized school supplies drive", "Met with parent-teacher associations"]', '[{"date":"2025-08-01","time":"09:30 AM","agenda":"Planning for scholarship programs"},{"date":"2025-09-05","time":"01:00 PM","agenda":"Discussion on school infrastructure projects"}]', '["Improved academic performance in local schools", "Increased access to educational resources", "Supported teacher development programs"]', 'Educational institutions and programs.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0009', 'Committee on Tourism, Culture & Arts', 'Promotes Capalonga as a tourist destination, preserves its cultural heritage, and supports local artists and cultural events.', '["Develop tourism strategies", "Preserve cultural heritage sites", "Support local artists and cultural groups", "Organize cultural events"]', '["Organized ''Capalonga Arts Festival''", "Promoted local tourist spots online", "Conducted cultural mapping project"]', '[{"date":"2025-08-05","time":"10:00 AM","agenda":"Review of tourism development plan"},{"date":"2025-09-10","time":"02:00 PM","agenda":"Planning for cultural heritage preservation projects"}]', '["Increased tourist arrivals", "Revitalized local cultural traditions", "Supported local artists and artisans"]', 'Tourism promotion, cultural preservation, and arts development.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0010', 'Committee on Appropriations & Ways and Means', 'Oversees the municipal budget, financial management, and explores revenue generation strategies for local government projects and services.', '["Review and approve annual budget", "Monitor budget utilization", "Recommend fiscal policies", "Explore revenue generation strategies"]', '["Reviewed Q3 2025 budget report", "Held public hearing on 2026 budget proposal", "Analyzed potential new revenue sources"]', '[{"date":"2025-07-10","time":"10:00 AM","agenda":"Review of 2026 Annual Investment Plan"},{"date":"2025-08-15","time":"02:00 PM","agenda":"Discussion on Q1 2026 Budget Performance"}]', '["Streamlined budget approval process", "Identified cost-saving measures", "Ensured transparent fund allocation", "Proposed new revenue streams"]', 'Municipal finance, budget, and revenue.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0011', 'Committee on Games and Amusements', 'Regulates and oversees games, sports, and amusement activities within the municipality, ensuring fair play and public safety.', '["Regulate gaming establishments", "Oversee sports events", "Ensure public safety in amusement parks", "Promote responsible recreation"]', '["Inspected local gaming centers", "Approved permits for sports tournaments", "Reviewed safety protocols for amusement rides"]', '[{"date":"2025-08-10","time":"03:00 PM","agenda":"Discussion on new gaming regulations"},{"date":"2025-09-15","time":"11:00 AM","agenda":"Planning for municipal sports league"}]', '["Ensured responsible gaming practices", "Promoted healthy recreational activities", "Maintained safe amusement environments"]', 'Regulation of games, sports, and amusement.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0012', 'Committee on Good Government and Public Accountability', 'Upholds transparency, accountability, and ethical conduct in local governance, investigating complaints and promoting good practices.', '["Monitor government transparency", "Investigate public complaints", "Promote ethical conduct in public service", "Strengthen anti-corruption measures"]', '["Reviewed government procurement processes", "Conducted public hearings on accountability issues", "Organized ethics seminar for employees"]', '[{"date":"2025-08-15","time":"01:00 PM","agenda":"Discussion on anti-corruption measures"},{"date":"2025-09-20","time":"09:00 AM","agenda":"Review of public service delivery standards"}]', '["Strengthened anti-corruption measures", "Increased public trust in local government", "Promoted citizen participation in governance"]', 'Transparency, accountability, and ethics in government.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0013', 'Committee on Infrastructure, Housing, Land Utilization, and Environmental Protection', 'Plans and oversees the development of public infrastructure, housing projects, land use, and environmental conservation efforts.', '["Plan infrastructure projects", "Oversee housing programs", "Regulate land use and zoning", "Protect the environment"]', '["Inspected ongoing road projects", "Reviewed proposed housing developments", "Conducted environmental impact assessments"]', '[{"date":"2025-08-20","time":"10:00 AM","agenda":"Discussion on new public infrastructure projects"},{"date":"2025-09-25","time":"02:00 PM","agenda":"Review of comprehensive land use plan"}]', '["Improved public infrastructure", "Provided affordable housing options", "Ensured sustainable land use", "Enhanced environmental protection"]', 'Public works, urban planning, and environmental management.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0014', 'Committee on Youth and Sports Development', 'Promotes the welfare and development of the youth, organizes sports activities, and fosters a healthy and active lifestyle among young people.', '["Develop youth programs", "Organize sports events", "Promote healthy lifestyle among youth", "Support youth leadership"]', '["Organized youth leadership summit", "Held municipal basketball league", "Supported youth talent shows"]', '[{"date":"2025-08-25","time":"09:00 AM","agenda":"Planning for youth entrepreneurship training"},{"date":"2025-09-30","time":"01:00 PM","agenda":"Discussion on sports facility upgrades"}]', '["Empowered youth leaders", "Promoted sportsmanship and teamwork", "Provided recreational opportunities for youth"]', 'Youth welfare, sports, and recreation.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0015', 'Committee on Social Services', 'Addresses the social welfare needs of the community, providing assistance to vulnerable groups and implementing poverty alleviation programs.', '["Provide social assistance", "Implement poverty alleviation programs", "Support vulnerable groups", "Promote community welfare"]', '["Distributed aid to disaster victims", "Conducted feeding programs for children", "Assisted senior citizens with benefits"]', '[{"date":"2025-09-01","time":"10:00 AM","agenda":"Review of social welfare programs"},{"date":"2025-10-05","time":"02:00 PM","agenda":"Planning for community-based rehabilitation programs"}]', '["Improved access to social services", "Reduced poverty incidence", "Provided timely assistance to those in need"]', 'Social welfare, poverty alleviation, and community support.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0016', 'Committee on Health and Sanitation', 'Focuses on public health programs, sanitation services, and environmental health initiatives to ensure the well-being of the community.', '["Formulate health policies", "Oversee sanitation projects", "Promote health education campaigns", "Monitor public health standards"]', '["Inspected local health centers", "Organized dengue prevention drive", "Conducted health awareness campaigns"]', '[{"date":"2025-09-05","time":"09:00 AM","agenda":"Planning for community vaccination program"},{"date":"2025-10-10","time":"01:00 PM","agenda":"Review of solid waste management ordinance"}]', '["Reduced incidence of water-borne diseases", "Improved waste collection efficiency", "Increased health awareness among residents"]', 'Public health and environmental sanitation.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0017', 'Committee on Public Market and Slaughter House', 'Manages the operations, maintenance, and development of the municipal public market and slaughterhouse, ensuring public health standards.', '["Oversee market operations", "Ensure sanitary conditions in market and slaughterhouse", "Regulate market vendors", "Develop market infrastructure"]', '["Inspected market stalls for cleanliness", "Reviewed slaughterhouse operations", "Met with market vendors'' association"]', '[{"date":"2025-09-10","time":"10:00 AM","agenda":"Discussion on market renovation plans"},{"date":"2025-10-15","time":"02:00 PM","agenda":"Review of slaughterhouse sanitation protocols"}]', '["Improved market cleanliness", "Ensured safe food handling practices", "Modernized market facilities"]', 'Public market and slaughterhouse management.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0018', 'Committee on Ethics, Rules, and Privileges', 'Upholds the ethical standards of the Sangguniang Bayan, reviews internal rules, and addresses matters concerning the privileges of its members.', '["Review and enforce ethical conduct", "Interpret internal rules and procedures", "Address member privileges and conduct", "Investigate breaches of ethics"]', '["Conducted ethics orientation for new members", "Reviewed Sangguniang Bayan internal rules", "Investigated a complaint regarding member conduct"]', '[{"date":"2025-09-15","time":"01:00 PM","agenda":"Discussion on proposed amendments to internal rules"},{"date":"2025-10-20","time":"10:00 AM","agenda":"Review of ethical guidelines for public officials"}]', '["Maintained high ethical standards", "Ensured orderly conduct of sessions", "Protected the integrity of the Sangguniang Bayan"]', 'Internal rules, ethics, and member conduct.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0019', 'Committee on Ordinances and Legal Matters', 'Drafts, reviews, and recommends municipal ordinances and resolutions, and provides legal guidance on legislative matters.', '["Draft and review ordinances and resolutions", "Provide legal advice on legislative matters", "Ensure compliance with national laws", "Conduct legal research"]', '["Reviewed proposed zoning ordinance", "Provided legal opinion on a municipal resolution", "Conducted public hearing on a new ordinance"]', '[{"date":"2025-09-20","time":"02:00 PM","agenda":"Discussion on new municipal ordinances"},{"date":"2025-10-25","time":"11:00 AM","agenda":"Review of existing legal frameworks"}]', '["Ensured legal soundness of ordinances", "Streamlined legislative process", "Provided timely legal guidance"]', 'Municipal legislation and legal affairs.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0020', 'Committee on Peace and Order and Human Rights', 'Formulates policies and programs to maintain peace and order, ensure public safety, and protect human rights within the municipality.', '["Develop peace and order initiatives", "Monitor public safety programs", "Protect human rights", "Coordinate with law enforcement"]', '["Organized community watch programs", "Met with local police force", "Conducted human rights awareness campaign"]', '[{"date":"2025-09-25","time":"09:00 AM","agenda":"Planning for anti-crime initiatives"},{"date":"2025-10-30","time":"01:00 PM","agenda":"Discussion on human rights protection policies"}]', '["Reduced crime rates", "Improved public safety", "Promoted respect for human rights"]', 'Public safety, law enforcement, and human rights.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0021', 'Committee on Transportation, Communication, Public Utilities, Facilities, and Information Technology', 'Oversees the development and regulation of transportation, communication, public utilities, and information technology infrastructure.', '["Regulate transportation services", "Oversee communication infrastructure", "Manage public utilities", "Promote IT development"]', '["Reviewed public transport routes", "Assessed internet connectivity in remote areas", "Met with utility providers"]', '[{"date":"2025-09-30","time":"10:00 AM","agenda":"Discussion on public transport modernization"},{"date":"2025-11-05","time":"02:00 PM","agenda":"Review of IT infrastructure projects"}]', '["Improved public transportation", "Enhanced communication services", "Ensured reliable public utilities", "Promoted digital literacy"]', 'Transportation, communication, public utilities, and IT.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0022', 'Committee on Women, Children, and Family Welfare', 'Develops and implements programs that protect and empower women, children, and families, addressing their specific needs and concerns.', '["Protect women and children''s rights", "Implement family welfare programs", "Address gender-based violence", "Promote family values"]', '["Established women''s crisis centers", "Supported child protection initiatives", "Organized parenting seminars"]', '[{"date":"2025-10-05","time":"09:00 AM","agenda":"Planning for gender equality programs"},{"date":"2025-11-10","time":"01:00 PM","agenda":"Discussion on child protection policies"}]', '["Empowered women and children", "Strengthened family units", "Reduced cases of abuse and neglect"]', 'Women, children, and family welfare.'),
+
+('b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0023', 'Committee on Disaster Risk Reduction Management', 'Formulates and implements plans and programs for disaster preparedness, mitigation, response, and rehabilitation to ensure community resilience.', '["Develop disaster preparedness plans", "Implement mitigation measures", "Coordinate disaster response", "Oversee rehabilitation efforts"]', '["Conducted municipal-wide disaster drills", "Assessed hazard-prone areas", "Organized relief operations for affected communities"]', '[{"date":"2025-10-10","time":"10:00 AM","agenda":"Review of disaster preparedness protocols"},{"date":"2025-11-15","time":"02:00 PM","agenda":"Discussion on climate change adaptation strategies"}]', '["Enhanced community resilience to disasters", "Reduced disaster-related casualties", "Improved post-disaster recovery"]', 'Disaster preparedness, mitigation, and response.');
+
+-- Insert committee members data
+INSERT INTO committee_members (id, committee_id, member_id, role) VALUES
+-- Agriculture, Food, Fisheries, and Aquatic Resources
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0001', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0005', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380016', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0002', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0005', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380009', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0003', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0005', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380012', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0004', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0005', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380013', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0005', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0005', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380010', 'Third Member'),
+
+-- Barangay Affairs
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0006', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0006', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380017', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0007', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0006', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380018', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0008', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0006', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380012', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0009', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0006', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0010', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0006', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380011', 'Third Member'),
+
+-- Cooperatives, CSOs, POs, Trade, Industry, Labor, and Employment
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0011', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0007', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380012', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0012', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0007', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380009', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0013', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0007', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380011', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0014', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0007', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380010', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0015', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0007', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380016', 'Third Member'),
+
+-- Education
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0016', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0008', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380013', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0017', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0008', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380014', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0018', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0008', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380011', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0019', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0008', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380009', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0020', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0008', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380018', 'Third Member'),
+
+-- Tourism, Culture & Arts
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0021', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0009', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380014', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0022', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0009', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380010', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0023', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0009', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380009', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0024', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0009', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0025', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0009', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380013', 'Third Member'),
+
+-- Appropriations & Ways and Means
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0026', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0010', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380009', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0027', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0010', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380014', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0028', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0010', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380016', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0029', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0010', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0030', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0010', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380012', 'Third Member'),
+
+-- Games and Amusements
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0031', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0011', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380012', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0032', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0011', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0033', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0011', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380017', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0034', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0011', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380010', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0035', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0011', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380018', 'Third Member'),
+
+-- Good Government and Public Accountability
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0036', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0012', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0037', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0012', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380010', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0038', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0012', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380011', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0039', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0012', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380016', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0040', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0012', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380014', 'Third Member'),
+
+-- Infrastructure, Housing, Land Utilization, and Environmental Protection
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0041', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0013', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380010', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0042', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0013', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380014', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0043', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0013', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0044', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0013', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380016', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0045', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0013', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380018', 'Third Member'),
+
+-- Youth and Sports Development
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0046', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0014', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380018', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0047', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0014', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380011', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0048', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0014', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0049', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0014', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380013', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0050', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0014', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380010', 'Third Member'),
+
+-- Social Services
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0051', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0015', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380014', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0052', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0015', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0053', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0015', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380017', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0054', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0015', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380009', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0055', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0015', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380012', 'Third Member'),
+
+-- Health and Sanitation
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0056', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0016', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380011', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0057', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0016', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380017', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0058', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0016', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380018', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0059', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0016', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0060', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0016', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380009', 'Third Member'),
+
+-- Public Market and Slaughter House
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0061', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0017', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380016', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0062', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0017', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380009', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0063', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0017', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380012', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0064', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0017', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380011', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0065', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0017', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'Third Member'),
+
+-- Ethics, Rules, and Privileges
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0066', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0018', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0067', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0018', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380017', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0068', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0018', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380018', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0069', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0018', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380014', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0070', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0018', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380010', 'Third Member'),
+
+-- Ordinances and Legal Matters
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0071', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0019', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380014', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0072', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0019', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0073', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0019', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380011', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0074', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0019', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380013', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0075', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0019', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380016', 'Third Member'),
+
+-- Peace and Order and Human Rights
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0076', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0020', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380012', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0077', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0020', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0078', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0020', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380017', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0079', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0020', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380016', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0080', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0020', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380009', 'Third Member'),
+
+-- Transportation, Communication, Public Utilities, Facilities, and Information Technology
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0081', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0021', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0082', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0021', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380012', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0083', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0021', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380011', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0084', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0021', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380016', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0085', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0021', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380010', 'Third Member'),
+
+-- Women, Children, and Family Welfare
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0086', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0022', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380016', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0087', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0022', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380014', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0088', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0022', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0089', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0022', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380012', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0090', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0022', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380010', 'Third Member'),
+
+-- Disaster Risk Reduction Management
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0091', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0023', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380011', 'Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0092', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0023', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380014', 'Vice Chairman'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0093', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0023', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380015', 'First Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0094', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0023', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380016', 'Second Member'),
+('c2g3h4i5-b6c7-8d9e-0f1a-2b3c4d5e0095', 'b1f2e3d4-a5b6-7c8d-9e0f-1a2b3c4d0023', 'a0eebc99-9c0b-4ef8-bb6d-6bb9bd380017', 'Third Member');
