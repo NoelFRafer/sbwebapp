@@ -46,7 +46,7 @@ export function useCommittee(committeeId: string | null) {
         if (data) {
           // Sort committee members by role (Chairman, Vice Chairman, then others by name)
           const sortedMembers = data.committee_members.sort((a, b) => {
-            const roleOrder = ['Chairperson', 'Vice Chairperson'];
+            const roleOrder = ['Chairman', 'Vice Chairman'];
             const roleA = roleOrder.indexOf(a.role);
             const roleB = roleOrder.indexOf(b.role);
 
