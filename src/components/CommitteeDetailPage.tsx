@@ -187,11 +187,11 @@ export function CommitteeDetailPage({ committeeId, onBack }: CommitteeDetailPage
           {/* Responsibilities */}
           {committee.responsibilities && committee.responsibilities.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3">
                 <FileText className="w-5 h-5" />
                 Key Responsibilities
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {committee.responsibilities.map((responsibility, index) => (
                   <div key={index} className="flex items-start gap-2 p-3 bg-blue-50 rounded-lg border border-blue-200">
                     <CheckCircle className="w-5 h-5 text-blue-600 mt-0.5 flex-shrink-0" />
@@ -205,11 +205,11 @@ export function CommitteeDetailPage({ committeeId, onBack }: CommitteeDetailPage
           {/* Recent Activities */}
           {committee.recent_activities && committee.recent_activities.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3">
                 <Clock className="w-5 h-5" />
                 Recent Activities
               </h2>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {committee.recent_activities.map((activity, index) => (
                   <div key={index} className="flex items-start gap-2 p-3 bg-green-50 rounded-lg border border-green-200">
                     <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
@@ -223,11 +223,11 @@ export function CommitteeDetailPage({ committeeId, onBack }: CommitteeDetailPage
           {/* Achievements */}
           {committee.achievements && committee.achievements.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3">
                 <CheckCircle className="w-5 h-5" />
                 Key Achievements
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 {committee.achievements.map((achievement, index) => (
                   <div key={index} className="flex items-start gap-2 p-3 bg-yellow-50 rounded-lg border border-yellow-200">
                     <CheckCircle className="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" />
@@ -241,11 +241,11 @@ export function CommitteeDetailPage({ committeeId, onBack }: CommitteeDetailPage
           {/* Upcoming Meetings */}
           {committee.upcoming_meetings && committee.upcoming_meetings.length > 0 && (
             <section className="mb-8">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-2">
+              <h2 className="text-xl font-semibold text-gray-800 mb-4 flex items-center gap-3">
                 <Calendar className="w-5 h-5" />
                 Upcoming Meetings
               </h2>
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {committee.upcoming_meetings.map((meeting, index) => (
                   <div key={index} className="p-4 bg-purple-50 rounded-lg border border-purple-200">
                     <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
