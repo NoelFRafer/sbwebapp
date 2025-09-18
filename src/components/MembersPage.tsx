@@ -370,8 +370,8 @@ export function MembersPage({ onBack, onMemberClick }: MembersPageProps) {
             </div>
             <h3 className="text-lg font-semibold mb-2">Regular Sessions</h3>
             <p className="text-blue-200">
-              Every Tuesday<br />
-              2:00 PM<br />
+              Every Wednesday<br />
+              9:00 AM<br />
               Session Hall, Municipal Building
             </p>
           </div>
@@ -383,7 +383,7 @@ export function MembersPage({ onBack, onMemberClick }: MembersPageProps) {
             <p>• <strong>For general inquiries:</strong> Visit the Municipal Hall during office hours</p>
             <p>• <strong>For committee matters:</strong> Contact the respective committee chairperson</p>
             <p>• <strong>For urgent concerns:</strong> Call the main office at (054) 123-4567</p>
-            <p>• <strong>Public participation:</strong> Attend regular sessions every Tuesday at 2:00 PM</p>
+            <p>• <strong>Public participation:</strong> Attend regular sessions every Wednesday at 9:00 AM</p>
           </div>
         </div>
       </section>
