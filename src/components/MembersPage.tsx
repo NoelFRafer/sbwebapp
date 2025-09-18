@@ -161,7 +161,7 @@ export function MembersPage({ onBack, onMemberClick }: MembersPageProps) {
                 <img
                   src={member.image_url}
                   alt={member.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src = 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400';
@@ -265,7 +265,7 @@ export function MembersPage({ onBack, onMemberClick }: MembersPageProps) {
                 <img
                   src={member.image_url}
                   alt={member.name}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-contain"
                   onError={(e) => {
                     const target = e.target as HTMLImageElement;
                     target.src = 'https://images.pexels.com/photos/3184291/pexels-photo-3184291.jpeg?auto=compress&cs=tinysrgb&w=400';
