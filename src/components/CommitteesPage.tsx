@@ -183,9 +183,9 @@ export function CommitteesPage({ onBack, onCommitteeClick }: CommitteesPageProps
                 Committee Composition
               </h4>
               
-              <div className="space-y-3">
+              <div className="space-y-1">
                 {committee.committee_members.map((committeeMember, index) => (
-                  <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg border">
+                  <div key={index} className="flex items-center justify-between p-2 bg-gray-50 rounded-lg border">
                     <div className="flex items-center gap-3">
                       <div className="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center">
                         <User className="w-4 h-4 text-gray-600" />
