@@ -15,7 +15,7 @@ export function useMembers() {
         const { data, error: fetchError } = await supabase
           .from('members')
           .select('*')
-          .order('name', { ascending: true }); // Order by name alphabetically
+          .order('order_index', { ascending: true }); // Order by name alphabetically
 
         if (fetchError) {
           throw fetchError;
